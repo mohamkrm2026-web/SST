@@ -300,7 +300,21 @@ html[lang="ar"] .hero{justify-content:flex-end;}
 html[lang="ar"] .hero-content{margin-left:auto;margin-right:0;}
 html[lang="en"] .hero{justify-content:flex-start;}
 html[lang="en"] .hero-content{margin-right:auto;margin-left:0;}
-
+@media(max-width:900px){
+  html[lang="ar"] .hero,
+  html[lang="en"] .hero{
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:right;
+  }
+  html[lang="en"] .hero{text-align:left;}
+  .hero-content{
+    max-width:100% !important;
+    margin:0 !important;
+    width:100%;
+  }
+}
 .hero-badge{
   display:inline-flex;align-items:center;gap:8px;
   background:rgba(201,168,76,.08);
@@ -406,6 +420,29 @@ html[lang="en"] .hero-content{margin-right:auto;margin-left:0;}
 html[lang="ar"] .hero-visual{left:5%;right:auto;}
 html[lang="en"] .hero-visual{left:auto;right:5%;}
 
+@media(max-width:900px){
+  .hero-visual{
+    position:relative;
+    left:auto;right:auto;
+    top:auto;
+    transform:none;
+    width:100%;
+    height:auto;
+    display:flex;
+    flex-direction:row;
+    gap:10px;
+    margin-top:24px;
+  }
+  .fc1,.fc2,.fc3{
+    position:relative;
+    top:auto;bottom:auto;
+    left:auto;right:auto;
+    transform:none;
+    flex:1;
+    min-width:0;
+    width:auto;
+  }
+}
 /* Floating cards */
 .float-card{
   background:rgba(10,22,40,.7);
@@ -963,29 +1000,36 @@ html[lang="ar"] .footer-col a:hover{transform:translateX(-4px);}
   .stats{grid-template-columns:repeat(2,1fr);gap:30px;}
   .stat:not(:last-child)::after{display:none;}
   .about-grid,.contact-grid{grid-template-columns:1fr;gap:50px;}
- .hero-visual{
-  display:flex;
-  flex-direction:row;
-  flex-wrap:wrap;
-  gap:12px;
-  position:relative;
-  left:auto;right:auto;
-  top:auto;transform:none;
-  width:100%;
-  height:auto;
-  margin-top:28px;
-}
-.fc1,.fc2,.fc3{
-  position:relative;
-  top:auto;bottom:auto;
-  left:auto;right:auto;
-  transform:none;
-  width:calc(50% - 6px);
-  flex-shrink:0;
-}
-.fc3{width:100%;}
   .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
   .portfolio-grid{grid-template-columns:1fr;}
+  html[lang="ar"] .hero,
+  html[lang="en"] .hero{
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-end;
+    padding-top:100px;
+  }
+  html[lang="en"] .hero{align-items:flex-start;}
+  .hero-content{
+    max-width:100%!important;
+    margin:0!important;
+    width:100%;
+  }
+  .hero-visual{
+    position:relative;
+    left:auto;right:auto;
+    top:auto;transform:none;
+    width:100%;height:auto;
+    display:flex;flex-direction:row;
+    gap:10px;margin-top:24px;
+  }
+  .fc1,.fc2,.fc3{
+    position:relative;
+    top:auto;bottom:auto;
+    left:auto;right:auto;
+    transform:none;
+    flex:1;min-width:0;width:auto;
+  }
 }
 
 @media(max-width:600px){

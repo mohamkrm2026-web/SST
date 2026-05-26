@@ -416,9 +416,12 @@ html[lang="en"] .hero-visual{left:auto;right:5%;}
   box-shadow:0 25px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
   transition:transform .4s cubic-bezier(.2,.8,.2,1);
 }
-.fc1{top:0;right:0;width:200px;animation:floatCard 6s ease-in-out infinite;}
-.fc2{top:0;left:0;width:190px;animation:floatCard 7s 2s ease-in-out infinite;}
-.fc3{bottom:0;left:50%;transform:translateX(-50%);width:185px;animation:floatCard 5s 4s ease-in-out infinite;}
+.fc1{top:5%;right:0;width:200px;animation:floatCard 6s ease-in-out infinite;}
+.fc2{top:38%;left:0;width:190px;animation:floatCard 7s 2s ease-in-out infinite;}
+.fc3{bottom:5%;right:10%;width:185px;animation:floatCard 5s 4s ease-in-out infinite;}
+html[lang="en"] .fc1{top:5%;left:0;right:auto;}
+html[lang="en"] .fc2{top:38%;right:0;left:auto;}
+html[lang="en"] .fc3{bottom:5%;left:10%;right:auto;}
 
 @keyframes floatCard{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 

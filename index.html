@@ -963,7 +963,18 @@ html[lang="ar"] .footer-col a:hover{transform:translateX(-4px);}
   .stats{grid-template-columns:repeat(2,1fr);gap:30px;}
   .stat:not(:last-child)::after{display:none;}
   .about-grid,.contact-grid{grid-template-columns:1fr;gap:50px;}
-  .hero-visual{display:none;}
+  .hero-visual{
+    display:block;
+    position:relative;
+    left:auto;right:auto;
+    top:auto;transform:none;
+    width:100%;
+    height:220px;
+    margin-top:32px;
+  }
+  .fc1{top:0;right:0;width:160px;}
+  .fc2{top:0;left:0;width:150px;}
+  .fc3{display:none;}
   .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
   .portfolio-grid{grid-template-columns:1fr;}
 }

@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Solution Technology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&amp;family=Inter:wght@300;400;500;600;700;800;900&amp;family=Orbitron:wght@400;700;900&amp;family=Playfair+Display:ital,wght@1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:    #050d1a;
+  --navy2:   #0a1628;
+  --navy3:   #0f2040;
+  --blue:    #1a3a6e;
+  --gold:    #c9a84c;
+  --gold2:   #e8c97a;
+  --gold3:   #f5e0a0;
+  --white:   #f0f4ff;
+  --gray:    #8899bb;
+  --border:  rgba(201,168,76,0.2);
+  --glow:    rgba(201,168,76,0.15);
+  --font-ar: 'Tajawal', sans-serif;
+  --font-en: 'Inter', sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:var(--font-ar);
+  background:var(--navy);
+  color:var(--white);
+  overflow-x:hidden;
+  cursor:none;
+}
+html[lang="en"] body{font-family:var(--font-en);}
+
+/* LANGUAGE TOGGLE */
+.lang-ar,.lang-en{display:none;}
+html[lang="ar"] .lang-ar{display:inline;}
+html[lang="en"] .lang-en{display:inline;}
+html[lang="ar"] .lang-ar-block{display:block;}
+html[lang="en"] .lang-en-block{display:block;}
+html[lang="ar"] .lang-ar-flex{display:flex;}
+html[lang="en"] .lang-en-flex{display:flex;}
+html[lang="ar"] .lang-ar-inline-flex{display:inline-flex;}
+html[lang="en"] .lang-en-inline-flex{display:inline-flex;}
+
+/* SCROLL PROGRESS BAR */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));
+  z-index:10000;transition:width .1s linear;
+  box-shadow:0 0 10px var(--gold);
+}
+
+/* CUSTOM CURSOR */
+.cursor{
+  position:fixed;width:10px;height:10px;
+  background:var(--gold);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .25s,height .25s,opacity .25s,background .25s;
+  mix-blend-mode:difference;
+  will-change:left,top;
+}
+.cursor-ring{
+  position:fixed;width:38px;height:38px;
+  border:1.5px solid var(--gold);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),opacity .3s,border-color .3s;
+  opacity:.55;
+  will-change:left,top;
+}
+.cursor.hover{width:0;height:0;opacity:0;}
+.cursor-ring.hover{width:68px;height:68px;border-color:var(--gold2);opacity:.9;background:rgba(201,168,76,.05);}
+
+@media(hover:none),(max-width:900px){
+  body{cursor:auto;}
+  .cursor,.cursor-ring{display:none;}
+  a,button,select{cursor:pointer!important;}
+}
+
+/* GRID PATTERN */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;z-index:0;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,transparent 100%);
+}
+
+/* PARTICLE CANVAS */
+.particles{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 5%;
+  height:72px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,13,26,.7);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  transition:all .35s ease;
+}
+nav.scrolled{
+  height:64px;
+  background:rgba(5,13,26,.92);
+  box-shadow:0 8px 40px rgba(0,0,0,.5);
+}
+
+.logo{
+  font-family:'Orbitron',sans-serif;
+  font-size:18px;font-weight:900;
+  color:var(--gold);
+  letter-spacing:2px;
+  display:flex;align-items:center;gap:10px;
+}
+.logo-icon{
+  width:48px;height:48px;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,.35) 0%, transparent 50%),
+    linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold) 100%);
+  border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--navy);
+  box-shadow:
+    0 10px 30px rgba(201,168,76,.4),
+    0 0 0 1px rgba(255,255,255,.12),
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -3px 8px rgba(0,0,0,.18);
+  position:relative;overflow:hidden;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1);
+}
+.logo:hover .logo-icon{transform:rotate(-5deg) scale(1.06);}
+
+/* Decorative inner frame */
+.logo-icon::before{
+  content:'';position:absolute;inset:3px;
+  border-radius:10px;
+  border:1px solid rgba(5,13,26,.18);
+  pointer-events:none;
+  z-index:1;
+}
+
+/* Elegant S monogram */
+.ss-mono{
+  font-family:'Playfair Display', Georgia, serif;
+  font-weight:900;
+  font-style:italic;
+  font-size:32px;
+  line-height:1;
+  position:relative;
+  display:inline-flex;
+  align-items:baseline;
+  z-index:2;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.45));
+  margin-top:2px;
+}
+.ss-mono .ss-1{
+  background:linear-gradient(165deg,#1a3a6e 0%,#0a1628 35%,#050d1a 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  color:transparent;
+  display:inline-block;
+  position:relative;
+  z-index:3;
+}
+.logo-icon::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
+  transform:translateX(-100%);
+  animation:shine 3.5s ease-in-out infinite;
+  z-index:4;pointer-events:none;
+}
+@keyframes shine{
+  0%,60%{transform:translateX(-100%);}
+  80%,100%{transform:translateX(100%);}
+}
+.logo span{color:var(--white);font-size:13px;display:block;font-weight:400;letter-spacing:4px;opacity:.7;}
+
+.nav-links{
+  display:flex;align-items:center;gap:28px;
+  list-style:none;
+}
+.nav-links a{
+  color:var(--gray);font-size:14px;font-weight:500;
+  text-decoration:none;
+  transition:color .25s;
+  position:relative;letter-spacing:.5px;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-6px;left:50%;
+  width:0;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--gold2));
+  transition:all .35s ease;
+  transform:translateX(-50%);
+}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after{width:100%;}
+
+.nav-cta{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy)!important;
+  padding:9px 22px;border-radius:8px;
+  font-weight:700!important;
+  box-shadow:0 0 20px var(--glow);
+  transition:all .3s cubic-bezier(.2,.8,.2,1)!important;
+  position:relative;overflow:hidden;
+}
+.nav-cta::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  opacity:0;transition:opacity .3s;
+}
+.nav-cta span{position:relative;z-index:1;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,.5)!important;}
+.nav-cta:hover::before{opacity:1;}
+.nav-cta::after{display:none!important;}
+
+/* LANG SWITCH */
+.lang-switch{
+  display:flex;align-items:center;
+  background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.25);
+  border-radius:30px;padding:3px;
+  position:relative;cursor:none;
+  font-family:'Orbitron',sans-serif;
+}
+.lang-switch button{
+  background:none;border:none;
+  color:var(--gray);
+  padding:6px 14px;font-size:11px;font-weight:700;
+  letter-spacing:1px;cursor:none;
+  border-radius:20px;
+  transition:color .3s;
+  position:relative;z-index:1;
+}
+.lang-switch button.active{color:var(--navy);}
+.lang-switch::after{
+  content:'';position:absolute;
+  top:3px;width:calc(50% - 3px);height:calc(100% - 6px);
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-radius:20px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 0 12px var(--glow);
+}
+html[lang="ar"] .lang-switch::after{transform:translateX(0);right:3px;}
+html[lang="en"] .lang-switch::after{transform:translateX(0);left:3px;}
+html[lang="ar"] .lang-switch button[data-lang="ar"]{color:var(--navy);}
+html[lang="en"] .lang-switch button[data-lang="en"]{color:var(--navy);}
+html[lang="ar"] .lang-switch button[data-lang="en"]{color:var(--gray);}
+html[lang="en"] .lang-switch button[data-lang="ar"]{color:var(--gray);}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  padding:120px 5% 80px;
+}
+
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(26,58,110,.5) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(10,22,40,.8) 0%, transparent 60%);
+}
+
+/* Animated orbs */
+.orb{
+  position:absolute;border-radius:50%;filter:blur(80px);
+  animation:float 10s ease-in-out infinite;
+  will-change:transform;
+}
+.orb1{width:450px;height:450px;background:rgba(26,58,110,.5);top:-100px;right:-100px;animation-delay:0s;}
+.orb2{width:320px;height:320px;background:rgba(201,168,76,.08);bottom:10%;left:5%;animation-delay:3s;}
+.orb3{width:220px;height:220px;background:rgba(26,58,110,.35);top:40%;right:20%;animation-delay:6s;}
+
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(20px,-30px) scale(1.05);}
+  66%{transform:translate(-15px,15px) scale(.97);}
+}
+
+.hero-content{
+  position:relative;z-index:1;
+  max-width:720px;
+}
+html[lang="en"] .hero{justify-content:flex-start;}
+html[lang="en"] .hero-content{margin-right:auto;}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:30px;padding:7px 18px;
+  font-size:12px;color:var(--gold2);
+  letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:28px;
+  animation:fadeUp .8s ease both;
+  backdrop-filter:blur(10px);
+  position:relative;overflow:hidden;
+}
+.hero-badge::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(201,168,76,.15) 50%,transparent 70%);
+  transform:translateX(-100%);
+  animation:shine 4s ease-in-out infinite;
+  animation-delay:1.5s;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;box-shadow:0 0 10px var(--gold);}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(201,168,76,.6);}50%{opacity:.7;transform:scale(1.5);box-shadow:0 0 0 8px rgba(201,168,76,0);}}
+
+.hero h1{
+  font-size:clamp(38px,6.2vw,76px);
+  font-weight:900;line-height:1.1;
+  margin-bottom:24px;
+  animation:fadeUp .8s .15s ease both;
+}
+.hero h1 .line2{
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3),var(--gold2),var(--gold));
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  display:block;
+  animation:gradientShift 4s linear infinite;
+}
+@keyframes gradientShift{
+  to{background-position:200% center;}
+}
+
+.hero p{
+  font-size:18px;color:var(--gray);line-height:1.8;
+  margin-bottom:40px;
+  animation:fadeUp .8s .3s ease both;
+  max-width:580px;
+}
+
+.hero-btns{
+  display:flex;gap:16px;flex-wrap:wrap;
+  animation:fadeUp .8s .45s ease both;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);padding:15px 32px;
+  border-radius:12px;font-size:15px;font-weight:700;
+  border:none;cursor:none;
+  text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 0 30px rgba(201,168,76,.3),inset 0 1px 0 rgba(255,255,255,.3);
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  position:relative;overflow:hidden;
+  font-family:inherit;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  opacity:0;transition:opacity .35s;
+}
+.btn-primary span{position:relative;z-index:1;}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 14px 45px rgba(201,168,76,.55);}
+.btn-primary:hover::before{opacity:1;}
+
+.btn-secondary{
+  background:rgba(201,168,76,.04);
+  color:var(--gold);padding:15px 32px;
+  border-radius:12px;font-size:15px;font-weight:700;
+  border:1.5px solid rgba(201,168,76,.4);
+  cursor:none;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+  font-family:inherit;
+  position:relative;overflow:hidden;
+}
+.btn-secondary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));
+  opacity:0;transition:opacity .35s;
+}
+.btn-secondary span{position:relative;z-index:1;}
+.btn-secondary:hover{border-color:var(--gold);transform:translateY(-3px) scale(1.02);box-shadow:0 10px 30px rgba(201,168,76,.2);}
+.btn-secondary:hover::before{opacity:1;}
+
+.hero-visual{
+  position:absolute;left:5%;top:50%;
+  transform:translateY(-50%);
+  width:min(480px,40vw);
+  animation:fadeLeft .8s .3s ease both;
+}
+html[lang="en"] .hero-visual{left:auto;right:5%;animation:fadeRight .8s .3s ease both;}
+
+/* Floating cards */
+.float-card{
+  background:rgba(10,22,40,.7);
+  border:1px solid var(--border);
+  border-radius:18px;padding:22px;
+  backdrop-filter:blur(20px);
+  position:absolute;
+  box-shadow:0 25px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:transform .4s cubic-bezier(.2,.8,.2,1);
+}
+.float-card:hover{transform:translateY(-6px) scale(1.04);border-color:rgba(201,168,76,.4);}
+.fc1{top:10%;right:0;width:230px;animation:floatCard 6s ease-in-out infinite;}
+.fc2{top:45%;left:0;width:210px;animation:floatCard 7s 2s ease-in-out infinite;}
+.fc3{bottom:10%;right:10%;width:200px;animation:floatCard 5s 4s ease-in-out infinite;}
+@keyframes floatCard{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+
+.fc-title{font-size:10px;color:var(--gold);letter-spacing:1.5px;margin-bottom:10px;font-weight:700;font-family:'Orbitron',sans-serif;}
+.fc-val{font-size:30px;font-weight:900;color:var(--white);font-family:'Orbitron',sans-serif;}
+.fc-sub{font-size:11px;color:var(--gray);margin-top:4px;}
+.fc-bar{height:4px;background:rgba(201,168,76,.15);border-radius:2px;margin-top:12px;overflow:hidden;}
+.fc-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;animation:barFill 2s ease both;box-shadow:0 0 8px var(--gold);}
+@keyframes barFill{from{width:0;}to{width:var(--w,70%);}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeLeft{from{opacity:0;transform:translate(-30px,-50%);}to{opacity:1;transform:translate(0,-50%);}}
+@keyframes fadeRight{from{opacity:0;transform:translate(30px,-50%);}to{opacity:1;transform:translate(0,-50%);}}
+
+/* STATS */
+.stats{
+  padding:60px 5%;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:40px;position:relative;z-index:1;
+  background:linear-gradient(180deg,transparent,rgba(10,22,40,.4),transparent);
+}
+.stat{text-align:center;position:relative;}
+.stat:not(:last-child)::after{
+  content:'';position:absolute;top:20%;height:60%;width:1px;
+  background:linear-gradient(180deg,transparent,var(--border),transparent);
+}
+html[lang="ar"] .stat:not(:last-child)::after{left:-20px;}
+html[lang="en"] .stat:not(:last-child)::after{right:-20px;}
+.stat-num{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(30px,4vw,52px);font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  display:block;margin-bottom:8px;
+  text-shadow:0 0 30px rgba(201,168,76,.2);
+}
+.stat-label{font-size:13px;color:var(--gray);letter-spacing:.5px;}
+
+/* SECTIONS COMMON */
+section{padding:110px 5%;position:relative;z-index:1;}
+.section-tag{
+  font-size:11px;color:var(--gold);letter-spacing:3px;
+  text-transform:uppercase;font-weight:700;
+  margin-bottom:18px;display:flex;align-items:center;gap:12px;
+  font-family:'Orbitron',sans-serif;
+}
+.section-tag::before{content:'';width:30px;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold));}
+.section-title{font-size:clamp(30px,4.2vw,52px);font-weight:900;line-height:1.15;margin-bottom:18px;}
+.section-title .accent{
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientShift 5s linear infinite;
+}
+.section-sub{font-size:16px;color:var(--gray);line-height:1.8;max-width:580px;}
+
+/* SERVICES */
+#services{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 50%,var(--navy) 100%);}
+.services-head{text-align:center;margin-bottom:64px;}
+.services-head .section-tag{justify-content:center;}
+.services-head .section-tag::before{content:none;}
+.services-head .section-sub{margin:0 auto;}
+
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
+  gap:24px;
+}
+
+.service-card{
+  background:linear-gradient(180deg,rgba(10,22,40,.6),rgba(10,22,40,.3));
+  border:1px solid var(--border);
+  border-radius:22px;padding:36px 32px;
+  position:relative;overflow:hidden;
+  transition:all .5s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+  transform-style:preserve-3d;
+}
+.service-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle 200px at var(--mx,50%) var(--my,50%),rgba(201,168,76,.12),transparent 60%);
+  opacity:0;transition:opacity .4s;
+  pointer-events:none;
+}
+.service-card::after{
+  content:'';position:absolute;inset:-1px;border-radius:22px;
+  background:linear-gradient(135deg,rgba(201,168,76,.5),transparent 30%,transparent 70%,rgba(201,168,76,.3));
+  opacity:0;transition:opacity .4s;
+  pointer-events:none;z-index:-1;
+}
+.service-card:hover{
+  transform:translateY(-10px);
+  border-color:rgba(201,168,76,.4);
+  box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 0 1px rgba(201,168,76,.2),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.service-card:hover::before{opacity:1;}
+
+.sc-icon{
+  width:64px;height:64px;
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.05));
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;margin-bottom:24px;
+  transition:all .5s cubic-bezier(.2,.8,.2,1);
+  position:relative;
+}
+.service-card:hover .sc-icon{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  box-shadow:0 10px 30px rgba(201,168,76,.5),inset 0 1px 0 rgba(255,255,255,.4);
+  transform:rotate(-8deg) scale(1.08);
+}
+
+.sc-title{font-size:20px;font-weight:700;margin-bottom:12px;line-height:1.35;}
+.sc-desc{font-size:14px;color:var(--gray);line-height:1.8;margin-bottom:20px;}
+.sc-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.sc-tag{
+  font-size:11px;color:var(--gold2);
+  background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.2);
+  border-radius:6px;padding:4px 10px;
+  transition:all .3s;
+}
+.service-card:hover .sc-tag{background:rgba(201,168,76,.14);border-color:rgba(201,168,76,.35);}
+
+/* PORTFOLIO */
+#portfolio{
+  background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);
+}
+.portfolio-head{margin-bottom:56px;}
+.portfolio-filter{
+  display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;
+}
+.pf-btn{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--gray);border-radius:10px;
+  padding:9px 22px;font-family:inherit;
+  font-size:13px;font-weight:500;
+  cursor:none;transition:all .35s cubic-bezier(.2,.8,.2,1);
+  position:relative;overflow:hidden;
+}
+.pf-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));
+  opacity:0;transition:opacity .3s;
+}
+.pf-btn span{position:relative;z-index:1;}
+.pf-btn.active,.pf-btn:hover{
+  border-color:var(--gold);color:var(--gold);
+  transform:translateY(-2px);
+}
+.pf-btn.active::before,.pf-btn:hover::before{opacity:1;}
+
+.portfolio-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:24px;margin-top:40px;
+}
+.portfolio-card{
+  background:rgba(10,22,40,.6);
+  border:1px solid var(--border);
+  border-radius:22px;overflow:hidden;
+  transition:all .5s cubic-bezier(.2,.8,.2,1);
+  position:relative;
+  backdrop-filter:blur(10px);
+}
+.portfolio-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(201,168,76,.4);
+  box-shadow:0 30px 60px rgba(0,0,0,.5);
+}
+
+.pc-thumb{
+  height:210px;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-size:64px;
+  transition:transform .6s ease;
+}
+.portfolio-card:hover .pc-thumb{transform:scale(1.05);}
+.pc-thumb::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 20% 20%,rgba(201,168,76,.1) 0%,transparent 40%),
+    radial-gradient(circle at 80% 80%,rgba(255,255,255,.05) 0%,transparent 40%);
+}
+.pc-thumb-supermarket{background:linear-gradient(135deg,#0f2040,#1a3a6e);}
+.pc-thumb-cafe{background:linear-gradient(135deg,#1a1206,#3d2b0f);}
+.pc-thumb-erp{background:linear-gradient(135deg,#060f20,#0a1e40);}
+.pc-thumb-app{background:linear-gradient(135deg,#0f1a30,#1a2d50);}
+.pc-thumb-icon{filter:drop-shadow(0 4px 20px rgba(201,168,76,.4));z-index:1;transition:transform .5s;}
+.portfolio-card:hover .pc-thumb-icon{transform:scale(1.15) rotate(-6deg);}
+
+.pc-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(5,13,26,.95) 0%,rgba(5,13,26,.5) 50%,transparent 100%);
+  opacity:0;transition:opacity .35s;
+  display:flex;align-items:flex-end;padding:24px;
+}
+.portfolio-card:hover .pc-overlay{opacity:1;}
+.pc-link{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);
+  padding:10px 22px;border-radius:10px;
+  font-size:13px;font-weight:700;text-decoration:none;
+  cursor:none;
+  box-shadow:0 4px 20px rgba(201,168,76,.4);
+  transform:translateY(20px);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.portfolio-card:hover .pc-link{transform:translateY(0);}
+
+.pc-body{padding:26px;}
+.pc-cat{font-size:11px;color:var(--gold);letter-spacing:2px;margin-bottom:10px;font-family:'Orbitron',sans-serif;font-weight:700;}
+.pc-title{font-size:18px;font-weight:700;margin-bottom:10px;}
+.pc-desc{font-size:13px;color:var(--gray);line-height:1.7;}
+
+/* ABOUT */
+#about{background:var(--navy);}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+}
+.about-visual{position:relative;perspective:1000px;}
+.about-main-card{
+  background:linear-gradient(180deg,rgba(15,32,64,.6),rgba(10,22,40,.6));
+  border:1px solid var(--border);
+  border-radius:26px;padding:42px;
+  position:relative;
+  box-shadow:0 50px 100px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter:blur(20px);
+  transition:transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.about-main-card:hover{transform:rotateY(2deg) rotateX(-2deg);}
+.about-badge-float{
+  position:absolute;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);
+  border-radius:16px;padding:14px 20px;
+  font-weight:700;font-size:13px;
+  box-shadow:0 14px 40px rgba(201,168,76,.4);
+  animation:floatCard 5s ease-in-out infinite;
+}
+.abf1{top:-22px;left:-22px;animation-delay:0s;}
+.abf2{bottom:-22px;right:-22px;animation-delay:2.5s;}
+
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;}
+.tech-item{
+  background:rgba(201,168,76,.05);
+  border:1px solid rgba(201,168,76,.15);
+  border-radius:12px;padding:14px;
+  text-align:center;font-size:12px;
+  color:var(--gray);transition:all .35s cubic-bezier(.2,.8,.2,1);
+  cursor:none;
+}
+.tech-item:hover{
+  border-color:var(--gold);color:var(--gold2);
+  background:rgba(201,168,76,.1);
+  transform:translateY(-3px) scale(1.04);
+  box-shadow:0 8px 20px rgba(201,168,76,.15);
+}
+.tech-item .ti{font-size:22px;margin-bottom:6px;display:block;transition:transform .4s;}
+.tech-item:hover .ti{transform:scale(1.2) rotate(-8deg);}
+
+.about-content .section-sub{margin-bottom:32px;}
+.about-features{display:flex;flex-direction:column;gap:18px;}
+.af-item{
+  display:flex;gap:18px;align-items:flex-start;
+  padding:22px;
+  background:rgba(10,22,40,.5);
+  border:1px solid var(--border);
+  border-radius:16px;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+.af-item:hover{
+  border-color:rgba(201,168,76,.4);
+  background:rgba(10,22,40,.75);
+  box-shadow:0 14px 30px rgba(0,0,0,.3);
+}
+html[lang="ar"] .af-item:hover{transform:translateX(-6px);}
+html[lang="en"] .af-item:hover{transform:translateX(6px);}
+.af-icon{
+  width:46px;height:46px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.05));
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  transition:all .4s;
+}
+.af-item:hover .af-icon{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  transform:rotate(-8deg);
+}
+.af-title{font-size:15px;font-weight:700;margin-bottom:5px;}
+.af-desc{font-size:13px;color:var(--gray);line-height:1.6;}
+
+/* CLIENTS */
+#clients{background:var(--navy2);}
+.clients-head{text-align:center;margin-bottom:56px;}
+.clients-head .section-tag{justify-content:center;}
+.clients-head .section-tag::before{content:none;}
+.clients-head .section-sub{margin:0 auto;}
+.clients-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:20px;
+}
+.client-card{
+  background:rgba(5,13,26,.6);
+  border:1px solid var(--border);
+  border-radius:18px;padding:30px 20px;
+  text-align:center;transition:all .35s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+.client-card:hover{
+  border-color:rgba(201,168,76,.4);
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 16px 40px rgba(0,0,0,.4);
+  background:rgba(5,13,26,.85);
+}
+.cc-icon{font-size:38px;margin-bottom:14px;display:block;transition:transform .5s;}
+.client-card:hover .cc-icon{transform:scale(1.18) rotate(-10deg);}
+.cc-name{font-size:14px;font-weight:700;margin-bottom:4px;}
+.cc-type{font-size:12px;color:var(--gray);}
+
+/* TESTIMONIALS */
+.testimonials{padding:80px 5%;background:var(--navy);}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px;margin-top:48px;}
+.test-card{
+  background:linear-gradient(180deg,rgba(15,32,64,.5),rgba(10,22,40,.5));
+  border:1px solid var(--border);
+  border-radius:22px;padding:34px;
+  transition:all .4s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+  position:relative;overflow:hidden;
+}
+.test-card::before{
+  content:'"';
+  position:absolute;top:-30px;font-size:180px;
+  font-family:Georgia,serif;color:rgba(201,168,76,.06);
+  line-height:1;pointer-events:none;
+}
+html[lang="ar"] .test-card::before{right:18px;}
+html[lang="en"] .test-card::before{left:18px;}
+.test-card:hover{
+  border-color:rgba(201,168,76,.35);
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+.stars{color:var(--gold);font-size:14px;margin-bottom:16px;letter-spacing:2px;text-shadow:0 0 10px rgba(201,168,76,.3);}
+.test-text{font-size:14px;color:var(--gray);line-height:1.85;margin-bottom:22px;font-style:italic;position:relative;z-index:1;}
+.test-author{display:flex;align-items:center;gap:12px;}
+.ta-avatar{
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--navy);font-weight:700;
+  box-shadow:0 6px 20px rgba(201,168,76,.3);
+  font-family:'Orbitron',sans-serif;
+}
+.ta-name{font-size:14px;font-weight:700;}
+.ta-role{font-size:12px;color:var(--gray);}
+
+/* CONTACT */
+#contact{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 50%,var(--navy) 100%);
+  position:relative;
+}
+#contact::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle at 30% 30%,rgba(201,168,76,.08) 0%,transparent 40%);
+  pointer-events:none;
+}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;position:relative;z-index:1;}
+.contact-info{display:flex;flex-direction:column;gap:18px;margin-top:32px;}
+.ci-item{
+  display:flex;gap:16px;align-items:center;
+  padding:20px 24px;
+  background:rgba(10,22,40,.6);
+  border:1px solid var(--border);
+  border-radius:16px;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+.ci-item:hover{
+  border-color:rgba(201,168,76,.4);
+  background:rgba(10,22,40,.85);
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+.ci-icon{
+  width:50px;height:50px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-radius:14px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;color:var(--navy);
+  flex-shrink:0;
+  box-shadow:0 8px 20px rgba(201,168,76,.3);
+  transition:transform .4s;
+}
+.ci-item:hover .ci-icon{transform:rotate(-8deg) scale(1.05);}
+.ci-label{font-size:12px;color:var(--gray);margin-bottom:3px;}
+.ci-val{font-size:15px;font-weight:700;}
+
+.contact-form{
+  background:linear-gradient(180deg,rgba(15,32,64,.6),rgba(10,22,40,.6));
+  border:1px solid var(--border);
+  border-radius:26px;padding:42px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 40px 80px rgba(0,0,0,.4);
+}
+.form-title{font-size:22px;font-weight:700;margin-bottom:28px;}
+.form-group{margin-bottom:20px;}
+.form-label{font-size:13px;color:var(--gray);margin-bottom:8px;display:block;}
+.form-input,.form-textarea{
+  width:100%;
+  background:rgba(5,13,26,.6);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 18px;
+  font-family:inherit;
+  font-size:14px;color:var(--white);
+  outline:none;transition:all .3s;
+}
+.form-input:focus,.form-textarea:focus{
+  border-color:var(--gold);
+  background:rgba(5,13,26,.85);
+  box-shadow:0 0 0 3px rgba(201,168,76,.1);
+}
+.form-textarea{resize:vertical;min-height:120px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-submit{
+  width:100%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);border:none;border-radius:12px;
+  padding:16px;font-family:inherit;
+  font-size:16px;font-weight:700;cursor:none;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 0 30px rgba(201,168,76,.2),inset 0 1px 0 rgba(255,255,255,.3);
+  position:relative;overflow:hidden;
+}
+.form-submit::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  opacity:0;transition:opacity .35s;
+}
+.form-submit span{position:relative;z-index:1;}
+.form-submit:hover{transform:translateY(-3px);box-shadow:0 14px 45px rgba(201,168,76,.5);}
+.form-submit:hover::before{opacity:1;}
+
+/* FOOTER */
+footer{
+  background:var(--navy2);
+  border-top:1px solid var(--border);
+  padding:60px 5% 30px;
+  position:relative;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:60px;margin-bottom:48px;
+}
+.footer-brand .logo{margin-bottom:16px;}
+.footer-brand p{font-size:13px;color:var(--gray);line-height:1.8;}
+.footer-col h4{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:20px;font-family:'Orbitron',sans-serif;letter-spacing:1px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.footer-col a{font-size:13px;color:var(--gray);text-decoration:none;transition:all .25s;display:inline-block;}
+.footer-col a:hover{color:var(--gold2);transform:translateX(4px);}
+html[lang="ar"] .footer-col a:hover{transform:translateX(-4px);}
+.footer-bottom{
+  border-top:1px solid var(--border);padding-top:24px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;color:var(--gray);flex-wrap:wrap;gap:12px;
+}
+.social-links{display:flex;gap:10px;}
+.social-link{
+  width:38px;height:38px;
+  background:rgba(201,168,76,.06);
+  border:1px solid rgba(201,168,76,.2);
+  border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:16px;
+  text-decoration:none;transition:all .35s cubic-bezier(.2,.8,.2,1);
+  cursor:none;
+}
+.social-link:hover{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-color:var(--gold);
+  transform:translateY(-4px) scale(1.05);
+  box-shadow:0 8px 20px rgba(201,168,76,.3);
+}
+
+/* SCROLL ANIMATIONS */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
+.reveal-right.visible{opacity:1;transform:translateX(0);}
+.reveal-scale{opacity:0;transform:scale(.9);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
+.reveal-scale.visible{opacity:1;transform:scale(1);}
+
+/* Stagger delays */
+.services-grid .service-card:nth-child(1){transition-delay:.05s;}
+.services-grid .service-card:nth-child(2){transition-delay:.1s;}
+.services-grid .service-card:nth-child(3){transition-delay:.15s;}
+.services-grid .service-card:nth-child(4){transition-delay:.2s;}
+.services-grid .service-card:nth-child(5){transition-delay:.25s;}
+.services-grid .service-card:nth-child(6){transition-delay:.3s;}
+.clients-grid .client-card:nth-child(1){transition-delay:.05s;}
+.clients-grid .client-card:nth-child(2){transition-delay:.1s;}
+.clients-grid .client-card:nth-child(3){transition-delay:.15s;}
+.clients-grid .client-card:nth-child(4){transition-delay:.2s;}
+.clients-grid .client-card:nth-child(5){transition-delay:.25s;}
+.clients-grid .client-card:nth-child(6){transition-delay:.3s;}
+
+/* MOBILE NAV */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px;}
+.hamburger span{width:24px;height:2px;background:var(--gold);border-radius:2px;transition:all .3s;}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+.nav-right{display:flex;align-items:center;gap:18px;}
+
+@media(max-width:900px){
+  .hamburger{display:flex;}
+  .nav-links{
+    position:fixed;top:72px;right:0;left:0;
+    background:rgba(5,13,26,.98);
+    flex-direction:column;padding:32px;gap:24px;
+    transform:translateY(-100%);opacity:0;
+    transition:all .4s cubic-bezier(.2,.8,.2,1);pointer-events:none;
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-links.open{transform:translateY(0);opacity:1;pointer-events:all;}
+  .stats{grid-template-columns:repeat(2,1fr);gap:30px;}
+  .stat:not(:last-child)::after{display:none;}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:50px;}
+  .hero-visual{display:none;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
+  .portfolio-grid{grid-template-columns:1fr;}
+}
+
+@media(max-width:600px){
+  section{padding:80px 5%;}
+  .stats{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .services-grid{grid-template-columns:1fr;}
+  .contact-form{padding:30px;}
+  .about-main-card{padding:30px;}
+}
+
+/* SELECTION */
+::selection{background:var(--gold);color:var(--navy);}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:var(--navy);}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold),var(--blue));border-radius:5px;}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,var(--gold2),var(--gold));}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<canvas class="particles" id="particles"></canvas>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="logo">
+    <div class="logo-icon" aria-label="Smart Solution">
+      <span class="ss-mono"><span class="ss-1">S</span></span>
+    </div>
+    <div>
+      Smart Solution
+      <span>TECHNOLOGY</span>
+    </div>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home"><span class="lang-ar">الرئيسية</span><span class="lang-en">Home</span></a></li>
+    <li><a href="#services"><span class="lang-ar">خدماتنا</span><span class="lang-en">Services</span></a></li>
+    <li><a href="#portfolio"><span class="lang-ar">أعمالنا</span><span class="lang-en">Portfolio</span></a></li>
+    <li><a href="#about"><span class="lang-ar">من نحن</span><span class="lang-en">About</span></a></li>
+    <li><a href="#clients"><span class="lang-ar">العملاء</span><span class="lang-en">Clients</span></a></li>
+    <li><a href="#contact" class="nav-cta"><span class="lang-ar">تواصل معنا</span><span class="lang-en">Contact Us</span></a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+      <button data-lang="ar" onclick="setLang('ar')">عربي</button>
+      <button data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="orb orb1" data-parallax="0.04"></div>
+  <div class="orb orb2" data-parallax="0.06"></div>
+  <div class="orb orb3" data-parallax="0.08"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      <span class="lang-ar">حلول تقنية متكاملة</span>
+      <span class="lang-en">Integrated Tech Solutions</span>
+    </div>
+    <h1>
+      <span class="lang-ar">نحوّل أفكارك</span>
+      <span class="lang-en">We Turn Your Ideas</span>
+      <span class="line2">
+        <span class="lang-ar">إلى أنظمة ذكية</span>
+        <span class="lang-en">Into Smart Systems</span>
+      </span>
+    </h1>
+    <p>
+      <span class="lang-ar">نصمم ونطور أنظمة كمبيوتر وتطبيقات موبايل وحلول ERP متكاملة للمتاجر والكافيهات والشركات — بتقنيات عالمية وخبرة محلية.</span>
+      <span class="lang-en">We design and build computer systems, mobile apps, and full-stack ERP solutions for retail, cafés, and enterprises — combining world-class tech with local expertise.</span>
+    </p>
+    <div class="hero-btns">
+      <a href="#portfolio" class="btn-primary" data-magnetic="">
+        <span>🚀 <span class="lang-ar">شوف أعمالنا</span><span class="lang-en">See Our Work</span></span>
+      </a>
+      <a href="#contact" class="btn-secondary" data-magnetic="">
+        <span>💬 <span class="lang-ar">تواصل معنا</span><span class="lang-en">Get in Touch</span></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Floating Cards -->
+  <div class="hero-visual">
+    <div class="float-card fc1">
+      <div class="fc-title">PROJECTS DONE</div>
+      <div class="fc-val">+30</div>
+      <div class="fc-sub"><span class="lang-ar">مشروع منجز</span><span class="lang-en">Completed Projects</span></div>
+      <div class="fc-bar"><div class="fc-bar-fill" style="--w:85%"></div></div>
+    </div>
+    <div class="float-card fc2">
+      <div class="fc-title">CLIENT SATISFACTION</div>
+      <div class="fc-val">99%</div>
+      <div class="fc-sub"><span class="lang-ar">رضا العملاء</span><span class="lang-en">Client Satisfaction</span></div>
+      <div class="fc-bar"><div class="fc-bar-fill" style="--w:98%"></div></div>
+    </div>
+    <div class="float-card fc3">
+      <div class="fc-title">YEARS EXPERIENCE</div>
+      <div class="fc-val">10+</div>
+      <div class="fc-sub"><span class="lang-ar">سنوات خبرة</span><span class="lang-en">Years of Experience</span></div>
+      <div class="fc-bar"><div class="fc-bar-fill" style="--w:70%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat reveal">
+    <span class="stat-num" data-target="150" data-suffix="+">0</span>
+    <span class="stat-label"><span class="lang-ar">مشروع منجز</span><span class="lang-en">Completed Projects</span></span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num" data-target="98" data-suffix="%">0</span>
+    <span class="stat-label"><span class="lang-ar">رضا العملاء</span><span class="lang-en">Client Satisfaction</span></span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num" data-target="7" data-suffix="+">0</span>
+    <span class="stat-label"><span class="lang-ar">سنوات خبرة</span><span class="lang-en">Years of Experience</span></span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num" data-target="50" data-suffix="+">0</span>
+    <span class="stat-label"><span class="lang-ar">عميل نشط</span><span class="lang-en">Active Clients</span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-head reveal">
+    <div class="section-tag"><span class="lang-ar">خدماتنا</span><span class="lang-en">Our Services</span></div>
+    <h2 class="section-title">
+      <span class="lang-ar">حلول تقنية <span class="accent">لكل بيزنس</span></span>
+      <span class="lang-en">Tech Solutions <span class="accent">For Every Business</span></span>
+    </h2>
+    <p class="section-sub">
+      <span class="lang-ar">نقدم مجموعة متكاملة من الحلول البرمجية المصممة خصيصاً لاحتياجات عملك</span>
+      <span class="lang-en">A complete suite of software solutions tailored to fit your business needs</span>
+    </p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal" data-tilt="">
+      <div class="sc-icon">🛒</div>
+      <div class="sc-title"><span class="lang-ar">أنظمة المتاجر والسوبر ماركت</span><span class="lang-en">Retail &amp; Supermarket Systems</span></div>
+      <div class="sc-desc"><span class="lang-ar">نظام متكامل للمبيعات والمخزون والكاشير وإدارة العملاء مع تقارير تفصيلية وربط بالموقع الإلكتروني.</span><span class="lang-en">Integrated POS, inventory, cashier, and CRM with detailed reports and online store integration.</span></div>
+      <div class="sc-tags">
+        <span class="sc-tag">POS</span>
+        <span class="sc-tag"><span class="lang-ar">مخزون</span><span class="lang-en">Inventory</span></span>
+        <span class="sc-tag"><span class="lang-ar">تقارير</span><span class="lang-en">Reports</span></span>
+        <span class="sc-tag">WhatsApp</span>
+      </div>
+    </div>
+    <div class="service-card reveal" data-tilt="">
+      <div class="sc-icon">☕</div>
+      <div class="sc-title"><span class="lang-ar">أنظمة الكافيهات والمطاعم</span><span class="lang-en">Café &amp; Restaurant Systems</span></div>
+      <div class="sc-desc"><span class="lang-ar">إدارة الطلبات والطاولات والقائمة الرقمية وحسابات الطهاة مع نظام توصيل متكامل وتطبيق موبايل.</span><span class="lang-en">Manage orders, tables, digital menus, and kitchen accounts with full delivery and mobile app integration.</span></div>
+      <div class="sc-tags">
+        <span class="sc-tag"><span class="lang-ar">طلبات</span><span class="lang-en">Orders</span></span>
+        <span class="sc-tag"><span class="lang-ar">قائمة رقمية</span><span class="lang-en">Digital Menu</span></span>
+        <span class="sc-tag"><span class="lang-ar">توصيل</span><span class="lang-en">Delivery</span></span>
+        <span class="sc-tag">App</span>
+      </div>
+    </div>
+    <div class="service-card reveal" data-tilt="">
+      <div class="sc-icon">🏢</div>
+      <div class="sc-title"><span class="lang-ar">أنظمة ERP للشركات</span><span class="lang-en">Enterprise ERP Systems</span></div>
+      <div class="sc-desc"><span class="lang-ar">نظام تخطيط موارد المؤسسة يشمل المحاسبة والموارد البشرية والمشتريات والمبيعات في منصة واحدة.</span><span class="lang-en">Full ERP covering accounting, HR, procurement, and sales — all on one unified platform.</span></div>
+      <div class="sc-tags">
+        <span class="sc-tag"><span class="lang-ar">محاسبة</span><span class="lang-en">Accounting</span></span>
+        <span class="sc-tag">HR</span>
+        <span class="sc-tag"><span class="lang-ar">مشتريات</span><span class="lang-en">Procurement</span></span>
+        <span class="sc-tag"><span class="lang-ar">تحليلات</span><span class="lang-en">Analytics</span></span>
+      </div>
+    </div>
+    <div class="service-card reveal" data-tilt="">
+      <div class="sc-icon">📱</div>
+      <div class="sc-title"><span class="lang-ar">تطبيقات الموبايل</span><span class="lang-en">Mobile Applications</span></div>
+      <div class="sc-desc"><span class="lang-ar">تطبيقات Android وiOS للعملاء والموظفين مع ربط كامل بأنظمتك الحالية ودعم فني مستمر.</span><span class="lang-en">Android &amp; iOS apps for customers and staff with full back-end integration and ongoing technical support.</span></div>
+      <div class="sc-tags">
+        <span class="sc-tag">Android</span>
+        <span class="sc-tag">iOS</span>
+        <span class="sc-tag">PWA</span>
+        <span class="sc-tag">API</span>
+      </div>
+    </div>
+    <div class="service-card reveal" data-tilt="">
+      <div class="sc-icon">🌐</div>
+      <div class="sc-title"><span class="lang-ar">المواقع الإلكترونية</span><span class="lang-en">Websites &amp; E-Commerce</span></div>
+      <div class="sc-desc"><span class="lang-ar">مواقع احترافية بتصميم عصري وسرعة عالية وربط بأنظمة الدفع والمتاجر الإلكترونية.</span><span class="lang-en">Modern, high-performance websites with payment-gateway and e-commerce integrations.</span></div>
+      <div class="sc-tags">
+        <span class="sc-tag">.NET</span>
+        <span class="sc-tag">React</span>
+        <span class="sc-tag">SEO</span>
+        <span class="sc-tag"><span class="lang-ar">دفع إلكتروني</span><span class="lang-en">Payments</span></span>
+      </div>
+    </div>
+    <div class="service-card reveal" data-tilt="">
+      <div class="sc-icon">🔧</div>
+      <div class="sc-title"><span class="lang-ar">الدعم الفني والصيانة</span><span class="lang-en">Support &amp; Maintenance</span></div>
+      <div class="sc-desc"><span class="lang-ar">دعم فني على مدار الساعة، تحديثات دورية، نسخ احتياطي تلقائي، وتدريب الفريق على استخدام الأنظمة.</span><span class="lang-en">24/7 technical support, regular updates, automatic backups, and team training on all our systems.</span></div>
+      <div class="sc-tags">
+        <span class="sc-tag">24/7</span>
+        <span class="sc-tag"><span class="lang-ar">تحديثات</span><span class="lang-en">Updates</span></span>
+        <span class="sc-tag"><span class="lang-ar">تدريب</span><span class="lang-en">Training</span></span>
+        <span class="sc-tag"><span class="lang-ar">ضمان</span><span class="lang-en">Warranty</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-head reveal">
+    <div class="section-tag"><span class="lang-ar">أعمالنا</span><span class="lang-en">Portfolio</span></div>
+    <h2 class="section-title">
+      <span class="lang-ar">مشاريع <span class="accent">ناجحة</span> نفخر بها</span>
+      <span class="lang-en">Projects <span class="accent">We're Proud Of</span></span>
+    </h2>
+    <p class="section-sub">
+      <span class="lang-ar">أكثر من 150 مشروع منجز في مختلف القطاعات</span>
+      <span class="lang-en">Over 150 successful projects across diverse industries</span>
+    </p>
+    <div class="portfolio-filter">
+      <button class="pf-btn active" onclick="filterPortfolio('all',this)"><span><span class="lang-ar">الكل</span><span class="lang-en">All</span></span></button>
+      <button class="pf-btn" onclick="filterPortfolio('market',this)"><span><span class="lang-ar">متاجر</span><span class="lang-en">Retail</span></span></button>
+      <button class="pf-btn" onclick="filterPortfolio('cafe',this)"><span><span class="lang-ar">كافيهات</span><span class="lang-en">Cafés</span></span></button>
+      <button class="pf-btn" onclick="filterPortfolio('erp',this)"><span>ERP</span></button>
+      <button class="pf-btn" onclick="filterPortfolio('app',this)"><span><span class="lang-ar">تطبيقات</span><span class="lang-en">Apps</span></span></button>
+    </div>
+  </div>
+  <div class="portfolio-grid" id="portfolioGrid">
+    <div class="portfolio-card reveal" data-cat="market">
+      <div class="pc-thumb pc-thumb-supermarket"><span class="pc-thumb-icon">🛒</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">سوبر ماركت</span><span class="lang-en">Supermarket</span></div>
+        <div class="pc-title"><span class="lang-ar">نظام سوبر ماركت متكامل</span><span class="lang-en">Full Supermarket System</span></div>
+        <div class="pc-desc"><span class="lang-ar">كاشير، مخزون، عملاء، تقارير، موقع أونلاين، وإرسال فواتير واتساب تلقائي.</span><span class="lang-en">POS, inventory, CRM, reports, online store, and automatic WhatsApp invoices.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="cafe">
+      <div class="pc-thumb pc-thumb-cafe"><span class="pc-thumb-icon">☕</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">كافيه</span><span class="lang-en">Café</span></div>
+        <div class="pc-title"><span class="lang-ar">نظام إدارة كافيه ذكي</span><span class="lang-en">Smart Café Management</span></div>
+        <div class="pc-desc"><span class="lang-ar">قائمة رقمية، طلبات الطاولات، حسابات الطهاة، وتطبيق توصيل للعملاء.</span><span class="lang-en">Digital menu, table ordering, kitchen accounts, and a customer delivery app.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="erp">
+      <div class="pc-thumb pc-thumb-erp"><span class="pc-thumb-icon">🏢</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat">ERP</div>
+        <div class="pc-title"><span class="lang-ar">نظام ERP لشركة تجارية</span><span class="lang-en">ERP for a Trading Company</span></div>
+        <div class="pc-desc"><span class="lang-ar">محاسبة، مشتريات، مبيعات، مخازن، موارد بشرية في منصة واحدة متكاملة.</span><span class="lang-en">Accounting, procurement, sales, warehousing, and HR — all on one integrated platform.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="app">
+      <div class="pc-thumb pc-thumb-app"><span class="pc-thumb-icon">📱</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">تطبيق موبايل</span><span class="lang-en">Mobile App</span></div>
+        <div class="pc-title"><span class="lang-ar">تطبيق توصيل طلبات</span><span class="lang-en">Order Delivery App</span></div>
+        <div class="pc-desc"><span class="lang-ar">تطبيق Android وiOS لتتبع الطلبات والدفع الإلكتروني وإشعارات فورية.</span><span class="lang-en">Android &amp; iOS app for order tracking, online payments, and instant notifications.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="market">
+      <div class="pc-thumb pc-thumb-supermarket"><span class="pc-thumb-icon">🏪</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">متجر إلكتروني</span><span class="lang-en">E-Commerce</span></div>
+        <div class="pc-title"><span class="lang-ar">متجر أونلاين متكامل</span><span class="lang-en">Full Online Store</span></div>
+        <div class="pc-desc"><span class="lang-ar">موقع تسوق إلكتروني مع بوابة دفع، إدارة مخزون، وربط بنظام الكاشير.</span><span class="lang-en">An e-commerce site with payment gateway, inventory management, and POS integration.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="erp">
+      <div class="pc-thumb pc-thumb-erp"><span class="pc-thumb-icon">📊</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">تقارير وتحليلات</span><span class="lang-en">Reports &amp; Analytics</span></div>
+        <div class="pc-title"><span class="lang-ar">لوحة تحكم تحليلية</span><span class="lang-en">Analytics Dashboard</span></div>
+        <div class="pc-desc"><span class="lang-ar">داشبورد تفاعلي بتقارير مبيعات وأرباح وأداء الفروع بلحظة واحدة.</span><span class="lang-en">Interactive dashboard with real-time sales, profit, and branch-performance reports.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal-left">
+      <div class="about-main-card">
+        <div class="about-badge-float abf1">🏆 Top Rated</div>
+        <div class="section-tag"><span class="lang-ar">تقنياتنا</span><span class="lang-en">Our Tech Stack</span></div>
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:20px;">
+          <span class="lang-ar">نستخدم أحدث التقنيات</span>
+          <span class="lang-en">Built With Modern Technology</span>
+        </h3>
+        <div class="tech-grid">
+          <div class="tech-item"><span class="ti">⚡</span>.NET Core</div>
+          <div class="tech-item"><span class="ti">⚛️</span>React</div>
+          <div class="tech-item"><span class="ti">📱</span>Flutter</div>
+          <div class="tech-item"><span class="ti">🗄️</span>SQL Server</div>
+          <div class="tech-item"><span class="ti">☁️</span>Azure</div>
+          <div class="tech-item"><span class="ti">🔌</span>REST API</div>
+          <div class="tech-item"><span class="ti">🐳</span>Docker</div>
+          <div class="tech-item"><span class="ti">🔒</span>Security</div>
+          <div class="tech-item"><span class="ti">📊</span>Power BI</div>
+        </div>
+        <div class="about-badge-float abf2">
+          <span class="lang-ar">⚡ سرعة تسليم عالية</span>
+          <span class="lang-en">⚡ Fast Delivery</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-content reveal-right">
+      <div class="section-tag"><span class="lang-ar">من نحن</span><span class="lang-en">About Us</span></div>
+      <h2 class="section-title">
+        <span class="lang-ar">شركة تقنية <span class="accent">بعقلية مختلفة</span></span>
+        <span class="lang-en">A Tech Company <span class="accent">With a Different Mindset</span></span>
+      </h2>
+      <p class="section-sub">
+        <span class="lang-ar">Smart Solution Technology شركة متخصصة في تطوير البرمجيات وأنظمة الكمبيوتر للشركات والمنشآت التجارية. نؤمن إن التقنية الصح تحوّل أي بيزنس لمستوى تاني.</span>
+        <span class="lang-en">Smart Solution Technology specializes in custom software and computer systems for businesses and enterprises. We believe the right technology can transform any business to the next level.</span>
+      </p>
+      <div class="about-features">
+        <div class="af-item">
+          <div class="af-icon">🎯</div>
+          <div>
+            <div class="af-title"><span class="lang-ar">حلول مخصصة 100%</span><span class="lang-en">100% Custom Solutions</span></div>
+            <div class="af-desc"><span class="lang-ar">كل مشروع بنبنيه من الصفر حسب احتياجات عميلنا — مش قوالب جاهزة.</span><span class="lang-en">Every project is built from scratch around our client's needs — never off-the-shelf templates.</span></div>
+          </div>
+        </div>
+        <div class="af-item">
+          <div class="af-icon">⚡</div>
+          <div>
+            <div class="af-title"><span class="lang-ar">تسليم سريع وموثوق</span><span class="lang-en">Fast &amp; Reliable Delivery</span></div>
+            <div class="af-desc"><span class="lang-ar">نلتزم بالمواعيد ونسلم المشاريع في الوقت المحدد مع ضمان الجودة.</span><span class="lang-en">We keep our deadlines and deliver projects on time without compromising on quality.</span></div>
+          </div>
+        </div>
+        <div class="af-item">
+          <div class="af-icon">🛡️</div>
+          <div>
+            <div class="af-title"><span class="lang-ar">دعم ما بعد التسليم</span><span class="lang-en">Post-Launch Support</span></div>
+            <div class="af-desc"><span class="lang-ar">دعم فني مستمر وتحديثات مجانية لمدة سنة كاملة بعد تسليم المشروع.</span><span class="lang-en">Continuous technical support and free updates for a full year after launch.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section id="clients">
+  <div class="clients-head reveal">
+    <div class="section-tag"><span class="lang-ar">عملاؤنا</span><span class="lang-en">Our Clients</span></div>
+    <h2 class="section-title">
+      <span class="lang-ar">عملاء <span class="accent">يثقون</span> فينا</span>
+      <span class="lang-en">Clients Who <span class="accent">Trust</span> Us</span>
+    </h2>
+    <p class="section-sub">
+      <span class="lang-ar">شركاء نجاح في مختلف القطاعات</span>
+      <span class="lang-en">Success partners across many industries</span>
+    </p>
+  </div>
+  <div class="clients-grid">
+    <div class="client-card reveal"><span class="cc-icon">🛒</span><div class="cc-name"><span class="lang-ar">سوبر ماركت النيل</span><span class="lang-en">Nile Supermarket</span></div><div class="cc-type"><span class="lang-ar">متجر تجزئة</span><span class="lang-en">Retail Store</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">☕</span><div class="cc-name"><span class="lang-ar">كافيه الأصدقاء</span><span class="lang-en">Friends Café</span></div><div class="cc-type"><span class="lang-ar">مطعم وكافيه</span><span class="lang-en">Restaurant &amp; Café</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">🏭</span><div class="cc-name"><span class="lang-ar">مصنع الأمل</span><span class="lang-en">Al-Amal Factory</span></div><div class="cc-type"><span class="lang-ar">صناعة وتصنيع</span><span class="lang-en">Manufacturing</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">🏥</span><div class="cc-name"><span class="lang-ar">عيادة الرعاية</span><span class="lang-en">Care Clinic</span></div><div class="cc-type"><span class="lang-ar">قطاع صحي</span><span class="lang-en">Healthcare</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">🏗️</span><div class="cc-name"><span class="lang-ar">شركة البناء</span><span class="lang-en">Build Co.</span></div><div class="cc-type"><span class="lang-ar">مقاولات</span><span class="lang-en">Construction</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">📚</span><div class="cc-name"><span class="lang-ar">مدرسة المستقبل</span><span class="lang-en">Future School</span></div><div class="cc-type"><span class="lang-ar">تعليم</span><span class="lang-en">Education</span></div></div>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="testimonials" style="padding:80px 0 0;">
+    <div class="section-tag reveal" style="justify-content:center;"><span class="lang-ar">آراء العملاء</span><span class="lang-en">Testimonials</span></div>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <div class="test-text"><span class="lang-ar">"نظام السوبر ماركت اللي عملوه غيّر طريقة شغلنا كلياً — الكاشير والمخزون والتقارير كلها في مكان واحد."</span><span class="lang-en">"The supermarket system they built completely changed how we work — POS, inventory, and reports all in one place."</span></div>
+        <div class="test-author"><div class="ta-avatar">A</div><div><div class="ta-name"><span class="lang-ar">أحمد محمد</span><span class="lang-en">Ahmed Mohamed</span></div><div class="ta-role"><span class="lang-ar">صاحب سوبر ماركت النيل</span><span class="lang-en">Owner, Nile Supermarket</span></div></div></div>
+      </div>
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <div class="test-text"><span class="lang-ar">"تطبيق التوصيل اللي بنوه لكافيهاتنا زاد مبيعاتنا 40% في أول شهر. فريق محترف وملتزم."</span><span class="lang-en">"The delivery app they built for our café increased our sales by 40% in the first month. A professional, committed team."</span></div>
+        <div class="test-author"><div class="ta-avatar">S</div><div><div class="ta-name"><span class="lang-ar">سارة علي</span><span class="lang-en">Sara Ali</span></div><div class="ta-role"><span class="lang-ar">مديرة كافيه الأصدقاء</span><span class="lang-en">Manager, Friends Café</span></div></div></div>
+      </div>
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <div class="test-text"><span class="lang-ar">"نظام ERP المتكامل وفّر علينا ساعات من العمل اليومي ومنحنا رؤية واضحة لكل أوجه الشركة."</span><span class="lang-en">"The integrated ERP saved us hours of daily work and gave us a clear view across every part of the company."</span></div>
+        <div class="test-author"><div class="ta-avatar">M</div><div><div class="ta-name"><span class="lang-ar">محمود حسن</span><span class="lang-en">Mahmoud Hassan</span></div><div class="ta-role"><span class="lang-ar">مدير مصنع الأمل</span><span class="lang-en">Director, Al-Amal Factory</span></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="reveal-left">
+      <div class="section-tag"><span class="lang-ar">تواصل معنا</span><span class="lang-en">Contact</span></div>
+      <h2 class="section-title">
+        <span class="lang-ar">ابدأ مشروعك <span class="accent">معنا اليوم</span></span>
+        <span class="lang-en">Start Your Project <span class="accent">With Us Today</span></span>
+      </h2>
+      <p class="section-sub">
+        <span class="lang-ar">تواصل معنا وهنقدملك استشارة مجانية وعرض سعر خلال 24 ساعة.</span>
+        <span class="lang-en">Get in touch — we'll give you a free consultation and quote within 24 hours.</span>
+      </p>
+      <div class="contact-info">
+        <div class="ci-item">
+          <div class="ci-icon">📱</div>
+          <div><div class="ci-label"><span class="lang-ar">واتساب وتليفون</span><span class="lang-en">WhatsApp &amp; Phone</span></div><div class="ci-val" dir="ltr">+20 100 000 0000</div></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">📧</div>
+          <div><div class="ci-label"><span class="lang-ar">البريد الإلكتروني</span><span class="lang-en">Email</span></div><div class="ci-val">info@smartsolution.com</div></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">📍</div>
+          <div><div class="ci-label"><span class="lang-ar">الموقع</span><span class="lang-en">Location</span></div><div class="ci-val"><span class="lang-ar">القاهرة، مصر</span><span class="lang-en">Cairo, Egypt</span></div></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">⏰</div>
+          <div><div class="ci-label"><span class="lang-ar">ساعات العمل</span><span class="lang-en">Working Hours</span></div><div class="ci-val"><span class="lang-ar">السبت – الخميس، 9ص – 6م</span><span class="lang-en">Sat – Thu, 9 AM – 6 PM</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal-right">
+      <div class="form-title">📨 <span class="lang-ar">أرسل لنا رسالة</span><span class="lang-en">Send Us a Message</span></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label"><span class="lang-ar">الاسم</span><span class="lang-en">Name</span></label>
+          <input class="form-input" data-ph-ar="اسمك الكامل" data-ph-en="Your full name">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="lang-ar">التليفون</span><span class="lang-en">Phone</span></label>
+          <input class="form-input" data-ph-ar="01xxxxxxxxx" data-ph-en="+20 1xx xxx xxxx" type="tel">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="lang-ar">البريد الإلكتروني</span><span class="lang-en">Email</span></label>
+        <input class="form-input" data-ph-ar="email@example.com" data-ph-en="email@example.com" type="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="lang-ar">نوع المشروع</span><span class="lang-en">Project Type</span></label>
+        <select class="form-input" style="cursor:none;">
+          <option value=""><span class="lang-ar">اختر نوع المشروع</span><span class="lang-en">Select project type</span></option>
+          <option data-ar="نظام سوبر ماركت / متجر" data-en="Retail / Supermarket System">Retail / Supermarket System</option>
+          <option data-ar="نظام كافيه / مطعم" data-en="Café / Restaurant System">Café / Restaurant System</option>
+          <option data-ar="نظام ERP" data-en="ERP System">ERP System</option>
+          <option data-ar="تطبيق موبايل" data-en="Mobile App">Mobile App</option>
+          <option data-ar="موقع إلكتروني" data-en="Website">Website</option>
+          <option data-ar="أخرى" data-en="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="lang-ar">تفاصيل المشروع</span><span class="lang-en">Project Details</span></label>
+        <textarea class="form-textarea" data-ph-ar="اشرح لنا فكرة مشروعك وما تحتاجه..." data-ph-en="Tell us about your project idea and what you need..."></textarea>
+      </div>
+      <button class="form-submit" onclick="submitForm(this)" data-magnetic="">
+        <span>🚀 <span class="lang-ar">إرسال الطلب</span><span class="lang-en">Send Request</span></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo" style="margin-bottom:16px;">
+        <div class="logo-icon" aria-label="Smart Solution">
+          <span class="ss-mono"><span class="ss-1">S</span></span>
+        </div>
+        <div>Smart Solution<span>TECHNOLOGY</span></div>
+      </div>
+      <p>
+        <span class="lang-ar">شركة متخصصة في تطوير البرمجيات وأنظمة الكمبيوتر للشركات والمنشآت التجارية في مصر والوطن العربي.</span>
+        <span class="lang-en">A software house specializing in custom systems for businesses and enterprises across Egypt and the Arab world.</span>
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4><span class="lang-ar">خدماتنا</span><span class="lang-en">Services</span></h4>
+      <ul>
+        <li><a href="#services"><span class="lang-ar">أنظمة المتاجر</span><span class="lang-en">Retail Systems</span></a></li>
+        <li><a href="#services"><span class="lang-ar">أنظمة الكافيهات</span><span class="lang-en">Café Systems</span></a></li>
+        <li><a href="#services"><span class="lang-ar">أنظمة ERP</span><span class="lang-en">ERP Systems</span></a></li>
+        <li><a href="#services"><span class="lang-ar">تطبيقات موبايل</span><span class="lang-en">Mobile Apps</span></a></li>
+        <li><a href="#services"><span class="lang-ar">المواقع الإلكترونية</span><span class="lang-en">Websites</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4><span class="lang-ar">الشركة</span><span class="lang-en">Company</span></h4>
+      <ul>
+        <li><a href="#about"><span class="lang-ar">من نحن</span><span class="lang-en">About</span></a></li>
+        <li><a href="#portfolio"><span class="lang-ar">أعمالنا</span><span class="lang-en">Portfolio</span></a></li>
+        <li><a href="#clients"><span class="lang-ar">عملاؤنا</span><span class="lang-en">Clients</span></a></li>
+        <li><a href="#contact"><span class="lang-ar">تواصل معنا</span><span class="lang-en">Contact</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4><span class="lang-ar">تابعنا</span><span class="lang-en">Follow Us</span></h4>
+      <div class="social-links" style="margin-bottom:16px;">
+        <a class="social-link" href="#" aria-label="Facebook">📘</a>
+        <a class="social-link" href="#" aria-label="Instagram">📸</a>
+        <a class="social-link" href="#" aria-label="LinkedIn">💼</a>
+        <a class="social-link" href="#" aria-label="Twitter">🐦</a>
+      </div>
+      <ul>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span><span class="lang-ar">© 2026 Smart Solution Technology. جميع الحقوق محفوظة.</span><span class="lang-en">© 2026 Smart Solution Technology. All rights reserved.</span></span>
+    <span style="color:var(--gold);"><span class="lang-ar">صُنع بـ ❤️ في مصر</span><span class="lang-en">Made with ❤️ in Egypt</span></span>
+  </div>
+</footer>
+
+<script>
+/* ===== LANGUAGE SWITCHER ===== */
+function setLang(lang){
+  const html = document.documentElement;
+  html.lang = lang;
+  html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('.lang-switch button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  // Update placeholders for inputs and select option text
+  document.querySelectorAll('[data-ph-ar]').forEach(el=>{
+    el.placeholder = lang === 'ar' ? el.dataset.phAr : el.dataset.phEn;
+  });
+  document.querySelectorAll('option[data-ar]').forEach(o=>{
+    o.textContent = lang === 'ar' ? o.dataset.ar : o.dataset.en;
+  });
+  // Update first empty option
+  const sel = document.querySelector('select.form-input');
+  if(sel && sel.options[0]){
+    sel.options[0].textContent = lang === 'ar' ? 'اختر نوع المشروع' : 'Select project type';
+  }
+  try{ localStorage.setItem('maro_lang', lang); }catch(e){}
+}
+// Init lang from storage
+try{
+  const saved = localStorage.getItem('maro_lang');
+  if(saved){ setLang(saved); } else { setLang('ar'); }
+}catch(e){ setLang('ar'); }
+
+/* ===== CUSTOM CURSOR ===== */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+});
+function animCursor(){
+  cx+=(mx-cx)*.35;cy+=(my-cy)*.35;
+  rx+=(mx-rx)*.14;ry+=(my-ry)*.14;
+  cursor.style.left=cx+'px';cursor.style.top=cy+'px';
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+document.querySelectorAll('a,button,select,.tech-item,.float-card,.client-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cursor.classList.add('hover');
+    ring.classList.add('hover');
+  });
+  el.addEventListener('mouseleave',()=>{
+    cursor.classList.remove('hover');
+    ring.classList.remove('hover');
+  });
+});
+
+/* ===== MAGNETIC BUTTONS ===== */
+document.querySelectorAll('[data-magnetic]').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width/2;
+    const y = e.clientY - r.top - r.height/2;
+    el.style.transform = `translate(${x*0.15}px, ${y*0.2}px)`;
+  });
+  el.addEventListener('mouseleave',()=>{
+    el.style.transform = '';
+  });
+});
+
+/* ===== 3D TILT CARDS ===== */
+document.querySelectorAll('[data-tilt]').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    const rx = (y - 0.5) * -8;
+    const ry = (x - 0.5) * 8;
+    card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-10px)`;
+    card.style.setProperty('--mx', (x*100)+'%');
+    card.style.setProperty('--my', (y*100)+'%');
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform = '';
+  });
+});
+
+/* ===== HERO PARALLAX ===== */
+const heroSection = document.querySelector('.hero');
+const parallaxEls = document.querySelectorAll('[data-parallax]');
+heroSection.addEventListener('mousemove',e=>{
+  const r = heroSection.getBoundingClientRect();
+  const cx = (e.clientX - r.left - r.width/2);
+  const cy = (e.clientY - r.top - r.height/2);
+  parallaxEls.forEach(el=>{
+    const f = parseFloat(el.dataset.parallax);
+    el.style.transform = `translate(${cx*f}px, ${cy*f}px)`;
+  });
+});
+
+/* ===== NAV SCROLL ===== */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',scrollY>50);
+  // Scroll progress
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h>0 ? (scrollY / h) * 100 : 0;
+  document.getElementById('scrollProgress').style.width = pct + '%';
+});
+
+/* ===== MOBILE NAV ===== */
+function toggleNav(){
+  document.getElementById('navLinks').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  });
+});
+
+/* ===== SMOOTH SCROLL ===== */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth'});
+    }
+  });
+});
+
+/* ===== REVEAL ON SCROLL ===== */
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible');});
+},{threshold:.12});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>observer.observe(el));
+
+/* ===== COUNTER ANIMATION ===== */
+function animateCounter(el){
+  const target = +el.dataset.target;
+  const suffix = el.dataset.suffix || '';
+  let current = 0;
+  const duration = 1600;
+  const start = performance.now();
+  function tick(now){
+    const t = Math.min((now-start)/duration, 1);
+    // easeOutCubic
+    const eased = 1 - Math.pow(1-t, 3);
+    current = target * eased;
+    el.textContent = Math.floor(current) + suffix;
+    if(t<1) requestAnimationFrame(tick);
+    else el.textContent = target + suffix;
+  }
+  requestAnimationFrame(tick);
+}
+const counterObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){animateCounter(e.target);counterObs.unobserve(e.target);}
+  });
+},{threshold:.5});
+document.querySelectorAll('.stat-num').forEach(el=>counterObs.observe(el));
+
+/* ===== PORTFOLIO FILTER ===== */
+function filterPortfolio(cat,btn){
+  document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.portfolio-card').forEach((card,i)=>{
+    const show = cat==='all' || card.dataset.cat===cat;
+    if(show){
+      card.style.display = '';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px) scale(.95)';
+      setTimeout(()=>{
+        card.style.transition = 'all .5s cubic-bezier(.2,.8,.2,1)';
+        card.style.opacity = '1';
+        card.style.transform = '';
+      }, i*60);
+    } else {
+      card.style.transition = 'all .3s';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(10px) scale(.95)';
+      setTimeout(()=>card.style.display = 'none', 300);
+    }
+  });
+}
+
+/* ===== FORM SUBMIT ===== */
+function submitForm(btn){
+  const isAr = document.documentElement.lang === 'ar';
+  btn.innerHTML = isAr ? '<span>⏳ جاري الإرسال...</span>' : '<span>⏳ Sending...</span>';
+  btn.disabled = true;
+  setTimeout(()=>{
+    btn.innerHTML = isAr ? '<span>✅ تم الإرسال! سنتواصل معك قريباً</span>' : '<span>✅ Sent! We\'ll be in touch soon</span>';
+    btn.style.background = 'linear-gradient(135deg,#2a9d5c,#1a6e3c)';
+    btn.style.color = '#fff';
+  },1500);
+}
+
+/* ===== PARTICLES BACKGROUND ===== */
+(function(){
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize',resize);
+  const COUNT = Math.min(60, Math.floor(window.innerWidth/24));
+  for(let i=0;i<COUNT;i++){
+    particles.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      vx: (Math.random()-.5)*.25,
+      vy: (Math.random()-.5)*.25,
+      r: Math.random()*1.5+.4,
+      a: Math.random()*.5+.15
+    });
+  }
+  function tick(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<0||p.x>canvas.width) p.vx*=-1;
+      if(p.y<0||p.y>canvas.height) p.vy*=-1;
+      ctx.fillStyle = `rgba(201,168,76,${p.a})`;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+    });
+    // Connections
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = dx*dx+dy*dy;
+        if(d < 14000){
+          const alpha = (1 - d/14000)*.12;
+          ctx.strokeStyle = `rgba(201,168,76,${alpha})`;
+          ctx.lineWidth = .6;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+
+
+</body></html>

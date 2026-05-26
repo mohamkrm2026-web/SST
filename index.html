@@ -395,16 +395,16 @@ html[lang="en"] .hero-content{margin-left:auto;margin-right:0;}
 .btn-secondary:hover{border-color:var(--gold);transform:translateY(-3px) scale(1.02);box-shadow:0 10px 30px rgba(201,168,76,.2);}
 .btn-secondary:hover::before{opacity:1;}
 
+
 .hero-visual{
   position:absolute;left:5%;top:50%;
   transform:translateY(-50%);
-  width:min(420px,38vw);
-  animation:fadeLeft .8s .3s ease both;
+  width:min(380px,36vw);
+  height:480px;
   z-index:1;
 }
-html[lang="en"] .hero-visual{left:5%;right:auto;animation:fadeLeft .8s .3s ease both;}
-html[lang="ar"] .hero-visual{left:5%;right:auto;animation:fadeLeft .8s .3s ease both;}
-
+html[lang="en"] .hero-visual{left:5%;right:auto;}
+html[lang="ar"] .hero-visual{left:5%;right:auto;}
 
 /* Floating cards */
 .float-card{
@@ -416,12 +416,9 @@ html[lang="ar"] .hero-visual{left:5%;right:auto;animation:fadeLeft .8s .3s ease 
   box-shadow:0 25px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
   transition:transform .4s cubic-bezier(.2,.8,.2,1);
 }
-.fc1{top:5%;left:50%;width:220px;animation:floatCard 6s ease-in-out infinite;}
-.fc2{top:40%;left:0;width:210px;animation:floatCard 7s 2s ease-in-out infinite;}
-.fc3{bottom:5%;left:30%;width:200px;animation:floatCard 5s 4s ease-in-out infinite;}
-html[lang="en"] .fc1{top:10%;left:5%;right:auto;}
-html[lang="en"] .fc2{top:50%;left:5%;right:auto;}
-html[lang="en"] .fc3{bottom:10%;left:30%;right:auto;}
+.fc1{top:0;right:0;width:200px;animation:floatCard 6s ease-in-out infinite;}
+.fc2{top:50%;left:0;transform:translateY(-50%);width:190px;animation:floatCard 7s 2s ease-in-out infinite;}
+.fc3{bottom:0;right:20px;width:185px;animation:floatCard 5s 4s ease-in-out infinite;}
 
 @keyframes floatCard{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 

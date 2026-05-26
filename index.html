@@ -294,8 +294,10 @@ html[lang="en"] .lang-switch button[data-lang="ar"]{color:var(--gray);}
 
 .hero-content{
   position:relative;z-index:1;
-  max-width:750px;
+  max-width:720px;
 }
+html[lang="ar"] .hero{justify-content:flex-end;}
+html[lang="ar"] .hero-content{margin-left:auto;}
 html[lang="en"] .hero{justify-content:flex-start;}
 html[lang="en"] .hero-content{margin-right:auto;}
 
@@ -394,7 +396,7 @@ html[lang="en"] .hero-content{margin-right:auto;}
 .btn-secondary:hover::before{opacity:1;}
 
 .hero-visual{
-  position:absolute;right:5%;top:50%;
+  position:absolute;left:5%;top:50%;
   transform:translateY(-50%);
   width:min(480px,40vw);
   animation:fadeRight .8s .3s ease both;

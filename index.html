@@ -412,11 +412,12 @@ html[lang="en"] .hero-visual{left:5%;right:auto;animation:fadeLeft .8s .3s ease 
   box-shadow:0 25px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
   transition:transform .4s cubic-bezier(.2,.8,.2,1);
 }
-.float-card:hover{transform:translateY(-6px) scale(1.04);border-color:rgba(201,168,76,.4);}
 .fc1{top:10%;right:0;width:230px;animation:floatCard 6s ease-in-out infinite;}
-.fc2{top:45%;left:0;width:210px;animation:floatCard 7s 2s ease-in-out infinite;}
-html[lang="ar"] .fc2{left:auto;right:15%;}
-.fc3{bottom:10%;right:10%;width:200px;animation:floatCard 5s 4s ease-in-out infinite;}
+.fc2{top:45%;right:0;left:auto;width:210px;animation:floatCard 7s 2s ease-in-out infinite;}
+.fc3{bottom:10%;left:10%;right:auto;width:200px;animation:floatCard 5s 4s ease-in-out infinite;}
+html[lang="en"] .fc2{left:0;right:auto;}
+html[lang="en"] .fc3{right:10%;left:auto;}
+
 @keyframes floatCard{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 
 .fc-title{font-size:10px;color:var(--gold);letter-spacing:1.5px;margin-bottom:10px;font-weight:700;font-family:'Orbitron',sans-serif;}

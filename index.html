@@ -296,10 +296,10 @@ html[lang="en"] .lang-switch button[data-lang="ar"]{color:var(--gray);}
   position:relative;z-index:2;
   max-width:48%;
 }
-html[lang="ar"] .hero{justify-content:flex-end;padding-right:5%;}
+html[lang="ar"] .hero{justify-content:flex-end;}
 html[lang="ar"] .hero-content{margin-left:auto;margin-right:0;}
-html[lang="en"] .hero{justify-content:flex-end;padding-right:5%;}
-html[lang="en"] .hero-content{margin-left:auto;margin-right:0;}
+html[lang="en"] .hero{justify-content:flex-start;}
+html[lang="en"] .hero-content{margin-right:auto;margin-left:0;}
 
 .hero-badge{
   display:inline-flex;align-items:center;gap:8px;
@@ -403,8 +403,8 @@ html[lang="en"] .hero-content{margin-left:auto;margin-right:0;}
   height:480px;
   z-index:1;
 }
-html[lang="en"] .hero-visual{left:5%;right:auto;}
 html[lang="ar"] .hero-visual{left:5%;right:auto;}
+html[lang="en"] .hero-visual{left:auto;right:5%;}
 
 /* Floating cards */
 .float-card{

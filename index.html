@@ -453,21 +453,18 @@ html[lang="en"] .hero-visual{left:auto;right:5%;}
   box-shadow:0 25px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
   transition:transform .4s cubic-bezier(.2,.8,.2,1);
 }
-.fc1{top:5%;right:0;width:200px;animation:floatCard 6s ease-in-out infinite;}
-.fc2{top:38%;left:0;width:190px;animation:floatCard 7s 2s ease-in-out infinite;}
-.fc3{bottom:5%;right:10%;width:185px;animation:floatCard 5s 4s ease-in-out infinite;}
+.fc1{top:5%;right:0;width:200px;}
+.fc2{top:38%;left:0;width:190px;}
+.fc3{bottom:5%;right:10%;width:185px;}
 html[lang="en"] .fc1{top:5%;left:0;right:auto;}
 html[lang="en"] .fc2{top:38%;right:0;left:auto;}
 html[lang="en"] .fc3{bottom:5%;left:10%;right:auto;}
-
-@keyframes floatCard{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 
 .fc-title{font-size:10px;color:var(--gold);letter-spacing:1.5px;margin-bottom:10px;font-weight:700;font-family:'Orbitron',sans-serif;}
 .fc-val{font-size:30px;font-weight:900;color:var(--white);font-family:'Orbitron',sans-serif;}
 .fc-sub{font-size:11px;color:var(--gray);margin-top:4px;}
 .fc-bar{height:4px;background:rgba(201,168,76,.15);border-radius:2px;margin-top:12px;overflow:hidden;}
-.fc-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;animation:barFill 2s ease both;box-shadow:0 0 8px var(--gold);}
-@keyframes barFill{from{width:0;}to{width:var(--w,70%);}}
+.fc-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;box-shadow:0 0 8px var(--gold);width:var(--w,70%);}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeLeft{from{opacity:0;transform:translate(-30px,-50%);}to{opacity:1;transform:translate(0,-50%);}}
@@ -1042,6 +1039,140 @@ html[lang="ar"] .footer-col a:hover{transform:translateX(-4px);}
   .about-main-card{padding:30px;}
 }
 
+/* ===== HERO SLIDER ===== */
+.hero-slider{
+  position:absolute;inset:0;z-index:0;overflow:hidden;
+}
+.hero-slide{
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity 1.2s cubic-bezier(.4,0,.2,1), transform 1.5s cubic-bezier(.4,0,.2,1);
+  transform:scale(1.04);
+}
+.hero-slide.active{
+  opacity:1;transform:scale(1);
+}
+.hero-slide.leaving{
+  opacity:0;transform:scale(.97);
+}
+.hero-slide img{
+  width:100%;height:100%;object-fit:cover;
+  display:block;
+}
+.hero-slide-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    135deg,
+    rgba(5,13,26,.88) 0%,
+    rgba(5,13,26,.65) 40%,
+    rgba(5,13,26,.45) 70%,
+    rgba(5,13,26,.72) 100%
+  );
+}
+/* cinematic vignette */
+.hero-slide-overlay::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 120% 120% at 50% 50%,transparent 30%,rgba(5,13,26,.6) 100%);
+}
+
+/* slide content label (service name) */
+.slide-service-label{
+  position:absolute;
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  color:var(--gold);text-transform:uppercase;
+  padding:6px 14px;
+  background:rgba(201,168,76,.1);
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:4px;
+  backdrop-filter:blur(8px);
+  top:0;
+}
+html[lang="ar"] .slide-service-label{right:0;}
+html[lang="en"] .slide-service-label{left:0;}
+
+/* Ken Burns zoom on active */
+@keyframes kenburns{
+  0%{transform:scale(1);}
+  100%{transform:scale(1.06);}
+}
+.hero-slide.active img{
+  animation:kenburns 8s ease-out forwards;
+}
+
+/* SLIDER ARROWS */
+.slider-arrows{
+  position:absolute;bottom:38px;z-index:5;
+  display:flex;gap:12px;
+}
+html[lang="ar"] .slider-arrows{left:5%;}
+html[lang="en"] .slider-arrows{right:5%;}
+
+.slider-arrow{
+  width:48px;height:48px;border-radius:12px;
+  background:rgba(201,168,76,.08);
+  border:1.5px solid rgba(201,168,76,.3);
+  color:var(--gold);font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;
+  transition:all .3s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+.slider-arrow:hover{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);border-color:var(--gold);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(201,168,76,.35);
+}
+
+/* SLIDER DOTS */
+.slider-dots{
+  position:absolute;bottom:42px;z-index:5;
+  display:flex;gap:10px;align-items:center;
+}
+html[lang="ar"] .slider-dots{right:5%;}
+html[lang="en"] .slider-dots{left:5%;}
+
+.slider-dot{
+  width:28px;height:3px;border-radius:2px;
+  background:rgba(201,168,76,.25);
+  cursor:none;transition:all .4s cubic-bezier(.2,.8,.2,1);
+  position:relative;overflow:hidden;
+}
+.slider-dot.active{
+  width:52px;background:rgba(201,168,76,.4);
+}
+.slider-dot-fill{
+  position:absolute;top:0;left:0;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:2px;
+}
+.slider-dot.active .slider-dot-fill{
+  animation:dotProgress 7s linear forwards;
+}
+@keyframes dotProgress{from{width:0%;}to{width:100%;}}
+
+/* slide counter */
+.slide-counter{
+  position:absolute;bottom:48px;
+  z-index:5;
+  font-family:'Orbitron',sans-serif;
+  font-size:12px;color:var(--gray);letter-spacing:2px;
+}
+html[lang="ar"] .slide-counter{right:calc(5% + 90px);}
+html[lang="en"] .slide-counter{left:calc(5% + 90px);}
+.slide-counter span{color:var(--gold);font-weight:700;}
+
+/* slide-in text animation */
+@keyframes slideInRight{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
+@keyframes slideInUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-slide.active ~ .hero-content .slide-title,
+.slide-active-text .slide-title{
+  animation:slideInUp .8s .1s both;
+}
+
 /* SELECTION */
 ::selection{background:var(--gold);color:var(--navy);}
 
@@ -1090,63 +1221,303 @@ html[lang="ar"] .footer-col a:hover{transform:translateX(-4px);}
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="orb orb1" data-parallax="0.04"></div>
-  <div class="orb orb2" data-parallax="0.06"></div>
-  <div class="orb orb3" data-parallax="0.08"></div>
+<!-- HERO SLIDER -->
+<section class="hero" id="home" style="padding:0;min-height:100vh;display:flex;align-items:flex-end;position:relative;overflow:hidden;">
 
-  <div class="hero-content">
-    <div class="hero-badge">
-      <span class="badge-dot"></span>
-      <span class="lang-ar">حلول تقنية متكاملة</span>
-      <span class="lang-en">Integrated Tech Solutions</span>
+  <!-- ===== CINEMATIC SLIDES ===== -->
+  <div class="hero-slider" id="heroSlider">
+
+    <!-- SLIDE 1 — ERP & Custom Software -->
+    <div class="hero-slide active" data-index="0">
+      <img
+        src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=1920&q=85&auto=format&fit=crop"
+        alt="Software Development"
+        loading="eager"
+      >
+      <div class="hero-slide-overlay"></div>
+      <div class="slide-service-label">
+        <span class="lang-ar">تطوير البرمجيات</span>
+        <span class="lang-en">Software Development</span>
+      </div>
     </div>
-    <h1>
-      <span class="lang-ar">نحوّل أفكارك</span>
-      <span class="lang-en">We Turn Your Ideas</span>
-      <span class="line2">
-        <span class="lang-ar">إلى أنظمة ذكية</span>
-        <span class="lang-en">Into Smart Systems</span>
-      </span>
-    </h1>
-    <p>
-      <span class="lang-ar">نصمم ونطور أنظمة مميكنة وتطبيقات وحلول متكاملة للمؤسسات والشركات والمشاريع التجارية — بتقنيات عالمية وخبرة محلية.</span>
-      <span class="lang-en">We design and develop automated systems, applications, and integrated solutions for institutions, companies, and commercial projects — with global technologies and local expertise.</span>
-    </p>
-    <div class="hero-btns">
-      <a href="#portfolio" class="btn-primary" data-magnetic="">
-        <span>🚀 <span class="lang-ar">شوف أعمالنا</span><span class="lang-en">See Our Work</span></span>
-      </a>
-      <a href="#contact" class="btn-secondary" data-magnetic="">
-        <span>💬 <span class="lang-ar">تواصل معنا</span><span class="lang-en">Get in Touch</span></span>
-      </a>
+
+    <!-- SLIDE 2 — Business Intelligence -->
+    <div class="hero-slide" data-index="1">
+      <img
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=85&auto=format&fit=crop"
+        alt="Business Intelligence"
+        loading="lazy"
+      >
+      <div class="hero-slide-overlay"></div>
+      <div class="slide-service-label">
+        <span class="lang-ar">ذكاء الأعمال</span>
+        <span class="lang-en">Business Intelligence</span>
+      </div>
     </div>
+
+    <!-- SLIDE 3 — Business Automation -->
+    <div class="hero-slide" data-index="2">
+      <img
+        src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1920&q=85&auto=format&fit=crop"
+        alt="Business Automation"
+        loading="lazy"
+      >
+      <div class="hero-slide-overlay"></div>
+      <div class="slide-service-label">
+        <span class="lang-ar">أتمتة العمليات</span>
+        <span class="lang-en">Business Automation</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 — Digital Transformation -->
+    <div class="hero-slide" data-index="3">
+      <img
+        src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=85&auto=format&fit=crop"
+        alt="Digital Transformation"
+        loading="lazy"
+      >
+      <div class="hero-slide-overlay"></div>
+      <div class="slide-service-label">
+        <span class="lang-ar">التحول الرقمي</span>
+        <span class="lang-en">Digital Transformation</span>
+      </div>
+    </div>
+  </div><!-- /hero-slider -->
+
+  <!-- ===== FLOATING ORBS (above slider) ===== -->
+  <div class="orb orb1" data-parallax="0.04" style="z-index:1;pointer-events:none;"></div>
+  <div class="orb orb2" data-parallax="0.06" style="z-index:1;pointer-events:none;"></div>
+  <div class="orb orb3" data-parallax="0.08" style="z-index:1;pointer-events:none;"></div>
+
+  <!-- ===== SLIDE CONTENT PANEL ===== -->
+  <div id="heroContentWrap" style="
+    position:relative;z-index:3;
+    width:100%;padding:0 5% 110px;
+    display:flex;align-items:flex-end;justify-content:space-between;
+    flex-wrap:wrap;gap:32px;
+    min-height:100vh;
+    box-sizing:border-box;
+    padding-top:120px;
+  ">
+
+    <!-- Left / right text content -->
+    <div class="hero-content" id="heroTextContent" style="max-width:55%;padding-bottom:0;">
+
+      <!-- badge -->
+      <div class="hero-badge" id="slideBadge">
+        <span class="badge-dot"></span>
+        <span id="badgeText">
+          <span class="lang-ar">حلول تقنية متكاملة</span>
+          <span class="lang-en">Integrated Tech Solutions</span>
+        </span>
+      </div>
+
+      <!-- heading -->
+      <h1 id="slideHeading" style="animation:fadeUp .8s .15s ease both;">
+        <span id="headLine1">
+          <span class="lang-ar">حلول برمجية مخصصة</span>
+          <span class="lang-en">Custom Software Solutions</span>
+        </span>
+        <span class="line2" id="headLine2">
+          <span class="lang-ar">تُعيد تعريف كفاءة مؤسستك</span>
+          <span class="lang-en">That Redefine Your Enterprise</span>
+        </span>
+      </h1>
+
+      <!-- sub-text -->
+      <p id="slideDesc" style="animation:fadeUp .8s .3s ease both;">
+        <span class="lang-ar" id="descAr">من أنظمة ERP الشاملة إلى البرمجيات المخصصة — نبني الأدوات التي تُحرّك أعمالك إلى الأمام بدقة هندسية وابتكار استراتيجي.</span>
+        <span class="lang-en" id="descEn">From comprehensive ERP systems to bespoke software — we build the tools that move your business forward with engineering precision and strategic innovation.</span>
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="hero-btns" style="animation:fadeUp .8s .45s ease both;">
+        <a href="#portfolio" class="btn-primary" data-magnetic="">
+          <span>🚀 <span class="lang-ar">شوف أعمالنا</span><span class="lang-en">See Our Work</span></span>
+        </a>
+        <a href="#contact" class="btn-secondary" data-magnetic="">
+          <span>💬 <span class="lang-ar">تواصل معنا</span><span class="lang-en">Get in Touch</span></span>
+        </a>
+      </div>
+    </div>
+
+
+  </div><!-- /heroContentWrap -->
+
+  <!-- ===== ARROWS ===== -->
+  <div class="slider-arrows" id="sliderArrows">
+    <button class="slider-arrow" id="sliderPrev" onclick="sliderMove(-1)" title="Previous">&#8592;</button>
+    <button class="slider-arrow" id="sliderNext" onclick="sliderMove(1)" title="Next">&#8594;</button>
   </div>
 
-  <!-- Floating Cards -->
-  <div class="hero-visual">
-    <div class="float-card fc1">
-      <div class="fc-title">PROJECTS DONE</div>
-      <div class="fc-val">+30</div>
-      <div class="fc-sub"><span class="lang-ar">مشروع منجز</span><span class="lang-en">Completed Projects</span></div>
-      <div class="fc-bar"><div class="fc-bar-fill" style="--w:85%"></div></div>
-    </div>
-    <div class="float-card fc2">
-      <div class="fc-title">CLIENT SATISFACTION</div>
-      <div class="fc-val">99%</div>
-      <div class="fc-sub"><span class="lang-ar">رضا العملاء</span><span class="lang-en">Client Satisfaction</span></div>
-      <div class="fc-bar"><div class="fc-bar-fill" style="--w:98%"></div></div>
-    </div>
-    <div class="float-card fc3">
-      <div class="fc-title">YEARS EXPERIENCE</div>
-      <div class="fc-val">7+</div>
-      <div class="fc-sub"><span class="lang-ar">سنوات خبرة</span><span class="lang-en">Years of Experience</span></div>
-      <div class="fc-bar"><div class="fc-bar-fill" style="--w:70%"></div></div>
-    </div>
+  <!-- ===== DOTS ===== -->
+  <div class="slider-dots" id="sliderDots">
+    <div class="slider-dot active" onclick="goToSlide(0)"><div class="slider-dot-fill"></div></div>
+    <div class="slider-dot" onclick="goToSlide(1)"><div class="slider-dot-fill"></div></div>
+    <div class="slider-dot" onclick="goToSlide(2)"><div class="slider-dot-fill"></div></div>
+    <div class="slider-dot" onclick="goToSlide(3)"><div class="slider-dot-fill"></div></div>
   </div>
+
+  <!-- ===== COUNTER ===== -->
+  <div class="slide-counter" id="slideCounter"><span id="curSlideNum">01</span> / 04</div>
+
 </section>
+
+<!-- SLIDER DATA & SCRIPT -->
+<script>
+/* ===== SLIDER DATA ===== */
+const SLIDES = [
+  {
+    badgeAr: '⚙️ تطوير البرمجيات المخصصة',
+    badgeEn: '⚙️ Custom Software & ERP',
+    h1Ar: 'أنظمة برمجية مخصصة',
+    h1En: 'Enterprise-Grade Custom Software',
+    h2Ar: 'تُعيد تعريف كفاءة مؤسستك',
+    h2En: 'That Redefines Your Operations',
+    descAr: 'من أنظمة ERP الشاملة إلى البرمجيات المخصصة — نبني الأدوات التي تُحرّك أعمالك إلى الأمام بدقة هندسية واحترافية استراتيجية لا تُضاهى.',
+    descEn: 'From comprehensive ERP to bespoke software — we build the tools that move your business forward with engineering precision and strategic vision.',
+  },
+  {
+    badgeAr: '📊 ذكاء الأعمال والبيانات',
+    badgeEn: '📊 Business Intelligence & Analytics',
+    h1Ar: 'قرارات مدعومة بالبيانات',
+    h1En: 'Data-Driven Decisions',
+    h2Ar: 'تصنع الفارق في سوقك',
+    h2En: 'That Dominate Your Market',
+    descAr: 'حوّل بياناتك الخام إلى ذكاء استراتيجي حقيقي — لوحات قيادة تفاعلية وتقارير فورية تمنحك رؤية كاملة لكل جانب من جوانب عملك.',
+    descEn: 'Transform raw data into real strategic intelligence — interactive dashboards and real-time reports that give you complete visibility over every aspect of your business.',
+  },
+  {
+    badgeAr: '🤖 أتمتة العمليات التجارية',
+    badgeEn: '🤖 Business Process Automation',
+    h1Ar: 'أتمتة ذكية تُحرّر طاقة فريقك',
+    h1En: 'Intelligent Automation',
+    h2Ar: 'وتُضاعف إنتاجيتك بلا حدود',
+    h2En: 'That Multiplies Your Productivity',
+    descAr: 'دع التكنولوجيا تتولى المهام المتكررة — أتمتة عمليات تجارية متكاملة تُقلّص الوقت والتكاليف وتُضاعف كفاءة فريقك بشكل يُدهش المنافسين.',
+    descEn: 'Let technology handle repetitive tasks — complete business process automation that shrinks time and costs while multiplying your team\'s efficiency dramatically.',
+  },
+  {
+    badgeAr: '🌐 استشارات التحول الرقمي',
+    badgeEn: '🌐 Digital Transformation Consultancy',
+    h1Ar: 'قُد مؤسستك نحو المستقبل',
+    h1En: 'Lead Your Enterprise Into The Future',
+    h2Ar: 'بخارطة تحول رقمي احترافية',
+    h2En: 'With A Professional Digital Roadmap',
+    descAr: 'استراتيجيات تحول رقمي شاملة مصممة خصيصاً لنموذج عملك — نُرافقك في كل خطوة من التخطيط حتى التطبيق لنضمن ريادتك في سوق الغد.',
+    descEn: 'Comprehensive digital transformation strategies tailored to your business model — we guide you from planning to execution to guarantee your leadership in tomorrow\'s market.',
+  },
+];
+
+let currentSlide = 0;
+let sliderTimer = null;
+let isAnimating = false;
+
+function goToSlide(idx, direction){
+  if(isAnimating || idx === currentSlide) return;
+  isAnimating = true;
+
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.slider-dot');
+
+  // Remove active from current, add leaving
+  slides[currentSlide].classList.remove('active');
+  slides[currentSlide].classList.add('leaving');
+
+  // Update dot
+  dots[currentSlide].classList.remove('active');
+  dots[currentSlide].querySelector('.slider-dot-fill').style.animation = 'none';
+
+  // Set new
+  currentSlide = ((idx % SLIDES.length) + SLIDES.length) % SLIDES.length;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+  // restart fill animation
+  const fill = dots[currentSlide].querySelector('.slider-dot-fill');
+  fill.style.animation = 'none';
+  fill.offsetWidth; // reflow
+  fill.style.animation = '';
+
+  // Update counter
+  document.getElementById('curSlideNum').textContent = String(currentSlide + 1).padStart(2,'0');
+
+  // Update text content
+  updateSlideText(currentSlide);
+
+  // Clean up leaving after transition
+  setTimeout(()=>{
+    slides.forEach(s => s.classList.remove('leaving'));
+    isAnimating = false;
+  }, 1400);
+
+  // Reset auto timer
+  clearInterval(sliderTimer);
+  sliderTimer = setInterval(()=> sliderMove(1), 7000);
+}
+
+function sliderMove(dir){
+  goToSlide(currentSlide + dir);
+}
+
+function updateSlideText(idx){
+  const d = SLIDES[idx];
+  const lang = document.documentElement.lang;
+
+  // Badge
+  const badge = document.getElementById('badgeText');
+  badge.innerHTML = `<span class="lang-ar">${d.badgeAr}</span><span class="lang-en">${d.badgeEn}</span>`;
+  badge.style.animation = 'none';
+  badge.offsetWidth;
+
+  // H1
+  const h1 = document.getElementById('slideHeading');
+  h1.querySelector('#headLine1').innerHTML = `<span class="lang-ar">${d.h1Ar}</span><span class="lang-en">${d.h1En}</span>`;
+  h1.querySelector('#headLine2').innerHTML = `<span class="lang-ar">${d.h2Ar}</span><span class="lang-en">${d.h2En}</span>`;
+
+  // Desc
+  document.getElementById('descAr').textContent = d.descAr;
+  document.getElementById('descEn').textContent = d.descEn;
+
+  // Animate in
+  [h1, document.getElementById('slideDesc')].forEach((el,i)=>{
+    el.style.animation = 'none';
+    el.offsetWidth;
+    el.style.animation = `fadeUp .8s ${0.1 + i*.15}s ease both`;
+  });
+
+  // Re-apply language visibility
+  updateLangVisibility();
+}
+
+function updateLangVisibility(){
+  const lang = document.documentElement.lang;
+  document.querySelectorAll('.lang-ar').forEach(el => el.style.display = lang === 'ar' ? '' : 'none');
+  document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+}
+
+// Start autoplay
+sliderTimer = setInterval(()=> sliderMove(1), 7000);
+
+// Touch / swipe support
+(function(){
+  let touchX = 0;
+  const slider = document.getElementById('heroSlider');
+  slider.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, {passive:true});
+  slider.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(dx) > 50) sliderMove(dx < 0 ? 1 : -1);
+  }, {passive:true});
+})();
+
+// Keyboard arrow navigation
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowLeft')  sliderMove(document.documentElement.lang === 'ar' ? 1 : -1);
+  if(e.key === 'ArrowRight') sliderMove(document.documentElement.lang === 'ar' ? -1 : 1);
+});
+
+// Init first dot fill
+document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').style.animation = 'dotProgress 7s linear forwards';
+</script>
 
 <!-- STATS -->
 <div class="stats">
@@ -1673,16 +2044,18 @@ document.querySelectorAll('[data-tilt]').forEach(card=>{
 
 /* ===== HERO PARALLAX ===== */
 const heroSection = document.querySelector('.hero');
-const parallaxEls = document.querySelectorAll('[data-parallax]');
-heroSection.addEventListener('mousemove',e=>{
-  const r = heroSection.getBoundingClientRect();
-  const cx = (e.clientX - r.left - r.width/2);
-  const cy = (e.clientY - r.top - r.height/2);
-  parallaxEls.forEach(el=>{
-    const f = parseFloat(el.dataset.parallax);
-    el.style.transform = `translate(${cx*f}px, ${cy*f}px)`;
+if(heroSection){
+  const parallaxEls = document.querySelectorAll('[data-parallax]');
+  heroSection.addEventListener('mousemove',e=>{
+    const r = heroSection.getBoundingClientRect();
+    const cx = (e.clientX - r.left - r.width/2);
+    const cy = (e.clientY - r.top - r.height/2);
+    parallaxEls.forEach(el=>{
+      const f = parseFloat(el.dataset.parallax);
+      el.style.transform = `translate(${cx*f}px, ${cy*f}px)`;
+    });
   });
-});
+}
 
 /* ===== NAV SCROLL ===== */
 window.addEventListener('scroll',()=>{

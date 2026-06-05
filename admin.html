@@ -1,814 +1,10 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SST Admin — لوحة التحكم</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-<style>
-:root {
-  --gold: #c9a84c;
-  --gold2: #e8c97a;
-  --navy: #050d1a;
-  --navy2: #0a1628;
-  --blue: #1a3a6e;
-  --white: #f0f4ff;
-  --gray: #8899bb;
-  --border: rgba(201,168,76,0.2);
-  --green: #2a9d5c;
-  --red: #c0392b;
-  --sidebar-w: 220px;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Tajawal',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;}
-
-/* LOGIN */
-#login-screen{
-  position:fixed;inset:0;
-  background:linear-gradient(135deg,#050d1a 0%,#0f2040 100%);
-  display:flex;align-items:center;justify-content:center;
-  z-index:9999;
-}
-.login-box{
-  background:rgba(10,22,40,.9);
-  border:1px solid var(--border);
-  border-radius:20px;padding:48px 40px;
-  width:380px;text-align:center;
-  backdrop-filter:blur(20px);
-  box-shadow:0 40px 80px rgba(0,0,0,.6);
-}
-.login-logo{
-  font-size:48px;margin-bottom:8px;
-}
-.login-box h2{
-  font-size:22px;font-weight:700;color:var(--gold);margin-bottom:6px;
-}
-.login-box p{font-size:13px;color:var(--gray);margin-bottom:32px;}
-.login-input{
-  width:100%;padding:13px 16px;
-  background:rgba(255,255,255,.05);
-  border:1px solid var(--border);
-  border-radius:10px;color:var(--white);
-  font-size:15px;font-family:'Tajawal',sans-serif;
-  margin-bottom:14px;
-  transition:border-color .3s;
-}
-.login-input:focus{outline:none;border-color:var(--gold);}
-.login-btn{
-  width:100%;padding:14px;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  color:#050d1a;border:none;
-  border-radius:10px;font-size:15px;font-weight:700;
-  font-family:'Tajawal',sans-serif;cursor:pointer;
-  transition:all .3s;margin-top:6px;
-}
-.login-btn:hover{opacity:.9;transform:translateY(-1px);}
-.login-err{
-  color:#ff6b6b;font-size:13px;margin-top:10px;
-  display:none;
-}
-
-/* MAIN LAYOUT */
-#app{display:none;min-height:100vh;}
-.layout{display:flex;min-height:100vh;}
-
-/* SIDEBAR */
-.sidebar{
-  width:var(--sidebar-w);
-  background:#0a1628;
-  border-left:1px solid var(--border);
-  display:flex;flex-direction:column;
-  position:fixed;top:0;right:0;bottom:0;
-  z-index:100;
-}
-.sidebar-logo{
-  padding:20px 18px;
-  border-bottom:1px solid var(--border);
-}
-.sidebar-logo .name{
-  font-size:15px;font-weight:700;color:var(--gold);
-  letter-spacing:1px;
-}
-.sidebar-logo .sub{font-size:11px;color:var(--gray);}
-
-.sidebar-nav{flex:1;padding:16px 0;overflow-y:auto;}
-.nav-item{
-  display:flex;align-items:center;gap:10px;
-  padding:11px 18px;cursor:pointer;
-  color:var(--gray);font-size:14px;
-  transition:all .2s;border-right:3px solid transparent;
-}
-.nav-item:hover{color:var(--white);background:rgba(201,168,76,.06);}
-.nav-item.active{
-  color:var(--gold);background:rgba(201,168,76,.1);
-  border-right-color:var(--gold);font-weight:700;
-}
-.nav-icon{font-size:18px;width:22px;text-align:center;}
-
-.sidebar-footer{
-  padding:14px 18px;
-  border-top:1px solid var(--border);
-  font-size:12px;color:var(--gray);
-}
-
-/* MAIN CONTENT */
-.main{
-  margin-right:var(--sidebar-w);
-  flex:1;
-  display:flex;flex-direction:column;
-  min-height:100vh;
-}
-
-/* TOPBAR */
-.topbar{
-  background:#0d1117;
-  border-bottom:1px solid var(--border);
-  padding:0 28px;
-  height:60px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:50;
-}
-.topbar-title{font-size:16px;font-weight:700;color:var(--white);}
-.topbar-actions{display:flex;gap:10px;align-items:center;}
-.btn{
-  padding:8px 18px;border-radius:8px;font-size:13px;font-weight:700;
-  font-family:'Tajawal',sans-serif;cursor:pointer;border:none;
-  display:flex;align-items:center;gap:7px;
-  transition:all .25s;
-}
-.btn-gold{
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  color:#050d1a;
-}
-.btn-gold:hover{opacity:.9;transform:translateY(-1px);}
-.btn-outline{
-  background:transparent;
-  border:1px solid var(--border);
-  color:var(--gray);
-}
-.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
-.btn-danger{background:#c0392b;color:#fff;}
-.btn-danger:hover{background:#e74c3c;}
-
-/* CONTENT AREA */
-.content{padding:28px;flex:1;}
-
-/* SECTION PAGES */
-.section-page{display:none;}
-.section-page.active{display:block;}
-
-/* CARDS */
-.card{
-  background:#0a1628;
-  border:1px solid var(--border);
-  border-radius:14px;padding:24px;
-  margin-bottom:20px;
-}
-.card-title{
-  font-size:14px;font-weight:700;color:var(--gold);
-  margin-bottom:18px;display:flex;align-items:center;gap:8px;
-}
-
-/* FIELDS */
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-.field-row.triple{grid-template-columns:1fr 1fr 1fr;}
-.field-row.single{grid-template-columns:1fr;}
-.field{display:flex;flex-direction:column;gap:6px;}
-.field label{
-  font-size:12px;color:var(--gray);font-weight:500;
-  display:flex;align-items:center;gap:6px;
-}
-.lang-badge{
-  font-size:10px;padding:2px 7px;border-radius:4px;
-  background:rgba(201,168,76,.15);color:var(--gold);
-  font-weight:700;
-}
-.lang-badge.en{background:rgba(100,160,255,.15);color:#64a0ff;}
-input[type=text],input[type=email],input[type=tel],input[type=url],input[type=number],textarea,select{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:8px;padding:10px 13px;
-  color:var(--white);font-family:'Tajawal',sans-serif;
-  font-size:14px;width:100%;
-  transition:border-color .25s;
-  resize:vertical;
-}
-input:focus,textarea:focus,select:focus{
-  outline:none;border-color:var(--gold);
-  background:rgba(201,168,76,.05);
-}
-textarea{min-height:80px;}
-select option{background:#0a1628;}
-
-/* REPEAT CARDS */
-.repeat-item{
-  background:#050d1a;
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:12px;padding:18px;
-  margin-bottom:14px;
-  position:relative;
-}
-.repeat-header{
-  display:flex;align-items:center;gap:10px;
-  margin-bottom:16px;
-  padding-bottom:12px;
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-.repeat-num{
-  width:28px;height:28px;
-  background:rgba(201,168,76,.15);
-  color:var(--gold);border-radius:8px;
-  font-size:13px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;
-}
-.repeat-label{font-size:14px;font-weight:700;color:var(--white);}
-
-/* NOTICE */
-.notice{
-  background:rgba(201,168,76,.08);
-  border:1px solid rgba(201,168,76,.25);
-  border-radius:10px;padding:14px 18px;
-  font-size:13px;color:var(--gold2);
-  margin-bottom:20px;
-  display:flex;align-items:center;gap:10px;
-}
-
-/* DOWNLOAD SECTION */
-.download-box{
-  background:linear-gradient(135deg,rgba(42,157,92,.1),rgba(42,157,92,.05));
-  border:1px solid rgba(42,157,92,.3);
-  border-radius:14px;padding:28px;
-  text-align:center;
-}
-.download-box h3{font-size:18px;font-weight:700;color:#2a9d5c;margin-bottom:8px;}
-.download-box p{font-size:13px;color:var(--gray);margin-bottom:20px;}
-
-/* TOAST */
-#toast{
-  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);
-  background:#2a9d5c;color:#fff;
-  padding:12px 28px;border-radius:30px;
-  font-size:14px;font-weight:700;
-  opacity:0;transition:all .4s cubic-bezier(.2,.8,.2,1);
-  z-index:9999;pointer-events:none;
-}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-#toast.err{background:#c0392b;}
-
-/* PREVIEW BADGE */
-.preview-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(42,157,92,.15);border:1px solid rgba(42,157,92,.3);
-  border-radius:6px;padding:4px 10px;
-  font-size:12px;color:#2a9d5c;
-}
-.dot{width:7px;height:7px;border-radius:50%;background:#2a9d5c;animation:blink 2s infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3};}
-
-/* MOBILE */
-@media(max-width:768px){
-  .sidebar{width:100%;height:60px;flex-direction:row;bottom:auto;}
-  .sidebar-logo{display:none;}
-  .sidebar-nav{display:flex;flex-direction:row;padding:0;overflow-x:auto;}
-  .nav-item{padding:8px 14px;border-right:none;border-bottom:3px solid transparent;flex-direction:column;gap:2px;font-size:11px;}
-  .nav-item.active{border-bottom-color:var(--gold);border-right-color:transparent;}
-  .sidebar-footer{display:none;}
-  .main{margin-right:0;padding-top:60px;}
-  .field-row{grid-template-columns:1fr;}
-  .field-row.triple{grid-template-columns:1fr;}
-}
-</style>
-</head>
-<body>
-
-<!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">⚙️</div>
-    <h2>SST Admin</h2>
-    <p>لوحة تحكم محتوى الموقع</p>
-    <input type="password" id="pwd-input" class="login-input" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">دخول ←</button>
-    <div class="login-err" id="login-err">❌ كلمة المرور غلط</div>
-  </div>
-</div>
-
-<!-- APP -->
-<div id="app">
-<div class="layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="name">SST Admin</div>
-      <div class="sub">لوحة تحكم المحتوى</div>
-    </div>
-    <nav class="sidebar-nav">
-      <div class="nav-item active" onclick="goTo('hero',this)"><span class="nav-icon">🏠</span> الهيرو</div>
-      <div class="nav-item" onclick="goTo('stats',this)"><span class="nav-icon">📊</span> الإحصائيات</div>
-      <div class="nav-item" onclick="goTo('services',this)"><span class="nav-icon">⚙️</span> الخدمات</div>
-      <div class="nav-item" onclick="goTo('portfolio',this)"><span class="nav-icon">💼</span> الأعمال</div>
-      <div class="nav-item" onclick="goTo('about',this)"><span class="nav-icon">🏢</span> من نحن</div>
-      <div class="nav-item" onclick="goTo('clients',this)"><span class="nav-icon">👥</span> العملاء</div>
-      <div class="nav-item" onclick="goTo('testimonials',this)"><span class="nav-icon">💬</span> الشهادات</div>
-      <div class="nav-item" onclick="goTo('contact',this)"><span class="nav-icon">📞</span> التواصل</div>
-      <div class="nav-item" onclick="goTo('footer',this)"><span class="nav-icon">🔗</span> الفوتر</div>
-      <div class="nav-item" onclick="goTo('export',this)"><span class="nav-icon">⬇️</span> تحميل الملف</div>
-    </nav>
-    <div class="sidebar-footer">Smart Solution Technology</div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-    <div class="topbar">
-      <span class="topbar-title" id="page-title">الهيرو</span>
-      <div class="topbar-actions">
-        <span class="preview-badge"><span class="dot"></span> تعديل مباشر</span>
-        <button class="btn btn-gold" onclick="goTo('export',null)">⬇️ تحميل الملف</button>
-        <button class="btn btn-outline" onclick="logout()">خروج</button>
-      </div>
-    </div>
-
-    <div class="content">
-
-      <!-- ====== HERO ====== -->
-      <div id="page-hero" class="section-page active">
-        <div class="notice">💡 عدّل النصوص وبعدين اضغط "تحميل الملف" من القائمة الجانبية</div>
-
-        <div class="card">
-          <div class="card-title">🏷️ البادج (Badge) — الشريط الصغير فوق العنوان</div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span> عربي</label><input type="text" id="hero_badge_ar" value="حلول تقنية متكاملة"></div>
-            <div class="field"><label><span class="lang-badge en">EN</span> English</label><input type="text" id="hero_badge_en" value="Integrated Tech Solutions"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">📌 العنوان الرئيسي</div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span> السطر الأول</label><input type="text" id="hero_h1_ar" value="نحوّل أفكارك"></div>
-            <div class="field"><label><span class="lang-badge en">EN</span> Line 1</label><input type="text" id="hero_h1_en" value="We Turn Your Ideas"></div>
-          </div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span> السطر الثاني (ذهبي)</label><input type="text" id="hero_h2_ar" value="إلى أنظمة ذكية"></div>
-            <div class="field"><label><span class="lang-badge en">EN</span> Line 2 (gold)</label><input type="text" id="hero_h2_en" value="Into Smart Systems"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">📝 الوصف</div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span></label><textarea id="hero_desc_ar">نصمم ونطور أنظمة كمبيوتر وتطبيقات موبايل وحلول ERP متكاملة للمتاجر والكافيهات والشركات — بتقنيات عالمية وخبرة محلية.</textarea></div>
-            <div class="field"><label><span class="lang-badge en">EN</span></label><textarea id="hero_desc_en">We design and build computer systems, mobile apps, and full-stack ERP solutions for retail, cafés, and enterprises — combining world-class tech with local expertise.</textarea></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">🃏 البطاقات الطافية</div>
-          <div class="field-row triple">
-            <div class="field"><label>بطاقة 1 — Projects Done</label><input type="text" id="fc1_val" value="+30"></div>
-            <div class="field"><label>بطاقة 2 — Client Satisfaction</label><input type="text" id="fc2_val" value="99%"></div>
-            <div class="field"><label>بطاقة 3 — Years Experience</label><input type="text" id="fc3_val" value="10+"></div>
-          </div>
-          <div class="field-row triple">
-            <div class="field"><label>وصف عربي — بطاقة 1</label><input type="text" id="fc1_sub_ar" value="مشروع منجز"></div>
-            <div class="field"><label>وصف عربي — بطاقة 2</label><input type="text" id="fc2_sub_ar" value="رضا العملاء"></div>
-            <div class="field"><label>وصف عربي — بطاقة 3</label><input type="text" id="fc3_sub_ar" value="سنوات خبرة"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ====== STATS ====== -->
-      <div id="page-stats" class="section-page">
-        <div class="card">
-          <div class="card-title">📊 الإحصائيات الأربعة</div>
-          <div id="stats-container"></div>
-        </div>
-      </div>
-
-      <!-- ====== SERVICES ====== -->
-      <div id="page-services" class="section-page">
-        <div class="notice">⚙️ 6 خدمات — عدّل العناوين والأوصاف</div>
-        <div id="services-container"></div>
-      </div>
-
-      <!-- ====== PORTFOLIO ====== -->
-      <div id="page-portfolio" class="section-page">
-        <div class="notice">💼 6 مشاريع في معرض الأعمال</div>
-        <div id="portfolio-container"></div>
-      </div>
-
-      <!-- ====== ABOUT ====== -->
-      <div id="page-about" class="section-page">
-        <div class="card">
-          <div class="card-title">🏢 عنوان ووصف قسم "من نحن"</div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span> العنوان</label><input type="text" id="about_h_ar" value="شركة تقنية بعقلية مختلفة"></div>
-            <div class="field"><label><span class="lang-badge en">EN</span> Heading</label><input type="text" id="about_h_en" value="A Tech Company With a Different Mindset"></div>
-          </div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span> الوصف</label><textarea id="about_desc_ar">Smart Solution Technology شركة متخصصة في تطوير البرمجيات وأنظمة الكمبيوتر للشركات والمنشآت التجارية. نؤمن إن التقنية الصح تحوّل أي بيزنس لمستوى تاني.</textarea></div>
-            <div class="field"><label><span class="lang-badge en">EN</span> Description</label><textarea id="about_desc_en">Smart Solution Technology specializes in custom software and computer systems for businesses and enterprises. We believe the right technology can transform any business to the next level.</textarea></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title">✅ المميزات الثلاث</div>
-          <div id="features-container"></div>
-        </div>
-      </div>
-
-      <!-- ====== CLIENTS ====== -->
-      <div id="page-clients" class="section-page">
-        <div class="notice">👥 6 بطاقات عملاء</div>
-        <div id="clients-container"></div>
-      </div>
-
-      <!-- ====== TESTIMONIALS ====== -->
-      <div id="page-testimonials" class="section-page">
-        <div class="notice">💬 3 شهادات عملاء</div>
-        <div id="testimonials-container"></div>
-      </div>
-
-      <!-- ====== CONTACT ====== -->
-      <div id="page-contact" class="section-page">
-        <div class="card">
-          <div class="card-title">📞 معلومات التواصل</div>
-          <div class="field-row">
-            <div class="field"><label>📱 واتساب / تليفون</label><input type="tel" id="contact_phone" value="+20 100 000 0000"></div>
-            <div class="field"><label>📧 البريد الإلكتروني</label><input type="email" id="contact_email" value="info@smartsolution.com"></div>
-          </div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span> الموقع</label><input type="text" id="contact_loc_ar" value="القاهرة، مصر"></div>
-            <div class="field"><label><span class="lang-badge en">EN</span> Location</label><input type="text" id="contact_loc_en" value="Cairo, Egypt"></div>
-          </div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span> ساعات العمل</label><input type="text" id="contact_hours_ar" value="السبت – الخميس، 9ص – 6م"></div>
-            <div class="field"><label><span class="lang-badge en">EN</span> Working hours</label><input type="text" id="contact_hours_en" value="Sat – Thu, 9 AM – 6 PM"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ====== FOOTER ====== -->
-      <div id="page-footer" class="section-page">
-        <div class="card">
-          <div class="card-title">📄 وصف الشركة في الفوتر</div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span></label><textarea id="footer_desc_ar">شركة متخصصة في تطوير البرمجيات وأنظمة الكمبيوتر للشركات والمنشآت التجارية في مصر والوطن العربي.</textarea></div>
-            <div class="field"><label><span class="lang-badge en">EN</span></label><textarea id="footer_desc_en">A software house specializing in custom systems for businesses and enterprises across Egypt and the Arab world.</textarea></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title">🔗 روابط السوشيال ميديا</div>
-          <div class="field-row">
-            <div class="field"><label>📘 Facebook URL</label><input type="url" id="social_fb" value="#"></div>
-            <div class="field"><label>📸 Instagram URL</label><input type="url" id="social_ig" value="#"></div>
-          </div>
-          <div class="field-row">
-            <div class="field"><label>💼 LinkedIn URL</label><input type="url" id="social_li" value="#"></div>
-            <div class="field"><label>🐦 Twitter/X URL</label><input type="url" id="social_tw" value="#"></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title">©️ نص حقوق النشر</div>
-          <div class="field-row">
-            <div class="field"><label><span class="lang-badge">AR</span></label><input type="text" id="footer_copy_ar" value="© 2026 Smart Solution Technology. جميع الحقوق محفوظة."></div>
-            <div class="field"><label><span class="lang-badge en">EN</span></label><input type="text" id="footer_copy_en" value="© 2026 Smart Solution Technology. All rights reserved."></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ====== EXPORT ====== -->
-      <div id="page-export" class="section-page">
-        <div class="card">
-          <div class="card-title">⬇️ تحميل الموقع المحدّث</div>
-          <p style="color:var(--gray);font-size:14px;margin-bottom:20px;line-height:1.8;">
-            بعد ما تعدّل المحتوى في كل الأقسام، اضغط الزرار تحت — هيتحمّل ملف <strong style="color:var(--gold);">index.html</strong> جديد بكل تعديلاتك جاهز للرفع على الاستضافة.
-          </p>
-          <div class="download-box">
-            <h3>✅ جاهز للتحميل</h3>
-            <p>هيتحمّل ملف index.html بكل التعديلات اللي عملتها</p>
-            <button class="btn btn-gold" style="font-size:16px;padding:14px 36px;margin:0 auto;" onclick="generateAndDownload()">
-              ⬇️ تحميل index.html
-            </button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">📋 تعليمات الرفع</div>
-          <div style="color:var(--gray);font-size:14px;line-height:2;">
-            <p>1️⃣ حمّل ملف <strong style="color:var(--gold);">index.html</strong> المولّد</p>
-            <p>2️⃣ ارفعه على استضافتك بدل الملف القديم (FTP أو File Manager)</p>
-            <p>3️⃣ <strong style="color:var(--gold);">admin.html</strong> اتركه زي ما هو في نفس المجلد</p>
-            <p>4️⃣ الموقع هيتحدث فوراً ✨</p>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /content -->
-  </main>
-</div>
-</div><!-- /app -->
-
-<div id="toast"></div>
-
-<script>
-// ============ DATA ============
-const PASS = 'sst2026';
-
-const statsData = [
-  {num:'150', suffix:'+', ar:'مشروع منجز', en:'Completed Projects'},
-  {num:'98', suffix:'%', ar:'رضا العملاء', en:'Client Satisfaction'},
-  {num:'7', suffix:'+', ar:'سنوات خبرة', en:'Years of Experience'},
-  {num:'50', suffix:'+', ar:'عميل نشط', en:'Active Clients'},
-];
-
-const servicesData = [
-  {icon:'🛒', ar:'أنظمة المتاجر والسوبر ماركت', en:'Retail & Supermarket Systems', desc_ar:'نظام متكامل للمبيعات والمخزون والكاشير وإدارة العملاء مع تقارير تفصيلية وربط بالموقع الإلكتروني.', desc_en:'Integrated POS, inventory, cashier, and CRM with detailed reports and online store integration.'},
-  {icon:'☕', ar:'أنظمة الكافيهات والمطاعم', en:'Café & Restaurant Systems', desc_ar:'إدارة الطلبات والطاولات والقائمة الرقمية وحسابات الطهاة مع نظام توصيل متكامل وتطبيق موبايل.', desc_en:'Manage orders, tables, digital menus, and kitchen accounts with full delivery and mobile app integration.'},
-  {icon:'🏢', ar:'أنظمة ERP للشركات', en:'Enterprise ERP Systems', desc_ar:'نظام تخطيط موارد المؤسسة يشمل المحاسبة والموارد البشرية والمشتريات والمبيعات في منصة واحدة.', desc_en:'Full ERP covering accounting, HR, procurement, and sales — all on one unified platform.'},
-  {icon:'📱', ar:'تطبيقات الموبايل', en:'Mobile Applications', desc_ar:'تطبيقات Android وiOS للعملاء والموظفين مع ربط كامل بأنظمتك الحالية ودعم فني مستمر.', desc_en:'Android & iOS apps for customers and staff with full back-end integration and ongoing technical support.'},
-  {icon:'🌐', ar:'المواقع الإلكترونية', en:'Websites & E-Commerce', desc_ar:'مواقع احترافية بتصميم عصري وسرعة عالية وربط بأنظمة الدفع والمتاجر الإلكترونية.', desc_en:'Modern, high-performance websites with payment-gateway and e-commerce integrations.'},
-  {icon:'🔧', ar:'الدعم الفني والصيانة', en:'Support & Maintenance', desc_ar:'دعم فني على مدار الساعة، تحديثات دورية، نسخ احتياطي تلقائي، وتدريب الفريق على استخدام الأنظمة.', desc_en:'24/7 technical support, regular updates, automatic backups, and team training on all our systems.'},
-];
-
-const portfolioData = [
-  {icon:'🛒', cat_ar:'سوبر ماركت', cat_en:'Supermarket', cat_key:'market', title_ar:'نظام سوبر ماركت متكامل', title_en:'Full Supermarket System', desc_ar:'كاشير، مخزون، عملاء، تقارير، موقع أونلاين، وإرسال فواتير واتساب تلقائي.', desc_en:'POS, inventory, CRM, reports, online store, and automatic WhatsApp invoices.'},
-  {icon:'☕', cat_ar:'كافيه', cat_en:'Café', cat_key:'cafe', title_ar:'نظام إدارة كافيه ذكي', title_en:'Smart Café Management', desc_ar:'قائمة رقمية، طلبات الطاولات، حسابات الطهاة، وتطبيق توصيل للعملاء.', desc_en:'Digital menu, table ordering, kitchen accounts, and a customer delivery app.'},
-  {icon:'🏢', cat_ar:'ERP', cat_en:'ERP', cat_key:'erp', title_ar:'نظام ERP لشركة تجارية', title_en:'ERP for a Trading Company', desc_ar:'محاسبة، مشتريات، مبيعات، مخازن، موارد بشرية في منصة واحدة متكاملة.', desc_en:'Accounting, procurement, sales, warehousing, and HR — all on one integrated platform.'},
-  {icon:'📱', cat_ar:'تطبيق موبايل', cat_en:'Mobile App', cat_key:'app', title_ar:'تطبيق توصيل طلبات', title_en:'Order Delivery App', desc_ar:'تطبيق Android وiOS لتتبع الطلبات والدفع الإلكتروني وإشعارات فورية.', desc_en:'Android & iOS app for order tracking, online payments, and instant notifications.'},
-  {icon:'🏪', cat_ar:'متجر إلكتروني', cat_en:'E-Commerce', cat_key:'market', title_ar:'متجر أونلاين متكامل', title_en:'Full Online Store', desc_ar:'موقع تسوق إلكتروني مع بوابة دفع، إدارة مخزون، وربط بنظام الكاشير.', desc_en:'An e-commerce site with payment gateway, inventory management, and POS integration.'},
-  {icon:'📊', cat_ar:'تقارير وتحليلات', cat_en:'Reports & Analytics', cat_key:'erp', title_ar:'لوحة تحكم تحليلية', title_en:'Analytics Dashboard', desc_ar:'داشبورد تفاعلي بتقارير مبيعات وأرباح وأداء الفروع بلحظة واحدة.', desc_en:'Interactive dashboard with real-time sales, profit, and branch-performance reports.'},
-];
-
-const clientsData = [
-  {icon:'🛒', name_ar:'سوبر ماركت النيل', name_en:'Nile Supermarket', type_ar:'متجر تجزئة', type_en:'Retail Store'},
-  {icon:'☕', name_ar:'كافيه الأصدقاء', name_en:'Friends Café', type_ar:'مطعم وكافيه', type_en:'Restaurant & Café'},
-  {icon:'🏭', name_ar:'مصنع الأمل', name_en:'Al-Amal Factory', type_ar:'صناعة وتصنيع', type_en:'Manufacturing'},
-  {icon:'🏥', name_ar:'عيادة الرعاية', name_en:'Care Clinic', type_ar:'قطاع صحي', type_en:'Healthcare'},
-  {icon:'🏗️', name_ar:'شركة البناء', name_en:'Build Co.', type_ar:'مقاولات', type_en:'Construction'},
-  {icon:'📚', name_ar:'مدرسة المستقبل', name_en:'Future School', type_ar:'تعليم', type_en:'Education'},
-];
-
-const testimonialsData = [
-  {text_ar:'نظام السوبر ماركت اللي عملوه غيّر طريقة شغلنا كلياً — الكاشير والمخزون والتقارير كلها في مكان واحد.', text_en:'The supermarket system they built completely changed how we work — POS, inventory, and reports all in one place.', name_ar:'أحمد محمد', name_en:'Ahmed Mohamed', role_ar:'صاحب سوبر ماركت النيل', role_en:'Owner, Nile Supermarket', init:'A'},
-  {text_ar:'تطبيق التوصيل اللي بنوه لكافيهاتنا زاد مبيعاتنا 40% في أول شهر. فريق محترف وملتزم.', text_en:'The delivery app they built for our café increased our sales by 40% in the first month. A professional, committed team.', name_ar:'سارة علي', name_en:'Sara Ali', role_ar:'مديرة كافيه الأصدقاء', role_en:'Manager, Friends Café', init:'S'},
-  {text_ar:'نظام ERP المتكامل وفّر علينا ساعات من العمل اليومي ومنحنا رؤية واضحة لكل أوجه الشركة.', text_en:'The integrated ERP saved us hours of daily work and gave us a clear view across every part of the company.', name_ar:'محمود حسن', name_en:'Mahmoud Hassan', role_ar:'مدير مصنع الأمل', role_en:'Director, Al-Amal Factory', init:'M'},
-];
-
-const featuresData = [
-  {icon:'🎯', title_ar:'حلول مخصصة 100%', title_en:'100% Custom Solutions', desc_ar:'كل مشروع بنبنيه من الصفر حسب احتياجات عميلنا — مش قوالب جاهزة.', desc_en:"Every project is built from scratch around our client's needs — never off-the-shelf templates."},
-  {icon:'⚡', title_ar:'تسليم سريع وموثوق', title_en:'Fast & Reliable Delivery', desc_ar:'نلتزم بالمواعيد ونسلم المشاريع في الوقت المحدد مع ضمان الجودة.', desc_en:'We keep our deadlines and deliver projects on time without compromising on quality.'},
-  {icon:'🛡️', title_ar:'دعم ما بعد التسليم', title_en:'Post-Launch Support', desc_ar:'دعم فني مستمر وتحديثات مجانية لمدة سنة كاملة بعد تسليم المشروع.', desc_en:'Continuous technical support and free updates for a full year after launch.'},
-];
-
-// ============ LOGIN ============
-function doLogin(){
-  const v = document.getElementById('pwd-input').value;
-  if(v === PASS){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').style.display='block';
-    buildAllSections();
-  } else {
-    document.getElementById('login-err').style.display='block';
-    document.getElementById('pwd-input').value='';
-  }
-}
-function logout(){
-  document.getElementById('login-screen').style.display='flex';
-  document.getElementById('app').style.display='none';
-  document.getElementById('pwd-input').value='';
-}
-
-// ============ NAV ============
-const pageTitles = {hero:'الهيرو',stats:'الإحصائيات',services:'الخدمات',portfolio:'الأعمال',about:'من نحن',clients:'العملاء',testimonials:'الشهادات',contact:'التواصل',footer:'الفوتر',export:'تحميل الملف'};
-
-function goTo(name, el){
-  document.querySelectorAll('.section-page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  if(el) el.classList.add('active');
-  else {
-    document.querySelectorAll('.nav-item').forEach(n=>{
-      if(n.getAttribute('onclick')?.includes("'"+name+"'")) n.classList.add('active');
-    });
-  }
-  document.getElementById('page-title').textContent = pageTitles[name]||'';
-}
-
-// ============ BUILD SECTIONS ============
-function buildAllSections(){
-  buildStats();
-  buildRepeat('services-container', servicesData, [
-    {type:'row',fields:[{label:'العنوان عربي',key:'ar',ar:true},{label:'Title EN',key:'en'}]},
-    {type:'row',fields:[{label:'الوصف عربي',key:'desc_ar',ar:true,ta:true},{label:'Description EN',key:'desc_en',ta:true}]},
-  ]);
-  buildRepeat('portfolio-container', portfolioData, [
-    {type:'row',fields:[{label:'التصنيف AR',key:'cat_ar',ar:true},{label:'Category EN',key:'cat_en'}]},
-    {type:'row',fields:[{label:'العنوان AR',key:'title_ar',ar:true},{label:'Title EN',key:'title_en'}]},
-    {type:'row',fields:[{label:'الوصف AR',key:'desc_ar',ar:true,ta:true},{label:'Description EN',key:'desc_en',ta:true}]},
-  ]);
-  buildRepeat('clients-container', clientsData, [
-    {type:'row',fields:[{label:'الاسم AR',key:'name_ar',ar:true},{label:'Name EN',key:'name_en'}]},
-    {type:'row',fields:[{label:'النوع AR',key:'type_ar',ar:true},{label:'Type EN',key:'type_en'}]},
-  ]);
-  buildRepeat('testimonials-container', testimonialsData, [
-    {type:'row',fields:[{label:'الشهادة AR',key:'text_ar',ar:true,ta:true},{label:'Testimonial EN',key:'text_en',ta:true}]},
-    {type:'row',fields:[{label:'الاسم AR',key:'name_ar',ar:true},{label:'Name EN',key:'name_en'}]},
-    {type:'row',fields:[{label:'الوظيفة AR',key:'role_ar',ar:true},{label:'Role EN',key:'role_en'}]},
-  ]);
-  buildRepeat('features-container', featuresData, [
-    {type:'row',fields:[{label:'العنوان AR',key:'title_ar',ar:true},{label:'Title EN',key:'title_en'}]},
-    {type:'row',fields:[{label:'الوصف AR',key:'desc_ar',ar:true,ta:true},{label:'Description EN',key:'desc_en',ta:true}]},
-  ]);
-}
-
-function buildStats(){
-  const c = document.getElementById('stats-container');
-  statsData.forEach((s,i)=>{
-    c.innerHTML += `
-    <div class="repeat-item">
-      <div class="repeat-header"><div class="repeat-num">${i+1}</div><div class="repeat-label">${s.ar}</div></div>
-      <div class="field-row triple">
-        <div class="field"><label>الرقم</label><input type="number" id="stat_num_${i}" value="${s.num}"></div>
-        <div class="field"><label>اللاحقة (suffix)</label><input type="text" id="stat_suf_${i}" value="${s.suffix}"></div>
-        <div class="field"></div>
-      </div>
-      <div class="field-row">
-        <div class="field"><label><span class="lang-badge">AR</span> التسمية</label><input type="text" id="stat_ar_${i}" value="${s.ar}"></div>
-        <div class="field"><label><span class="lang-badge en">EN</span> Label</label><input type="text" id="stat_en_${i}" value="${s.en}"></div>
-      </div>
-    </div>`;
-  });
-}
-
-function buildRepeat(containerId, data, rows){
-  const c = document.getElementById(containerId);
-  data.forEach((item, i)=>{
-    let html = `<div class="card repeat-item">
-      <div class="repeat-header">
-        <div class="repeat-num">${i+1}</div>
-        <div class="repeat-label">${item.icon||''} ${item.ar||item.name_ar||item.title_ar||''}</div>
-      </div>`;
-    rows.forEach(row=>{
-      html += `<div class="field-row">`;
-      row.fields.forEach(f=>{
-        const id = `${containerId}_${i}_${f.key}`;
-        const val = (item[f.key]||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-        const badge = f.ar ? `<span class="lang-badge">AR</span>` : `<span class="lang-badge en">EN</span>`;
-        html += `<div class="field"><label>${badge} ${f.label}</label>`;
-        if(f.ta) html += `<textarea id="${id}">${item[f.key]||''}</textarea>`;
-        else html += `<input type="text" id="${id}" value="${val}">`;
-        html += `</div>`;
-      });
-      html += `</div>`;
-    });
-    html += `</div>`;
-    c.innerHTML += html;
-  });
-}
-
-// ============ HELPERS ============
-function g(id){ return document.getElementById(id)?.value || ''; }
-function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-function toast(msg, err=false){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = err ? 'show err' : 'show';
-  setTimeout(()=>t.className='', 3000);
-}
-
-// ============ GENERATE HTML ============
-function generateAndDownload(){
-  toast('⏳ جاري توليد الملف...');
-
-  const d = {
-    hero_badge_ar: g('hero_badge_ar'), hero_badge_en: g('hero_badge_en'),
-    hero_h1_ar: g('hero_h1_ar'), hero_h1_en: g('hero_h1_en'),
-    hero_h2_ar: g('hero_h2_ar'), hero_h2_en: g('hero_h2_en'),
-    hero_desc_ar: g('hero_desc_ar'), hero_desc_en: g('hero_desc_en'),
-    fc1_val: g('fc1_val'), fc2_val: g('fc2_val'), fc3_val: g('fc3_val'),
-    fc1_sub_ar: g('fc1_sub_ar'), fc2_sub_ar: g('fc2_sub_ar'), fc3_sub_ar: g('fc3_sub_ar'),
-    about_h_ar: g('about_h_ar'), about_h_en: g('about_h_en'),
-    about_desc_ar: g('about_desc_ar'), about_desc_en: g('about_desc_en'),
-    contact_phone: g('contact_phone'), contact_email: g('contact_email'),
-    contact_loc_ar: g('contact_loc_ar'), contact_loc_en: g('contact_loc_en'),
-    contact_hours_ar: g('contact_hours_ar'), contact_hours_en: g('contact_hours_en'),
-    footer_desc_ar: g('footer_desc_ar'), footer_desc_en: g('footer_desc_en'),
-    social_fb: g('social_fb'), social_ig: g('social_ig'), social_li: g('social_li'), social_tw: g('social_tw'),
-    footer_copy_ar: g('footer_copy_ar'), footer_copy_en: g('footer_copy_en'),
-  };
-
-  // Stats
-  const stats = statsData.map((_,i)=>({
-    num: g(`stat_num_${i}`), suffix: g(`stat_suf_${i}`),
-    ar: g(`stat_ar_${i}`), en: g(`stat_en_${i}`)
-  }));
-
-  // Services
-  const services = servicesData.map((_,i)=>({
-    icon: servicesData[i].icon,
-    ar: g(`services-container_${i}_ar`), en: g(`services-container_${i}_en`),
-    desc_ar: g(`services-container_${i}_desc_ar`), desc_en: g(`services-container_${i}_desc_en`),
-    tags: servicesData[i].tags||[]
-  }));
-
-  // Portfolio
-  const portfolio = portfolioData.map((_,i)=>({
-    icon: portfolioData[i].icon, cat_key: portfolioData[i].cat_key,
-    cat_ar: g(`portfolio-container_${i}_cat_ar`), cat_en: g(`portfolio-container_${i}_cat_en`),
-    title_ar: g(`portfolio-container_${i}_title_ar`), title_en: g(`portfolio-container_${i}_title_en`),
-    desc_ar: g(`portfolio-container_${i}_desc_ar`), desc_en: g(`portfolio-container_${i}_desc_en`),
-  }));
-
-  // Clients
-  const clients = clientsData.map((_,i)=>({
-    icon: clientsData[i].icon,
-    name_ar: g(`clients-container_${i}_name_ar`), name_en: g(`clients-container_${i}_name_en`),
-    type_ar: g(`clients-container_${i}_type_ar`), type_en: g(`clients-container_${i}_type_en`),
-  }));
-
-  // Testimonials
-  const testimonials = testimonialsData.map((_,i)=>({
-    init: testimonialsData[i].init,
-    text_ar: g(`testimonials-container_${i}_text_ar`), text_en: g(`testimonials-container_${i}_text_en`),
-    name_ar: g(`testimonials-container_${i}_name_ar`), name_en: g(`testimonials-container_${i}_name_en`),
-    role_ar: g(`testimonials-container_${i}_role_ar`), role_en: g(`testimonials-container_${i}_role_en`),
-  }));
-
-  // Features
-  const features = featuresData.map((_,i)=>({
-    icon: featuresData[i].icon,
-    title_ar: g(`features-container_${i}_title_ar`), title_en: g(`features-container_${i}_title_en`),
-    desc_ar: g(`features-container_${i}_desc_ar`), desc_en: g(`features-container_${i}_desc_en`),
-  }));
-
-  const html = buildHTML(d, stats, services, portfolio, clients, testimonials, features);
-  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'index.html'; a.click();
-  URL.revokeObjectURL(url);
-  setTimeout(()=>toast('✅ تم تحميل index.html بنجاح!'), 500);
-}
-
-// ============ BUILD OUTPUT HTML ============
-function buildHTML(d, stats, services, portfolio, clients, testimonials, features){
-
-const svcCards = services.map(s=>`
-    <div class="service-card reveal" data-tilt="">
-      <div class="sc-icon">${s.icon}</div>
-      <div class="sc-title"><span class="lang-ar">${s.ar}</span><span class="lang-en">${s.en}</span></div>
-      <div class="sc-desc"><span class="lang-ar">${s.desc_ar}</span><span class="lang-en">${s.desc_en}</span></div>
-    </div>`).join('\n');
-
-const catThumb = {market:'pc-thumb-supermarket', cafe:'pc-thumb-cafe', erp:'pc-thumb-erp', app:'pc-thumb-app'};
-const pfCards = portfolio.map(p=>`
-    <div class="portfolio-card reveal" data-cat="${p.cat_key}">
-      <div class="pc-thumb ${catThumb[p.cat_key]||'pc-thumb-erp'}"><span class="pc-thumb-icon">${p.icon}</span>
-        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
-      </div>
-      <div class="pc-body">
-        <div class="pc-cat"><span class="lang-ar">${p.cat_ar}</span><span class="lang-en">${p.cat_en}</span></div>
-        <div class="pc-title"><span class="lang-ar">${p.title_ar}</span><span class="lang-en">${p.title_en}</span></div>
-        <div class="pc-desc"><span class="lang-ar">${p.desc_ar}</span><span class="lang-en">${p.desc_en}</span></div>
-      </div>
-    </div>`).join('\n');
-
-const clientCards = clients.map(c=>`
-    <div class="client-card reveal"><span class="cc-icon">${c.icon}</span><div class="cc-name"><span class="lang-ar">${c.name_ar}</span><span class="lang-en">${c.name_en}</span></div><div class="cc-type"><span class="lang-ar">${c.type_ar}</span><span class="lang-en">${c.type_en}</span></div></div>`).join('\n');
-
-const testCards = testimonials.map(t=>`
-      <div class="test-card reveal">
-        <div class="stars">★★★★★</div>
-        <div class="test-text"><span class="lang-ar">"${t.text_ar}"</span><span class="lang-en">"${t.text_en}"</span></div>
-        <div class="test-author"><div class="ta-avatar">${t.init}</div><div><div class="ta-name"><span class="lang-ar">${t.name_ar}</span><span class="lang-en">${t.name_en}</span></div><div class="ta-role"><span class="lang-ar">${t.role_ar}</span><span class="lang-en">${t.role_en}</span></div></div></div>
-      </div>`).join('\n');
-
-const featItems = features.map(f=>`
-        <div class="af-item">
-          <div class="af-icon">${f.icon}</div>
-          <div>
-            <div class="af-title"><span class="lang-ar">${f.title_ar}</span><span class="lang-en">${f.title_en}</span></div>
-            <div class="af-desc"><span class="lang-ar">${f.desc_ar}</span><span class="lang-en">${f.desc_en}</span></div>
-          </div>
-        </div>`).join('\n');
-
-const statDivs = stats.map(s=>`
-  <div class="stat reveal">
-    <span class="stat-num" data-target="${s.num}" data-suffix="${s.suffix}">0</span>
-    <span class="stat-label"><span class="lang-ar">${s.ar}</span><span class="lang-en">${s.en}</span></span>
-  </div>`).join('\n');
-
-// Read the original file's CSS and scripts by embedding them directly
-// We'll produce a complete HTML file that mirrors the original structure
-return `<!DOCTYPE html>
 <html lang="ar" dir="rtl"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Solution Technology</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&family=Playfair+Display:ital,wght@1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&amp;family=Inter:wght@300;400;500;600;700;800;900&amp;family=Orbitron:wght@400;700;900&amp;family=Playfair+Display:ital,wght@1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
 <style>
 :root {
   --navy:    #050d1a;
@@ -825,10 +21,21 @@ return `<!DOCTYPE html>
   --font-ar: 'Tajawal', sans-serif;
   --font-en: 'Inter', sans-serif;
 }
+
 *{margin:0;padding:0;box-sizing:border-box;}
+
 html{scroll-behavior:smooth;}
-body{font-family:var(--font-ar);background:var(--navy);color:var(--white);overflow-x:hidden;cursor:none;}
+
+body{
+  font-family:var(--font-ar);
+  background:var(--navy);
+  color:var(--white);
+  overflow-x:hidden;
+  cursor:none;
+}
 html[lang="en"] body{font-family:var(--font-en);}
+
+/* LANGUAGE TOGGLE */
 .lang-ar,.lang-en{display:none;}
 html[lang="ar"] .lang-ar{display:inline;}
 html[lang="en"] .lang-en{display:inline;}
@@ -838,218 +45,911 @@ html[lang="ar"] .lang-ar-flex{display:flex;}
 html[lang="en"] .lang-en-flex{display:flex;}
 html[lang="ar"] .lang-ar-inline-flex{display:inline-flex;}
 html[lang="en"] .lang-en-inline-flex{display:inline-flex;}
-.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));z-index:10000;transition:width .1s linear;box-shadow:0 0 10px var(--gold);}
-.cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s,background .25s;mix-blend-mode:difference;will-change:left,top;}
-.cursor-ring{position:fixed;width:38px;height:38px;border:1.5px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),opacity .3s,border-color .3s;opacity:.55;will-change:left,top;}
+
+/* SCROLL PROGRESS BAR */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));
+  z-index:10000;transition:width .1s linear;
+  box-shadow:0 0 10px var(--gold);
+}
+
+/* CUSTOM CURSOR */
+.cursor{
+  position:fixed;width:10px;height:10px;
+  background:var(--gold);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .25s,height .25s,opacity .25s,background .25s;
+  mix-blend-mode:difference;
+  will-change:left,top;
+}
+.cursor-ring{
+  position:fixed;width:38px;height:38px;
+  border:1.5px solid var(--gold);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),opacity .3s,border-color .3s;
+  opacity:.55;
+  will-change:left,top;
+}
 .cursor.hover{width:0;height:0;opacity:0;}
 .cursor-ring.hover{width:68px;height:68px;border-color:var(--gold2);opacity:.9;background:rgba(201,168,76,.05);}
-@media(hover:none),(max-width:900px){body{cursor:auto;}.cursor,.cursor-ring{display:none;}a,button,select{cursor:pointer!important;}}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,transparent 100%);}
-.particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,13,26,.7);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);transition:all .35s ease;}
-nav.scrolled{height:64px;background:rgba(5,13,26,.92);box-shadow:0 8px 40px rgba(0,0,0,.5);}
-.logo{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--gold);letter-spacing:2px;display:flex;align-items:center;gap:10px;}
-.logo-icon{width:48px;height:48px;background:radial-gradient(circle at 30% 25%, rgba(255,255,255,.35) 0%, transparent 50%),linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold) 100%);border-radius:13px;display:flex;align-items:center;justify-content:center;color:var(--navy);box-shadow:0 10px 30px rgba(201,168,76,.4),0 0 0 1px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -3px 8px rgba(0,0,0,.18);position:relative;overflow:hidden;transition:transform .45s cubic-bezier(.2,.8,.2,1);}
+
+@media(hover:none),(max-width:900px){
+  body{cursor:auto;}
+  .cursor,.cursor-ring{display:none;}
+  a,button,select{cursor:pointer!important;}
+}
+
+/* GRID PATTERN */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;z-index:0;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,transparent 100%);
+}
+
+/* PARTICLE CANVAS */
+.particles{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 5%;
+  height:72px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,13,26,.7);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  transition:all .35s ease;
+}
+nav.scrolled{
+  height:64px;
+  background:rgba(5,13,26,.92);
+  box-shadow:0 8px 40px rgba(0,0,0,.5);
+}
+
+.logo{
+  font-family:'Orbitron',sans-serif;
+  font-size:18px;font-weight:900;
+  color:var(--gold);
+  letter-spacing:2px;
+  display:flex;align-items:center;gap:10px;
+}
+.logo-icon{
+  width:48px;height:48px;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,.35) 0%, transparent 50%),
+    linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold) 100%);
+  border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--navy);
+  box-shadow:
+    0 10px 30px rgba(201,168,76,.4),
+    0 0 0 1px rgba(255,255,255,.12),
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -3px 8px rgba(0,0,0,.18);
+  position:relative;overflow:hidden;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1);
+}
 .logo:hover .logo-icon{transform:rotate(-5deg) scale(1.06);}
-.logo-icon::before{content:'';position:absolute;inset:3px;border-radius:10px;border:1px solid rgba(5,13,26,.18);pointer-events:none;z-index:1;}
-.ss-mono{font-family:'Playfair Display', Georgia, serif;font-weight:900;font-style:italic;font-size:32px;line-height:1;position:relative;display:inline-flex;align-items:baseline;z-index:2;filter:drop-shadow(0 1px 0 rgba(255,255,255,.45));margin-top:2px;}
-.ss-mono .ss-1{background:linear-gradient(165deg,#1a3a6e 0%,#0a1628 35%,#050d1a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent;display:inline-block;position:relative;z-index:3;}
-.logo-icon::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-100%);animation:shine 3.5s ease-in-out infinite;z-index:4;pointer-events:none;}
-@keyframes shine{0%,60%{transform:translateX(-100%);}80%,100%{transform:translateX(100%);}}
+
+/* Decorative inner frame */
+.logo-icon::before{
+  content:'';position:absolute;inset:3px;
+  border-radius:10px;
+  border:1px solid rgba(5,13,26,.18);
+  pointer-events:none;
+  z-index:1;
+}
+
+/* Elegant S monogram */
+.ss-mono{
+  font-family:'Playfair Display', Georgia, serif;
+  font-weight:900;
+  font-style:italic;
+  font-size:32px;
+  line-height:1;
+  position:relative;
+  display:inline-flex;
+  align-items:baseline;
+  z-index:2;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.45));
+  margin-top:2px;
+}
+.ss-mono .ss-1{
+  background:linear-gradient(165deg,#1a3a6e 0%,#0a1628 35%,#050d1a 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  color:transparent;
+  display:inline-block;
+  position:relative;
+  z-index:3;
+}
+.logo-icon::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
+  transform:translateX(-100%);
+  animation:shine 3.5s ease-in-out infinite;
+  z-index:4;pointer-events:none;
+}
+@keyframes shine{
+  0%,60%{transform:translateX(-100%);}
+  80%,100%{transform:translateX(100%);}
+}
 .logo span{color:var(--white);font-size:13px;display:block;font-weight:400;letter-spacing:4px;opacity:.7;}
-.nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
-.nav-links a{color:var(--gray);font-size:14px;font-weight:500;text-decoration:none;transition:color .25s;position:relative;letter-spacing:.5px;}
-.nav-links a::after{content:'';position:absolute;bottom:-6px;left:50%;width:0;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:all .35s ease;transform:translateX(-50%);}
+
+.nav-links{
+  display:flex;align-items:center;gap:28px;
+  list-style:none;
+}
+.nav-links a{
+  color:var(--gray);font-size:14px;font-weight:500;
+  text-decoration:none;
+  transition:color .25s;
+  position:relative;letter-spacing:.5px;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-6px;left:50%;
+  width:0;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--gold2));
+  transition:all .35s ease;
+  transform:translateX(-50%);
+}
 .nav-links a:hover{color:var(--gold);}
 .nav-links a:hover::after{width:100%;}
-.nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy)!important;padding:9px 22px;border-radius:8px;font-weight:700!important;box-shadow:0 0 20px var(--glow);transition:all .3s cubic-bezier(.2,.8,.2,1)!important;position:relative;overflow:hidden;}
-.nav-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold2),var(--gold3));opacity:0;transition:opacity .3s;}
+
+.nav-cta{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy)!important;
+  padding:9px 22px;border-radius:8px;
+  font-weight:700!important;
+  box-shadow:0 0 20px var(--glow);
+  transition:all .3s cubic-bezier(.2,.8,.2,1)!important;
+  position:relative;overflow:hidden;
+}
+.nav-cta::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  opacity:0;transition:opacity .3s;
+}
 .nav-cta span{position:relative;z-index:1;}
 .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,.5)!important;}
 .nav-cta:hover::before{opacity:1;}
 .nav-cta::after{display:none!important;}
-.lang-switch{display:flex;align-items:center;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:30px;padding:3px;position:relative;cursor:none;font-family:'Orbitron',sans-serif;}
-.lang-switch button{background:none;border:none;color:var(--gray);padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:1px;cursor:none;border-radius:20px;transition:color .3s;position:relative;z-index:1;}
+
+/* LANG SWITCH */
+.lang-switch{
+  display:flex;align-items:center;
+  background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.25);
+  border-radius:30px;padding:3px;
+  position:relative;cursor:none;
+  font-family:'Orbitron',sans-serif;
+}
+.lang-switch button{
+  background:none;border:none;
+  color:var(--gray);
+  padding:6px 14px;font-size:11px;font-weight:700;
+  letter-spacing:1px;cursor:none;
+  border-radius:20px;
+  transition:color .3s;
+  position:relative;z-index:1;
+}
 .lang-switch button.active{color:var(--navy);}
-.lang-switch::after{content:'';position:absolute;top:3px;width:calc(50% - 3px);height:calc(100% - 6px);background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:20px;transition:transform .35s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 12px var(--glow);}
+.lang-switch::after{
+  content:'';position:absolute;
+  top:3px;width:calc(50% - 3px);height:calc(100% - 6px);
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-radius:20px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 0 12px var(--glow);
+}
 html[lang="ar"] .lang-switch::after{transform:translateX(0);right:3px;}
 html[lang="en"] .lang-switch::after{transform:translateX(0);left:3px;}
 html[lang="ar"] .lang-switch button[data-lang="ar"]{color:var(--navy);}
 html[lang="en"] .lang-switch button[data-lang="en"]{color:var(--navy);}
 html[lang="ar"] .lang-switch button[data-lang="en"]{color:var(--gray);}
 html[lang="en"] .lang-switch button[data-lang="ar"]{color:var(--gray);}
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 5% 80px;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%, rgba(26,58,110,.5) 0%, transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,.08) 0%, transparent 60%),radial-gradient(ellipse 60% 80% at 80% 20%, rgba(10,22,40,.8) 0%, transparent 60%);}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:float 10s ease-in-out infinite;will-change:transform;}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  padding:120px 5% 80px;
+}
+
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(26,58,110,.5) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(10,22,40,.8) 0%, transparent 60%);
+}
+
+/* Animated orbs */
+.orb{
+  position:absolute;border-radius:50%;filter:blur(80px);
+  animation:float 10s ease-in-out infinite;
+  will-change:transform;
+}
 .orb1{width:450px;height:450px;background:rgba(26,58,110,.5);top:-100px;right:-100px;animation-delay:0s;}
 .orb2{width:320px;height:320px;background:rgba(201,168,76,.08);bottom:10%;left:5%;animation-delay:3s;}
 .orb3{width:220px;height:220px;background:rgba(26,58,110,.35);top:40%;right:20%;animation-delay:6s;}
-@keyframes float{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(20px,-30px) scale(1.05);}66%{transform:translate(-15px,15px) scale(.97);}}
-.hero-content{position:relative;z-index:1;max-width:720px;}
+
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(20px,-30px) scale(1.05);}
+  66%{transform:translate(-15px,15px) scale(.97);}
+}
+
+.hero-content{
+  position:relative;z-index:2;
+  max-width:48%;
+}
+html[lang="ar"] .hero{justify-content:flex-end;}
+html[lang="ar"] .hero-content{margin-left:auto;margin-right:0;}
 html[lang="en"] .hero{justify-content:flex-start;}
-html[lang="en"] .hero-content{margin-right:auto;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:30px;padding:7px 18px;font-size:12px;color:var(--gold2);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;animation:fadeUp .8s ease both;backdrop-filter:blur(10px);position:relative;overflow:hidden;}
+html[lang="en"] .hero-content{margin-right:auto;margin-left:0;}
+@media(max-width:900px){
+  html[lang="ar"] .hero,
+  html[lang="en"] .hero{
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:right;
+  }
+  html[lang="en"] .hero{text-align:left;}
+  .hero-content{
+    max-width:100% !important;
+    margin:0 !important;
+    width:100%;
+  }
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:30px;padding:7px 18px;
+  font-size:12px;color:var(--gold2);
+  letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:28px;
+  animation:fadeUp .8s ease both;
+  backdrop-filter:blur(10px);
+  position:relative;overflow:hidden;
+}
+.hero-badge::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(201,168,76,.15) 50%,transparent 70%);
+  transform:translateX(-100%);
+  animation:shine 4s ease-in-out infinite;
+  animation-delay:1.5s;
+}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;box-shadow:0 0 10px var(--gold);}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(201,168,76,.6);}50%{opacity:.7;transform:scale(1.5);box-shadow:0 0 0 8px rgba(201,168,76,0);}}
-.hero h1{font-size:clamp(38px,6.2vw,76px);font-weight:900;line-height:1.1;margin-bottom:24px;animation:fadeUp .8s .15s ease both;}
-.hero h1 .line2{background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3),var(--gold2),var(--gold));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;animation:gradientShift 4s linear infinite;}
-@keyframes gradientShift{to{background-position:200% center;}}
-.hero p{font-size:18px;color:var(--gray);line-height:1.8;margin-bottom:40px;animation:fadeUp .8s .3s ease both;max-width:580px;}
-.hero-btns{display:flex;gap:16px;flex-wrap:wrap;animation:fadeUp .8s .45s ease both;}
-.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);padding:15px 32px;border-radius:12px;font-size:15px;font-weight:700;border:none;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:8px;box-shadow:0 0 30px rgba(201,168,76,.3),inset 0 1px 0 rgba(255,255,255,.3);transition:all .35s cubic-bezier(.2,.8,.2,1);position:relative;overflow:hidden;font-family:inherit;}
+
+.hero h1{
+  font-size:clamp(38px,6.2vw,76px);
+  font-weight:900;line-height:1.1;
+  margin-bottom:24px;
+  animation:fadeUp .8s .15s ease both;
+}
+.hero h1 .line2{
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3),var(--gold2),var(--gold));
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  display:block;
+  animation:gradientShift 4s linear infinite;
+}
+@keyframes gradientShift{
+  to{background-position:200% center;}
+}
+
+.hero p{
+  font-size:18px;color:var(--gray);line-height:1.8;
+  margin-bottom:40px;
+  animation:fadeUp .8s .3s ease both;
+  max-width:580px;
+}
+
+.hero-btns{
+  display:flex;gap:16px;flex-wrap:wrap;
+  animation:fadeUp .8s .45s ease both;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);padding:15px 32px;
+  border-radius:12px;font-size:15px;font-weight:700;
+  border:none;cursor:none;
+  text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 0 30px rgba(201,168,76,.3),inset 0 1px 0 rgba(255,255,255,.3);
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  position:relative;overflow:hidden;
+  font-family:inherit;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  opacity:0;transition:opacity .35s;
+}
 .btn-primary span{position:relative;z-index:1;}
 .btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 14px 45px rgba(201,168,76,.55);}
-.btn-secondary{background:rgba(201,168,76,.04);color:var(--gold);padding:15px 32px;border-radius:12px;font-size:15px;font-weight:700;border:1.5px solid rgba(201,168,76,.4);cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .35s cubic-bezier(.2,.8,.2,1);backdrop-filter:blur(10px);font-family:inherit;position:relative;overflow:hidden;}
+.btn-primary:hover::before{opacity:1;}
+
+.btn-secondary{
+  background:rgba(201,168,76,.04);
+  color:var(--gold);padding:15px 32px;
+  border-radius:12px;font-size:15px;font-weight:700;
+  border:1.5px solid rgba(201,168,76,.4);
+  cursor:none;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+  font-family:inherit;
+  position:relative;overflow:hidden;
+}
+.btn-secondary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));
+  opacity:0;transition:opacity .35s;
+}
 .btn-secondary span{position:relative;z-index:1;}
 .btn-secondary:hover{border-color:var(--gold);transform:translateY(-3px) scale(1.02);box-shadow:0 10px 30px rgba(201,168,76,.2);}
-.hero-visual{position:absolute;left:5%;top:50%;transform:translateY(-50%);width:min(480px,40vw);animation:fadeLeft .8s .3s ease both;}
-html[lang="en"] .hero-visual{left:auto;right:5%;animation:fadeRight .8s .3s ease both;}
-.float-card{background:rgba(10,22,40,.7);border:1px solid var(--border);border-radius:18px;padding:22px;backdrop-filter:blur(20px);position:absolute;box-shadow:0 25px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);transition:transform .4s cubic-bezier(.2,.8,.2,1);}
-.float-card:hover{transform:translateY(-6px) scale(1.04);border-color:rgba(201,168,76,.4);}
-.fc1{top:10%;right:0;width:230px;animation:floatCard 6s ease-in-out infinite;}
-.fc2{top:45%;left:0;width:210px;animation:floatCard 7s 2s ease-in-out infinite;}
-.fc3{bottom:10%;right:10%;width:200px;animation:floatCard 5s 4s ease-in-out infinite;}
-@keyframes floatCard{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+.btn-secondary:hover::before{opacity:1;}
+
+
+.hero-visual{
+  position:absolute;left:5%;top:50%;
+  transform:translateY(-50%);
+  width:min(380px,36vw);
+  height:480px;
+  z-index:1;
+}
+html[lang="ar"] .hero-visual{left:5%;right:auto;}
+html[lang="en"] .hero-visual{left:auto;right:5%;}
+
+@media(max-width:900px){
+  .hero-visual{
+    position:relative;
+    left:auto;right:auto;
+    top:auto;
+    transform:none;
+    width:100%;
+    height:auto;
+    display:flex;
+    flex-direction:row;
+    gap:10px;
+    margin-top:24px;
+  }
+  .fc1,.fc2,.fc3{
+    position:relative;
+    top:auto;bottom:auto;
+    left:auto;right:auto;
+    transform:none;
+    flex:1;
+    min-width:0;
+    width:auto;
+  }
+}
+/* Floating cards */
+.float-card{
+  background:rgba(10,22,40,.7);
+  border:1px solid var(--border);
+  border-radius:18px;padding:22px;
+  backdrop-filter:blur(20px);
+  position:absolute;
+  box-shadow:0 25px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:transform .4s cubic-bezier(.2,.8,.2,1);
+}
+.fc1{top:5%;right:0;width:200px;}
+.fc2{top:38%;left:0;width:190px;}
+.fc3{bottom:5%;right:10%;width:185px;}
+html[lang="en"] .fc1{top:5%;left:0;right:auto;}
+html[lang="en"] .fc2{top:38%;right:0;left:auto;}
+html[lang="en"] .fc3{bottom:5%;left:10%;right:auto;}
+
 .fc-title{font-size:10px;color:var(--gold);letter-spacing:1.5px;margin-bottom:10px;font-weight:700;font-family:'Orbitron',sans-serif;}
 .fc-val{font-size:30px;font-weight:900;color:var(--white);font-family:'Orbitron',sans-serif;}
 .fc-sub{font-size:11px;color:var(--gray);margin-top:4px;}
 .fc-bar{height:4px;background:rgba(201,168,76,.15);border-radius:2px;margin-top:12px;overflow:hidden;}
-.fc-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;animation:barFill 2s ease both;box-shadow:0 0 8px var(--gold);}
-@keyframes barFill{from{width:0;}to{width:var(--w,70%);}}
+.fc-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;box-shadow:0 0 8px var(--gold);width:var(--w,70%);}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeLeft{from{opacity:0;transform:translate(-30px,-50%);}to{opacity:1;transform:translate(0,-50%);}}
 @keyframes fadeRight{from{opacity:0;transform:translate(30px,-50%);}to{opacity:1;transform:translate(0,-50%);}}
-.stats{padding:60px 5%;border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);gap:40px;position:relative;z-index:1;background:linear-gradient(180deg,transparent,rgba(10,22,40,.4),transparent);}
+
+/* STATS */
+.stats{
+  padding:60px 5%;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:40px;position:relative;z-index:1;
+  background:linear-gradient(180deg,transparent,rgba(10,22,40,.4),transparent);
+}
 .stat{text-align:center;position:relative;}
-.stat:not(:last-child)::after{content:'';position:absolute;top:20%;height:60%;width:1px;background:linear-gradient(180deg,transparent,var(--border),transparent);}
+.stat:not(:last-child)::after{
+  content:'';position:absolute;top:20%;height:60%;width:1px;
+  background:linear-gradient(180deg,transparent,var(--border),transparent);
+}
 html[lang="ar"] .stat:not(:last-child)::after{left:-20px;}
 html[lang="en"] .stat:not(:last-child)::after{right:-20px;}
-.stat-num{font-family:'Orbitron',sans-serif;font-size:clamp(30px,4vw,52px);font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:8px;}
-.stat-label{font-size:14px;color:var(--gray);}
-section{padding:100px 5%;position:relative;z-index:1;}
-#services{background:var(--navy2);}
-.services-head{text-align:center;margin-bottom:56px;}
-.section-tag{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:18px;font-family:'Orbitron',sans-serif;font-weight:700;}
-.section-tag::before{content:'';width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
-.section-title{font-size:clamp(28px,4vw,48px);font-weight:900;line-height:1.15;margin-bottom:18px;}
-.section-title .accent{background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.section-sub{font-size:16px;color:var(--gray);line-height:1.75;max-width:580px;}
-.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;}
-.service-card{background:linear-gradient(180deg,rgba(15,32,64,.5),rgba(10,22,40,.5));border:1px solid var(--border);border-radius:22px;padding:34px;transition:all .4s cubic-bezier(.2,.8,.2,1);position:relative;overflow:hidden;backdrop-filter:blur(10px);}
-.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.06) 0%,transparent 60%);opacity:0;transition:opacity .4s;}
-.service-card:hover{transform:translateY(-8px);border-color:rgba(201,168,76,.4);box-shadow:0 30px 60px rgba(0,0,0,.4);}
+.stat-num{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(30px,4vw,52px);font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  display:block;margin-bottom:8px;
+  text-shadow:0 0 30px rgba(201,168,76,.2);
+}
+.stat-label{font-size:13px;color:var(--gray);letter-spacing:.5px;}
+
+/* SECTIONS COMMON */
+section{padding:110px 5%;position:relative;z-index:1;}
+.section-tag{
+  font-size:11px;color:var(--gold);letter-spacing:3px;
+  text-transform:uppercase;font-weight:700;
+  margin-bottom:18px;display:flex;align-items:center;gap:12px;
+  font-family:'Orbitron',sans-serif;
+}
+.section-tag::before{content:'';width:30px;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold));}
+.section-title{font-size:clamp(30px,4.2vw,52px);font-weight:900;line-height:1.15;margin-bottom:18px;}
+.section-title .accent{
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientShift 5s linear infinite;
+}
+.section-sub{font-size:16px;color:var(--gray);line-height:1.8;max-width:580px;}
+
+/* SERVICES */
+#services{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 50%,var(--navy) 100%);}
+.services-head{text-align:center;margin-bottom:64px;}
+.services-head .section-tag{justify-content:center;}
+.services-head .section-tag::before{content:none;}
+.services-head .section-sub{margin:0 auto;}
+
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
+  gap:24px;
+}
+
+.service-card{
+  background:linear-gradient(180deg,rgba(10,22,40,.6),rgba(10,22,40,.3));
+  border:1px solid var(--border);
+  border-radius:22px;padding:36px 32px;
+  position:relative;overflow:hidden;
+  transition:all .5s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+  transform-style:preserve-3d;
+}
+.service-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle 200px at var(--mx,50%) var(--my,50%),rgba(201,168,76,.12),transparent 60%);
+  opacity:0;transition:opacity .4s;
+  pointer-events:none;
+}
+.service-card::after{
+  content:'';position:absolute;inset:-1px;border-radius:22px;
+  background:linear-gradient(135deg,rgba(201,168,76,.5),transparent 30%,transparent 70%,rgba(201,168,76,.3));
+  opacity:0;transition:opacity .4s;
+  pointer-events:none;z-index:-1;
+}
+.service-card:hover{
+  transform:translateY(-10px);
+  border-color:rgba(201,168,76,.4);
+  box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 0 1px rgba(201,168,76,.2),inset 0 1px 0 rgba(255,255,255,.05);
+}
 .service-card:hover::before{opacity:1;}
-.sc-icon{font-size:42px;margin-bottom:20px;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1);}
-.service-card:hover .sc-icon{transform:scale(1.1) rotate(-5deg);}
-.sc-title{font-size:18px;font-weight:700;margin-bottom:14px;line-height:1.35;}
-.sc-desc{font-size:14px;color:var(--gray);line-height:1.75;margin-bottom:20px;}
+
+.sc-icon{
+  width:64px;height:64px;
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.05));
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;margin-bottom:24px;
+  transition:all .5s cubic-bezier(.2,.8,.2,1);
+  position:relative;
+}
+.service-card:hover .sc-icon{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  box-shadow:0 10px 30px rgba(201,168,76,.5),inset 0 1px 0 rgba(255,255,255,.4);
+  transform:rotate(-8deg) scale(1.08);
+}
+
+.sc-title{font-size:20px;font-weight:700;margin-bottom:12px;line-height:1.35;}
+.sc-desc{font-size:14px;color:var(--gray);line-height:1.8;margin-bottom:20px;}
 .sc-tags{display:flex;flex-wrap:wrap;gap:8px;}
-.sc-tag{font-size:11px;padding:5px 12px;border-radius:20px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);color:var(--gold2);font-family:'Orbitron',sans-serif;}
-#portfolio{background:var(--navy);}
-.portfolio-head{text-align:center;margin-bottom:48px;}
-.portfolio-filter{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:32px;}
-.pf-btn{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:30px;padding:9px 22px;color:var(--gray);font-size:13px;cursor:none;transition:all .3s cubic-bezier(.2,.8,.2,1);font-family:inherit;position:relative;overflow:hidden;}
-.pf-btn.active{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);border-color:transparent;font-weight:700;box-shadow:0 6px 20px rgba(201,168,76,.3);}
-.pf-btn:hover:not(.active){border-color:var(--gold);color:var(--gold);}
-.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-top:40px;}
-.portfolio-card{background:rgba(10,22,40,.6);border:1px solid var(--border);border-radius:22px;overflow:hidden;transition:all .4s cubic-bezier(.2,.8,.2,1);backdrop-filter:blur(10px);}
-.portfolio-card:hover{transform:translateY(-8px);border-color:rgba(201,168,76,.4);box-shadow:0 30px 60px rgba(0,0,0,.4);}
-.pc-thumb{height:200px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:64px;transition:transform .6s ease;}
+.sc-tag{
+  font-size:11px;color:var(--gold2);
+  background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.2);
+  border-radius:6px;padding:4px 10px;
+  transition:all .3s;
+}
+.service-card:hover .sc-tag{background:rgba(201,168,76,.14);border-color:rgba(201,168,76,.35);}
+
+/* PORTFOLIO */
+#portfolio{
+  background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);
+}
+.portfolio-head{margin-bottom:56px;}
+.portfolio-filter{
+  display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;
+}
+.pf-btn{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--gray);border-radius:10px;
+  padding:9px 22px;font-family:inherit;
+  font-size:13px;font-weight:500;
+  cursor:none;transition:all .35s cubic-bezier(.2,.8,.2,1);
+  position:relative;overflow:hidden;
+}
+.pf-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));
+  opacity:0;transition:opacity .3s;
+}
+.pf-btn span{position:relative;z-index:1;}
+.pf-btn.active,.pf-btn:hover{
+  border-color:var(--gold);color:var(--gold);
+  transform:translateY(-2px);
+}
+.pf-btn.active::before,.pf-btn:hover::before{opacity:1;}
+
+.portfolio-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:24px;margin-top:40px;
+}
+.portfolio-card{
+  background:rgba(10,22,40,.6);
+  border:1px solid var(--border);
+  border-radius:22px;overflow:hidden;
+  transition:all .5s cubic-bezier(.2,.8,.2,1);
+  position:relative;
+  backdrop-filter:blur(10px);
+}
+.portfolio-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(201,168,76,.4);
+  box-shadow:0 30px 60px rgba(0,0,0,.5);
+}
+
+.pc-thumb{
+  height:210px;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-size:64px;
+  transition:transform .6s ease;
+}
 .portfolio-card:hover .pc-thumb{transform:scale(1.05);}
+.pc-thumb::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 20% 20%,rgba(201,168,76,.1) 0%,transparent 40%),
+    radial-gradient(circle at 80% 80%,rgba(255,255,255,.05) 0%,transparent 40%);
+}
 .pc-thumb-supermarket{background:linear-gradient(135deg,#0f2040,#1a3a6e);}
 .pc-thumb-cafe{background:linear-gradient(135deg,#1a1206,#3d2b0f);}
 .pc-thumb-erp{background:linear-gradient(135deg,#060f20,#0a1e40);}
 .pc-thumb-app{background:linear-gradient(135deg,#0f1a30,#1a2d50);}
 .pc-thumb-icon{filter:drop-shadow(0 4px 20px rgba(201,168,76,.4));z-index:1;transition:transform .5s;}
 .portfolio-card:hover .pc-thumb-icon{transform:scale(1.15) rotate(-6deg);}
-.pc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,13,26,.95) 0%,rgba(5,13,26,.5) 50%,transparent 100%);opacity:0;transition:opacity .35s;display:flex;align-items:flex-end;padding:24px;}
+
+.pc-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(5,13,26,.95) 0%,rgba(5,13,26,.5) 50%,transparent 100%);
+  opacity:0;transition:opacity .35s;
+  display:flex;align-items:flex-end;padding:24px;
+}
 .portfolio-card:hover .pc-overlay{opacity:1;}
-.pc-link{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;cursor:none;box-shadow:0 4px 20px rgba(201,168,76,.4);transform:translateY(20px);transition:transform .35s cubic-bezier(.2,.8,.2,1);}
+.pc-link{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);
+  padding:10px 22px;border-radius:10px;
+  font-size:13px;font-weight:700;text-decoration:none;
+  cursor:none;
+  box-shadow:0 4px 20px rgba(201,168,76,.4);
+  transform:translateY(20px);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+}
 .portfolio-card:hover .pc-link{transform:translateY(0);}
+
 .pc-body{padding:26px;}
 .pc-cat{font-size:11px;color:var(--gold);letter-spacing:2px;margin-bottom:10px;font-family:'Orbitron',sans-serif;font-weight:700;}
 .pc-title{font-size:18px;font-weight:700;margin-bottom:10px;}
 .pc-desc{font-size:13px;color:var(--gray);line-height:1.7;}
+
+/* ABOUT */
 #about{background:var(--navy);}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+}
 .about-visual{position:relative;perspective:1000px;}
-.about-main-card{background:linear-gradient(180deg,rgba(15,32,64,.6),rgba(10,22,40,.6));border:1px solid var(--border);border-radius:26px;padding:42px;position:relative;box-shadow:0 50px 100px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);backdrop-filter:blur(20px);transition:transform .6s cubic-bezier(.2,.8,.2,1);}
+.about-main-card{
+  background:linear-gradient(180deg,rgba(15,32,64,.6),rgba(10,22,40,.6));
+  border:1px solid var(--border);
+  border-radius:26px;padding:42px;
+  position:relative;
+  box-shadow:0 50px 100px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter:blur(20px);
+  transition:transform .6s cubic-bezier(.2,.8,.2,1);
+}
 .about-main-card:hover{transform:rotateY(2deg) rotateX(-2deg);}
-.about-badge-float{position:absolute;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);border-radius:16px;padding:14px 20px;font-weight:700;font-size:13px;box-shadow:0 14px 40px rgba(201,168,76,.4);animation:floatCard 5s ease-in-out infinite;}
+.about-badge-float{
+  position:absolute;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);
+  border-radius:16px;padding:14px 20px;
+  font-weight:700;font-size:13px;
+  box-shadow:0 14px 40px rgba(201,168,76,.4);
+  animation:floatCard 5s ease-in-out infinite;
+}
 .abf1{top:-22px;left:-22px;animation-delay:0s;}
 .abf2{bottom:-22px;right:-22px;animation-delay:2.5s;}
+
 .tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;}
-.tech-item{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);border-radius:12px;padding:14px;text-align:center;font-size:12px;color:var(--gray);transition:all .35s cubic-bezier(.2,.8,.2,1);cursor:none;}
-.tech-item:hover{border-color:var(--gold);color:var(--gold2);background:rgba(201,168,76,.1);transform:translateY(-3px) scale(1.04);box-shadow:0 8px 20px rgba(201,168,76,.15);}
+.tech-item{
+  background:rgba(201,168,76,.05);
+  border:1px solid rgba(201,168,76,.15);
+  border-radius:12px;padding:14px;
+  text-align:center;font-size:12px;
+  color:var(--gray);transition:all .35s cubic-bezier(.2,.8,.2,1);
+  cursor:none;
+}
+.tech-item:hover{
+  border-color:var(--gold);color:var(--gold2);
+  background:rgba(201,168,76,.1);
+  transform:translateY(-3px) scale(1.04);
+  box-shadow:0 8px 20px rgba(201,168,76,.15);
+}
 .tech-item .ti{font-size:22px;margin-bottom:6px;display:block;transition:transform .4s;}
 .tech-item:hover .ti{transform:scale(1.2) rotate(-8deg);}
+
 .about-content .section-sub{margin-bottom:32px;}
 .about-features{display:flex;flex-direction:column;gap:18px;}
-.af-item{display:flex;gap:18px;align-items:flex-start;padding:22px;background:rgba(10,22,40,.5);border:1px solid var(--border);border-radius:16px;transition:all .35s cubic-bezier(.2,.8,.2,1);backdrop-filter:blur(10px);}
-.af-item:hover{border-color:rgba(201,168,76,.4);background:rgba(10,22,40,.75);box-shadow:0 14px 30px rgba(0,0,0,.3);}
+.af-item{
+  display:flex;gap:18px;align-items:flex-start;
+  padding:22px;
+  background:rgba(10,22,40,.5);
+  border:1px solid var(--border);
+  border-radius:16px;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+.af-item:hover{
+  border-color:rgba(201,168,76,.4);
+  background:rgba(10,22,40,.75);
+  box-shadow:0 14px 30px rgba(0,0,0,.3);
+}
 html[lang="ar"] .af-item:hover{transform:translateX(-6px);}
 html[lang="en"] .af-item:hover{transform:translateX(6px);}
-.af-icon{width:46px;height:46px;flex-shrink:0;background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.05));border:1px solid rgba(201,168,76,.3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;transition:all .4s;}
-.af-item:hover .af-icon{background:linear-gradient(135deg,var(--gold),var(--gold2));transform:rotate(-8deg);}
+.af-icon{
+  width:46px;height:46px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.05));
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  transition:all .4s;
+}
+.af-item:hover .af-icon{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  transform:rotate(-8deg);
+}
 .af-title{font-size:15px;font-weight:700;margin-bottom:5px;}
 .af-desc{font-size:13px;color:var(--gray);line-height:1.6;}
+
+/* CLIENTS */
 #clients{background:var(--navy2);}
 .clients-head{text-align:center;margin-bottom:56px;}
 .clients-head .section-tag{justify-content:center;}
 .clients-head .section-tag::before{content:none;}
 .clients-head .section-sub{margin:0 auto;}
-.clients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px;}
-.client-card{background:rgba(5,13,26,.6);border:1px solid var(--border);border-radius:18px;padding:30px 20px;text-align:center;transition:all .35s cubic-bezier(.2,.8,.2,1);backdrop-filter:blur(10px);}
-.client-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-6px) scale(1.03);box-shadow:0 16px 40px rgba(0,0,0,.4);background:rgba(5,13,26,.85);}
+.clients-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:20px;
+}
+.client-card{
+  background:rgba(5,13,26,.6);
+  border:1px solid var(--border);
+  border-radius:18px;padding:30px 20px;
+  text-align:center;transition:all .35s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+.client-card:hover{
+  border-color:rgba(201,168,76,.4);
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 16px 40px rgba(0,0,0,.4);
+  background:rgba(5,13,26,.85);
+}
 .cc-icon{font-size:38px;margin-bottom:14px;display:block;transition:transform .5s;}
 .client-card:hover .cc-icon{transform:scale(1.18) rotate(-10deg);}
 .cc-name{font-size:14px;font-weight:700;margin-bottom:4px;}
 .cc-type{font-size:12px;color:var(--gray);}
+
+/* TESTIMONIALS */
 .testimonials{padding:80px 5%;background:var(--navy);}
 .test-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px;margin-top:48px;}
-.test-card{background:linear-gradient(180deg,rgba(15,32,64,.5),rgba(10,22,40,.5));border:1px solid var(--border);border-radius:22px;padding:34px;transition:all .4s cubic-bezier(.2,.8,.2,1);backdrop-filter:blur(10px);position:relative;overflow:hidden;}
-.test-card::before{content:'"';position:absolute;top:-30px;font-size:180px;font-family:Georgia,serif;color:rgba(201,168,76,.06);line-height:1;pointer-events:none;}
+.test-card{
+  background:linear-gradient(180deg,rgba(15,32,64,.5),rgba(10,22,40,.5));
+  border:1px solid var(--border);
+  border-radius:22px;padding:34px;
+  transition:all .4s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+  position:relative;overflow:hidden;
+}
+.test-card::before{
+  content:'"';
+  position:absolute;top:-30px;font-size:180px;
+  font-family:Georgia,serif;color:rgba(201,168,76,.06);
+  line-height:1;pointer-events:none;
+}
 html[lang="ar"] .test-card::before{right:18px;}
 html[lang="en"] .test-card::before{left:18px;}
-.test-card:hover{border-color:rgba(201,168,76,.35);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.4);}
+.test-card:hover{
+  border-color:rgba(201,168,76,.35);
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
 .stars{color:var(--gold);font-size:14px;margin-bottom:16px;letter-spacing:2px;text-shadow:0 0 10px rgba(201,168,76,.3);}
 .test-text{font-size:14px;color:var(--gray);line-height:1.85;margin-bottom:22px;font-style:italic;position:relative;z-index:1;}
 .test-author{display:flex;align-items:center;gap:12px;}
-.ta-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--navy);font-weight:700;box-shadow:0 6px 20px rgba(201,168,76,.3);font-family:'Orbitron',sans-serif;}
+.ta-avatar{
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--navy);font-weight:700;
+  box-shadow:0 6px 20px rgba(201,168,76,.3);
+  font-family:'Orbitron',sans-serif;
+}
 .ta-name{font-size:14px;font-weight:700;}
 .ta-role{font-size:12px;color:var(--gray);}
-#contact{background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 50%,var(--navy) 100%);position:relative;}
-#contact::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 30% 30%,rgba(201,168,76,.08) 0%,transparent 40%);pointer-events:none;}
+
+/* CONTACT */
+#contact{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 50%,var(--navy) 100%);
+  position:relative;
+}
+#contact::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle at 30% 30%,rgba(201,168,76,.08) 0%,transparent 40%);
+  pointer-events:none;
+}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;position:relative;z-index:1;}
 .contact-info{display:flex;flex-direction:column;gap:18px;margin-top:32px;}
-.ci-item{display:flex;gap:16px;align-items:center;padding:20px 24px;background:rgba(10,22,40,.6);border:1px solid var(--border);border-radius:16px;transition:all .35s;backdrop-filter:blur(10px);}
-.ci-item:hover{border-color:rgba(201,168,76,.35);transform:translateX(-4px);}
-html[lang="en"] .ci-item:hover{transform:translateX(4px);}
-.ci-icon{font-size:24px;flex-shrink:0;}
-.ci-label{font-size:12px;color:var(--gray);margin-bottom:4px;}
+.ci-item{
+  display:flex;gap:16px;align-items:center;
+  padding:20px 24px;
+  background:rgba(10,22,40,.6);
+  border:1px solid var(--border);
+  border-radius:16px;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+.ci-item:hover{
+  border-color:rgba(201,168,76,.4);
+  background:rgba(10,22,40,.85);
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+.ci-icon{
+  width:50px;height:50px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-radius:14px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;color:var(--navy);
+  flex-shrink:0;
+  box-shadow:0 8px 20px rgba(201,168,76,.3);
+  transition:transform .4s;
+}
+.ci-item:hover .ci-icon{transform:rotate(-8deg) scale(1.05);}
+.ci-label{font-size:12px;color:var(--gray);margin-bottom:3px;}
 .ci-val{font-size:15px;font-weight:700;}
-.contact-form{background:rgba(10,22,40,.6);border:1px solid var(--border);border-radius:24px;padding:40px;backdrop-filter:blur(20px);}
-.form-title{font-size:18px;font-weight:700;margin-bottom:28px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+
+.contact-form{
+  background:linear-gradient(180deg,rgba(15,32,64,.6),rgba(10,22,40,.6));
+  border:1px solid var(--border);
+  border-radius:26px;padding:42px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 40px 80px rgba(0,0,0,.4);
+}
+.form-title{font-size:22px;font-weight:700;margin-bottom:28px;}
 .form-group{margin-bottom:20px;}
-.form-label{display:block;font-size:13px;color:var(--gray);margin-bottom:8px;font-weight:500;}
-.form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:13px 16px;color:var(--white);font-family:inherit;font-size:14px;transition:border-color .3s;}
-.form-input:focus{outline:none;border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.04);}
-.form-textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:13px 16px;color:var(--white);font-family:inherit;font-size:14px;min-height:120px;resize:vertical;transition:border-color .3s;}
-.form-textarea:focus{outline:none;border-color:rgba(201,168,76,.5);}
-.form-submit{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:none;font-family:inherit;transition:all .35s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 30px rgba(201,168,76,.25);}
-.form-submit:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(201,168,76,.5);}
-footer{background:var(--navy2);padding:70px 5% 30px;border-top:1px solid var(--border);}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:50px;margin-bottom:50px;}
-.footer-brand p{font-size:14px;color:var(--gray);line-height:1.8;margin-top:4px;}
-.footer-col h4{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:18px;letter-spacing:1.5px;font-family:'Orbitron',sans-serif;}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.footer-col ul a{color:var(--gray);font-size:14px;text-decoration:none;transition:color .25s;}
-.footer-col ul a:hover{color:var(--gold);}
-.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--gray);}
+.form-label{font-size:13px;color:var(--gray);margin-bottom:8px;display:block;}
+.form-input,.form-textarea{
+  width:100%;
+  background:rgba(5,13,26,.6);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 18px;
+  font-family:inherit;
+  font-size:14px;color:var(--white);
+  outline:none;transition:all .3s;
+}
+.form-input:focus,.form-textarea:focus{
+  border-color:var(--gold);
+  background:rgba(5,13,26,.85);
+  box-shadow:0 0 0 3px rgba(201,168,76,.1);
+}
+.form-textarea{resize:vertical;min-height:120px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-submit{
+  width:100%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);border:none;border-radius:12px;
+  padding:16px;font-family:inherit;
+  font-size:16px;font-weight:700;cursor:none;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 0 30px rgba(201,168,76,.2),inset 0 1px 0 rgba(255,255,255,.3);
+  position:relative;overflow:hidden;
+}
+.form-submit::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--gold2),var(--gold3));
+  opacity:0;transition:opacity .35s;
+}
+.form-submit span{position:relative;z-index:1;}
+.form-submit:hover{transform:translateY(-3px);box-shadow:0 14px 45px rgba(201,168,76,.5);}
+.form-submit:hover::before{opacity:1;}
+
+/* FOOTER */
+footer{
+  background:var(--navy2);
+  border-top:1px solid var(--border);
+  padding:60px 5% 30px;
+  position:relative;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:60px;margin-bottom:48px;
+}
+.footer-brand .logo{margin-bottom:16px;}
+.footer-brand p{font-size:13px;color:var(--gray);line-height:1.8;}
+.footer-col h4{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:20px;font-family:'Orbitron',sans-serif;letter-spacing:1px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.footer-col a{font-size:13px;color:var(--gray);text-decoration:none;transition:all .25s;display:inline-block;}
+.footer-col a:hover{color:var(--gold2);transform:translateX(4px);}
+html[lang="ar"] .footer-col a:hover{transform:translateX(-4px);}
+.footer-bottom{
+  border-top:1px solid var(--border);padding-top:24px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;color:var(--gray);flex-wrap:wrap;gap:12px;
+}
 .social-links{display:flex;gap:10px;}
-.social-link{width:38px;height:38px;border-radius:10px;background:rgba(201,168,76,.06);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;text-decoration:none;transition:all .35s cubic-bezier(.2,.8,.2,1);cursor:none;}
-.social-link:hover{background:linear-gradient(135deg,var(--gold),var(--gold2));border-color:var(--gold);transform:translateY(-4px) scale(1.05);box-shadow:0 8px 20px rgba(201,168,76,.3);}
+.social-link{
+  width:38px;height:38px;
+  background:rgba(201,168,76,.06);
+  border:1px solid rgba(201,168,76,.2);
+  border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:16px;
+  text-decoration:none;transition:all .35s cubic-bezier(.2,.8,.2,1);
+  cursor:none;
+}
+.social-link:hover{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-color:var(--gold);
+  transform:translateY(-4px) scale(1.05);
+  box-shadow:0 8px 20px rgba(201,168,76,.3);
+}
+
+/* SCROLL ANIMATIONS */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
 .reveal.visible{opacity:1;transform:translateY(0);}
 .reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
@@ -1058,21 +958,306 @@ footer{background:var(--navy2);padding:70px 5% 30px;border-top:1px solid var(--b
 .reveal-right.visible{opacity:1;transform:translateX(0);}
 .reveal-scale{opacity:0;transform:scale(.9);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
 .reveal-scale.visible{opacity:1;transform:scale(1);}
+
+/* Stagger delays */
 .services-grid .service-card:nth-child(1){transition-delay:.05s;}
 .services-grid .service-card:nth-child(2){transition-delay:.1s;}
 .services-grid .service-card:nth-child(3){transition-delay:.15s;}
 .services-grid .service-card:nth-child(4){transition-delay:.2s;}
 .services-grid .service-card:nth-child(5){transition-delay:.25s;}
 .services-grid .service-card:nth-child(6){transition-delay:.3s;}
+.clients-grid .client-card:nth-child(1){transition-delay:.05s;}
+.clients-grid .client-card:nth-child(2){transition-delay:.1s;}
+.clients-grid .client-card:nth-child(3){transition-delay:.15s;}
+.clients-grid .client-card:nth-child(4){transition-delay:.2s;}
+.clients-grid .client-card:nth-child(5){transition-delay:.25s;}
+.clients-grid .client-card:nth-child(6){transition-delay:.3s;}
+
+/* MOBILE NAV */
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:none;padding:6px;}
 .hamburger span{width:24px;height:2px;background:var(--gold);border-radius:2px;transition:all .3s;}
 .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
 .hamburger.open span:nth-child(2){opacity:0;}
 .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
 .nav-right{display:flex;align-items:center;gap:18px;}
-@media(max-width:900px){.hamburger{display:flex;}.nav-links{position:fixed;top:72px;right:0;left:0;background:rgba(5,13,26,.98);flex-direction:column;padding:32px;gap:24px;transform:translateY(-100%);opacity:0;transition:all .4s cubic-bezier(.2,.8,.2,1);pointer-events:none;backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}.nav-links.open{transform:translateY(0);opacity:1;pointer-events:all;}.stats{grid-template-columns:repeat(2,1fr);gap:30px;}.stat:not(:last-child)::after{display:none;}.about-grid,.contact-grid{grid-template-columns:1fr;gap:50px;}.hero-visual{display:none;}.footer-grid{grid-template-columns:1fr 1fr;gap:40px;}.portfolio-grid{grid-template-columns:1fr;}}
-@media(max-width:600px){section{padding:80px 5%;}.stats{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}.services-grid{grid-template-columns:1fr;}.contact-form{padding:30px;}.about-main-card{padding:30px;}}
+
+@media(max-width:900px){
+  .hamburger{display:flex;}
+  .nav-links{
+    position:fixed;top:72px;right:0;left:0;
+    background:rgba(5,13,26,.98);
+    flex-direction:column;padding:32px;gap:24px;
+    transform:translateY(-100%);opacity:0;
+    transition:all .4s cubic-bezier(.2,.8,.2,1);pointer-events:none;
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-links.open{transform:translateY(0);opacity:1;pointer-events:all;}
+  .stats{grid-template-columns:repeat(2,1fr);gap:30px;}
+  .stat:not(:last-child)::after{display:none;}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:50px;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:40px;}
+  .portfolio-grid{grid-template-columns:1fr;}
+  html[lang="ar"] .hero,
+  html[lang="en"] .hero{
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-end;
+    padding-top:100px;
+  }
+  html[lang="en"] .hero{align-items:flex-start;}
+  .hero-content{
+    max-width:100%!important;
+    margin:0!important;
+    width:100%;
+  }
+  .hero-visual{
+    position:relative;
+    left:auto;right:auto;
+    top:auto;transform:none;
+    width:100%;height:auto;
+    display:flex;flex-direction:row;
+    gap:10px;margin-top:24px;
+  }
+  .fc1,.fc2,.fc3{
+    position:relative;
+    top:auto;bottom:auto;
+    left:auto;right:auto;
+    transform:none;
+    flex:1;min-width:0;width:auto;
+  }
+}
+
+@media(max-width:600px){
+  section{padding:80px 5%;}
+  .stats{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .services-grid{grid-template-columns:1fr;}
+  .contact-form{padding:30px;}
+  .about-main-card{padding:30px;}
+}
+
+/* ===== HERO SLIDER ===== */
+.hero-slider{
+  position:absolute;inset:0;z-index:0;overflow:hidden;
+}
+.hero-slide{
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity 1.2s cubic-bezier(.4,0,.2,1), transform 1.5s cubic-bezier(.4,0,.2,1);
+  transform:scale(1.04);
+}
+.hero-slide.active{
+  opacity:1;transform:scale(1);
+}
+.hero-slide.leaving{
+  opacity:0;transform:scale(.97);
+}
+.hero-slide img{
+  width:100%;height:100%;object-fit:cover;
+  display:block;
+}
+.hero-slide-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    135deg,
+    rgba(5,13,26,.88) 0%,
+    rgba(5,13,26,.65) 40%,
+    rgba(5,13,26,.45) 70%,
+    rgba(5,13,26,.72) 100%
+  );
+}
+/* cinematic vignette */
+.hero-slide-overlay::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 120% 120% at 50% 50%,transparent 30%,rgba(5,13,26,.6) 100%);
+}
+
+/* slide content label (service name) */
+.slide-service-label{
+  position:absolute;
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  color:var(--gold);text-transform:uppercase;
+  padding:6px 14px;
+  background:rgba(201,168,76,.1);
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:4px;
+  backdrop-filter:blur(8px);
+  top:0;
+}
+html[lang="ar"] .slide-service-label{right:0;}
+html[lang="en"] .slide-service-label{left:0;}
+
+/* Ken Burns zoom on active */
+@keyframes kenburns{
+  0%{transform:scale(1);}
+  100%{transform:scale(1.06);}
+}
+.hero-slide.active img{
+  animation:kenburns 8s ease-out forwards;
+}
+
+/* SLIDER ARROWS */
+.slider-arrows{
+  position:absolute;bottom:38px;z-index:5;
+  display:flex;gap:12px;
+}
+html[lang="ar"] .slider-arrows{left:5%;}
+html[lang="en"] .slider-arrows{right:5%;}
+
+.slider-arrow{
+  width:48px;height:48px;border-radius:12px;
+  background:rgba(201,168,76,.08);
+  border:1.5px solid rgba(201,168,76,.3);
+  color:var(--gold);font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;
+  transition:all .3s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+.slider-arrow:hover{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);border-color:var(--gold);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(201,168,76,.35);
+}
+
+/* SLIDER DOTS */
+.slider-dots{
+  position:absolute;bottom:42px;z-index:5;
+  display:flex;gap:10px;align-items:center;
+}
+html[lang="ar"] .slider-dots{right:5%;}
+html[lang="en"] .slider-dots{left:5%;}
+
+.slider-dot{
+  width:28px;height:3px;border-radius:2px;
+  background:rgba(201,168,76,.25);
+  cursor:none;transition:all .4s cubic-bezier(.2,.8,.2,1);
+  position:relative;overflow:hidden;
+}
+.slider-dot.active{
+  width:52px;background:rgba(201,168,76,.4);
+}
+.slider-dot-fill{
+  position:absolute;top:0;left:0;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:2px;
+}
+.slider-dot.active .slider-dot-fill{
+  animation:dotProgress 7s linear forwards;
+}
+@keyframes dotProgress{from{width:0%;}to{width:100%;}}
+
+/* slide counter */
+.slide-counter{
+  position:absolute;bottom:48px;
+  z-index:5;
+  font-family:'Orbitron',sans-serif;
+  font-size:12px;color:var(--gray);letter-spacing:2px;
+}
+html[lang="ar"] .slide-counter{right:calc(5% + 90px);}
+html[lang="en"] .slide-counter{left:calc(5% + 90px);}
+.slide-counter span{color:var(--gold);font-weight:700;}
+
+/* ===== HERO SLIDER MOBILE ===== */
+@media(max-width:768px){
+  /* Content wrap — full width, top aligned */
+  #heroContentWrap{
+    max-width:100% !important;
+    padding: 100px 5% 90px !important;
+    flex-direction:column !important;
+    justify-content:flex-start !important;
+    align-items:flex-start !important;
+    gap:20px !important;
+    min-height:100svh !important;
+  }
+
+  /* Text block — full width */
+  .hero-content,
+  #heroTextContent{
+    max-width:100% !important;
+    width:100% !important;
+  }
+
+  /* Shrink h1 drastically on mobile */
+  .hero h1,
+  #slideHeading{
+    font-size:clamp(24px, 7.5vw, 40px) !important;
+    line-height:1.2 !important;
+    margin-bottom:16px !important;
+    word-break:keep-all !important;
+  }
+
+  /* Description font */
+  .hero p,
+  #slideDesc{
+    font-size:14px !important;
+    line-height:1.7 !important;
+    margin-bottom:28px !important;
+  }
+
+  /* Badge */
+  .hero-badge{
+    font-size:10px !important;
+    padding:5px 14px !important;
+    margin-bottom:18px !important;
+  }
+
+  /* CTA buttons stacked */
+  .hero-btns{
+    flex-direction:column !important;
+    gap:12px !important;
+    width:100% !important;
+  }
+  .btn-primary,.btn-secondary{
+    width:100% !important;
+    text-align:center !important;
+    justify-content:center !important;
+    padding:14px 20px !important;
+    font-size:14px !important;
+  }
+
+  /* Service label */
+  .slide-service-label{
+    font-size:8px !important;
+    letter-spacing:2px !important;
+    padding:4px 10px !important;
+  }
+
+  /* Dots & arrows bottom controls */
+  .slider-arrows{bottom:18px;}
+  .slider-dots{bottom:22px;}
+  .slide-counter{
+    bottom:26px;
+    font-size:10px;
+  }
+  html[lang="ar"] .slide-counter{right:calc(5% + 70px);}
+  html[lang="en"] .slide-counter{left:calc(5% + 70px);}
+
+  /* Arrow size */
+  .slider-arrow{
+    width:38px;height:38px;font-size:14px;border-radius:8px;
+  }
+}
+
+/* slide-in text animation */
+@keyframes slideInRight{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
+@keyframes slideInUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-slide.active ~ .hero-content .slide-title,
+.slide-active-text .slide-title{
+  animation:slideInUp .8s .1s both;
+}
+
+/* SELECTION */
 ::selection{background:var(--gold);color:var(--navy);}
+
+/* SCROLLBAR */
 ::-webkit-scrollbar{width:10px;}
 ::-webkit-scrollbar-track{background:var(--navy);}
 ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold),var(--blue));border-radius:5px;}
@@ -1080,17 +1265,23 @@ footer{background:var(--navy2);padding:70px 5% 30px;border-top:1px solid var(--b
 </style>
 </head>
 <body>
+
 <div class="scroll-progress" id="scrollProgress"></div>
 <canvas class="particles" id="particles"></canvas>
+
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
+<!-- NAV -->
 <nav id="navbar">
   <div class="logo">
     <div class="logo-icon" aria-label="Smart Solution">
       <span class="ss-mono"><span class="ss-1">S</span></span>
     </div>
-    <div>Smart Solution<span>TECHNOLOGY</span></div>
+    <div>
+      Smart Solution
+      <span>TECHNOLOGY</span>
+    </div>
   </div>
   <ul class="nav-links" id="navLinks">
     <li><a href="#home"><span class="lang-ar">الرئيسية</span><span class="lang-en">Home</span></a></li>
@@ -1111,60 +1302,325 @@ footer{background:var(--navy2);padding:70px 5% 30px;border-top:1px solid var(--b
   </div>
 </nav>
 
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="orb orb1" data-parallax="0.04"></div>
-  <div class="orb orb2" data-parallax="0.06"></div>
-  <div class="orb orb3" data-parallax="0.08"></div>
-  <div class="hero-content">
-    <div class="hero-badge">
-      <span class="badge-dot"></span>
-      <span class="lang-ar">${d.hero_badge_ar}</span>
-      <span class="lang-en">${d.hero_badge_en}</span>
+<!-- HERO SLIDER -->
+<section class="hero" id="home" style="padding:0;min-height:100vh;display:flex;align-items:flex-end;position:relative;overflow:hidden;">
+
+  <!-- ===== CINEMATIC SLIDES ===== -->
+  <div class="hero-slider" id="heroSlider">
+
+    <!-- SLIDE 1 — ERP & Custom Software -->
+    <div class="hero-slide active" data-index="0">
+      <img
+        src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=1920&q=85&auto=format&fit=crop"
+        alt="Software Development"
+        loading="eager"
+      >
+      <div class="hero-slide-overlay"></div>
+      <div class="slide-service-label">
+        <span class="lang-ar">تطوير البرمجيات</span>
+        <span class="lang-en">Software Development</span>
+      </div>
     </div>
-    <h1>
-      <span class="lang-ar">${d.hero_h1_ar}</span>
-      <span class="lang-en">${d.hero_h1_en}</span>
-      <span class="line2">
-        <span class="lang-ar">${d.hero_h2_ar}</span>
-        <span class="lang-en">${d.hero_h2_en}</span>
-      </span>
-    </h1>
-    <p>
-      <span class="lang-ar">${d.hero_desc_ar}</span>
-      <span class="lang-en">${d.hero_desc_en}</span>
-    </p>
-    <div class="hero-btns">
-      <a href="#portfolio" class="btn-primary" data-magnetic=""><span>🚀 <span class="lang-ar">شوف أعمالنا</span><span class="lang-en">See Our Work</span></span></a>
-      <a href="#contact" class="btn-secondary" data-magnetic=""><span>💬 <span class="lang-ar">تواصل معنا</span><span class="lang-en">Get in Touch</span></span></a>
+
+    <!-- SLIDE 2 — Business Intelligence -->
+    <div class="hero-slide" data-index="1">
+      <img
+        src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=85&auto=format&fit=crop"
+        alt="Business Intelligence"
+        loading="lazy"
+      >
+      <div class="hero-slide-overlay"></div>
+      <div class="slide-service-label">
+        <span class="lang-ar">ذكاء الأعمال</span>
+        <span class="lang-en">Business Intelligence</span>
+      </div>
     </div>
+
+    <!-- SLIDE 3 — Business Automation -->
+    <div class="hero-slide" data-index="2">
+      <img
+        src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1920&q=85&auto=format&fit=crop"
+        alt="Business Automation"
+        loading="lazy"
+      >
+      <div class="hero-slide-overlay"></div>
+      <div class="slide-service-label">
+        <span class="lang-ar">أتمتة العمليات</span>
+        <span class="lang-en">Business Automation</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 — Digital Transformation -->
+    <div class="hero-slide" data-index="3">
+      <img
+        src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=85&auto=format&fit=crop"
+        alt="Digital Transformation"
+        loading="lazy"
+      >
+      <div class="hero-slide-overlay"></div>
+      <div class="slide-service-label">
+        <span class="lang-ar">التحول الرقمي</span>
+        <span class="lang-en">Digital Transformation</span>
+      </div>
+    </div>
+  </div><!-- /hero-slider -->
+
+  <!-- ===== FLOATING ORBS (above slider) ===== -->
+  <div class="orb orb1" data-parallax="0.04" style="z-index:1;pointer-events:none;"></div>
+  <div class="orb orb2" data-parallax="0.06" style="z-index:1;pointer-events:none;"></div>
+  <div class="orb orb3" data-parallax="0.08" style="z-index:1;pointer-events:none;"></div>
+
+  <!-- ===== SLIDE CONTENT PANEL ===== -->
+  <div id="heroContentWrap" style="
+    position:relative;z-index:3;
+    width:100%;padding:0 5% 110px;
+    display:flex;align-items:flex-end;justify-content:space-between;
+    flex-wrap:wrap;gap:32px;
+    min-height:100vh;
+    box-sizing:border-box;
+    padding-top:120px;
+  ">
+
+    <!-- Left / right text content -->
+    <div class="hero-content" id="heroTextContent" style="padding-bottom:0;max-width:min(55%,100%)">
+
+      <!-- badge -->
+      <div class="hero-badge" id="slideBadge">
+        <span class="badge-dot"></span>
+        <span id="badgeText">
+          <span class="lang-ar">حلول تقنية متكاملة</span>
+          <span class="lang-en">Integrated Tech Solutions</span>
+        </span>
+      </div>
+
+      <!-- heading -->
+      <h1 id="slideHeading" style="animation:fadeUp .8s .15s ease both;">
+        <span id="headLine1">
+          <span class="lang-ar">حلول برمجية مخصصة</span>
+          <span class="lang-en">Custom Software Solutions</span>
+        </span>
+        <span class="line2" id="headLine2">
+          <span class="lang-ar">تُعيد تعريف كفاءة مؤسستك</span>
+          <span class="lang-en">That Redefine Your Enterprise</span>
+        </span>
+      </h1>
+
+      <!-- sub-text -->
+      <p id="slideDesc" style="animation:fadeUp .8s .3s ease both;">
+        <span class="lang-ar" id="descAr">من أنظمة ERP الشاملة إلى البرمجيات المخصصة — نبني الأدوات التي تُحرّك أعمالك إلى الأمام بدقة هندسية وابتكار استراتيجي.</span>
+        <span class="lang-en" id="descEn">From comprehensive ERP systems to bespoke software — we build the tools that move your business forward with engineering precision and strategic innovation.</span>
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="hero-btns" style="animation:fadeUp .8s .45s ease both;">
+        <a href="#portfolio" class="btn-primary" data-magnetic="">
+          <span>🚀 <span class="lang-ar">شوف أعمالنا</span><span class="lang-en">See Our Work</span></span>
+        </a>
+        <a href="#contact" class="btn-secondary" data-magnetic="">
+          <span>💬 <span class="lang-ar">تواصل معنا</span><span class="lang-en">Get in Touch</span></span>
+        </a>
+      </div>
+    </div>
+
+
+  </div><!-- /heroContentWrap -->
+
+  <!-- ===== ARROWS ===== -->
+  <div class="slider-arrows" id="sliderArrows">
+    <button class="slider-arrow" id="sliderPrev" onclick="sliderMove(-1)" title="Previous">&#8592;</button>
+    <button class="slider-arrow" id="sliderNext" onclick="sliderMove(1)" title="Next">&#8594;</button>
   </div>
-  <div class="hero-visual">
-    <div class="float-card fc1">
-      <div class="fc-title">PROJECTS DONE</div>
-      <div class="fc-val">${d.fc1_val}</div>
-      <div class="fc-sub"><span class="lang-ar">${d.fc1_sub_ar}</span><span class="lang-en">Completed Projects</span></div>
-      <div class="fc-bar"><div class="fc-bar-fill" style="--w:85%"></div></div>
-    </div>
-    <div class="float-card fc2">
-      <div class="fc-title">CLIENT SATISFACTION</div>
-      <div class="fc-val">${d.fc2_val}</div>
-      <div class="fc-sub"><span class="lang-ar">${d.fc2_sub_ar}</span><span class="lang-en">Client Satisfaction</span></div>
-      <div class="fc-bar"><div class="fc-bar-fill" style="--w:98%"></div></div>
-    </div>
-    <div class="float-card fc3">
-      <div class="fc-title">YEARS EXPERIENCE</div>
-      <div class="fc-val">${d.fc3_val}</div>
-      <div class="fc-sub"><span class="lang-ar">${d.fc3_sub_ar}</span><span class="lang-en">Years of Experience</span></div>
-      <div class="fc-bar"><div class="fc-bar-fill" style="--w:70%"></div></div>
-    </div>
+
+  <!-- ===== DOTS ===== -->
+  <div class="slider-dots" id="sliderDots">
+    <div class="slider-dot active" onclick="goToSlide(0)"><div class="slider-dot-fill"></div></div>
+    <div class="slider-dot" onclick="goToSlide(1)"><div class="slider-dot-fill"></div></div>
+    <div class="slider-dot" onclick="goToSlide(2)"><div class="slider-dot-fill"></div></div>
+    <div class="slider-dot" onclick="goToSlide(3)"><div class="slider-dot-fill"></div></div>
   </div>
+
+  <!-- ===== COUNTER ===== -->
+  <div class="slide-counter" id="slideCounter"><span id="curSlideNum">01</span> / 04</div>
+
 </section>
 
+<!-- SLIDER DATA & SCRIPT -->
+<script>
+/* ===== SLIDER DATA ===== */
+const SLIDES = [
+  {
+    badgeAr: '⚙️ تطوير البرمجيات المخصصة',
+    badgeEn: '⚙️ Custom Software & ERP',
+    h1Ar: 'أنظمة برمجية مخصصة',
+    h1En: 'Enterprise-Grade Custom Software',
+    h2Ar: 'تُعيد تعريف كفاءة مؤسستك',
+    h2En: 'That Redefines Your Operations',
+    descAr: 'من أنظمة ERP الشاملة إلى البرمجيات المخصصة — نبني الأدوات التي تُحرّك أعمالك إلى الأمام بدقة هندسية واحترافية استراتيجية لا تُضاهى.',
+    descEn: 'From comprehensive ERP to bespoke software — we build the tools that move your business forward with engineering precision and strategic vision.',
+  },
+  {
+    badgeAr: '📊 ذكاء الأعمال والبيانات',
+    badgeEn: '📊 Business Intelligence & Analytics',
+    h1Ar: 'قرارات مدعومة بالبيانات',
+    h1En: 'Data-Driven Decisions',
+    h2Ar: 'تصنع الفارق في سوقك',
+    h2En: 'That Dominate Your Market',
+    descAr: 'حوّل بياناتك الخام إلى ذكاء استراتيجي حقيقي — لوحات قيادة تفاعلية وتقارير فورية تمنحك رؤية كاملة لكل جانب من جوانب عملك.',
+    descEn: 'Transform raw data into real strategic intelligence — interactive dashboards and real-time reports that give you complete visibility over every aspect of your business.',
+  },
+  {
+    badgeAr: '🤖 أتمتة العمليات التجارية',
+    badgeEn: '🤖 Business Process Automation',
+    h1Ar: 'أتمتة ذكية تُحرّر طاقة فريقك',
+    h1En: 'Intelligent Automation',
+    h2Ar: 'وتُضاعف إنتاجيتك بلا حدود',
+    h2En: 'That Multiplies Your Productivity',
+    descAr: 'دع التكنولوجيا تتولى المهام المتكررة — أتمتة عمليات تجارية متكاملة تُقلّص الوقت والتكاليف وتُضاعف كفاءة فريقك بشكل يُدهش المنافسين.',
+    descEn: 'Let technology handle repetitive tasks — complete business process automation that shrinks time and costs while multiplying your team\'s efficiency dramatically.',
+  },
+  {
+    badgeAr: '🌐 استشارات التحول الرقمي',
+    badgeEn: '🌐 Digital Transformation Consultancy',
+    h1Ar: 'قُد مؤسستك نحو المستقبل',
+    h1En: 'Lead Your Enterprise Into The Future',
+    h2Ar: 'بخارطة تحول رقمي احترافية',
+    h2En: 'With A Professional Digital Roadmap',
+    descAr: 'استراتيجيات تحول رقمي شاملة مصممة خصيصاً لنموذج عملك — نُرافقك في كل خطوة من التخطيط حتى التطبيق لنضمن ريادتك في سوق الغد.',
+    descEn: 'Comprehensive digital transformation strategies tailored to your business model — we guide you from planning to execution to guarantee your leadership in tomorrow\'s market.',
+  },
+];
+
+let currentSlide = 0;
+let sliderTimer = null;
+let isAnimating = false;
+
+function goToSlide(idx, direction){
+  if(isAnimating || idx === currentSlide) return;
+  isAnimating = true;
+
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.slider-dot');
+
+  // Remove active from current, add leaving
+  slides[currentSlide].classList.remove('active');
+  slides[currentSlide].classList.add('leaving');
+
+  // Update dot
+  dots[currentSlide].classList.remove('active');
+  dots[currentSlide].querySelector('.slider-dot-fill').style.animation = 'none';
+
+  // Set new
+  currentSlide = ((idx % SLIDES.length) + SLIDES.length) % SLIDES.length;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+  // restart fill animation
+  const fill = dots[currentSlide].querySelector('.slider-dot-fill');
+  fill.style.animation = 'none';
+  fill.offsetWidth; // reflow
+  fill.style.animation = '';
+
+  // Update counter
+  document.getElementById('curSlideNum').textContent = String(currentSlide + 1).padStart(2,'0');
+
+  // Update text content
+  updateSlideText(currentSlide);
+
+  // Clean up leaving after transition
+  setTimeout(()=>{
+    slides.forEach(s => s.classList.remove('leaving'));
+    isAnimating = false;
+  }, 1400);
+
+  // Reset auto timer
+  clearInterval(sliderTimer);
+  sliderTimer = setInterval(()=> sliderMove(1), 7000);
+}
+
+function sliderMove(dir){
+  goToSlide(currentSlide + dir);
+}
+
+function updateSlideText(idx){
+  const d = SLIDES[idx];
+  const lang = document.documentElement.lang;
+
+  // Badge
+  const badge = document.getElementById('badgeText');
+  badge.innerHTML = `<span class="lang-ar">${d.badgeAr}</span><span class="lang-en">${d.badgeEn}</span>`;
+  badge.style.animation = 'none';
+  badge.offsetWidth;
+
+  // H1
+  const h1 = document.getElementById('slideHeading');
+  h1.querySelector('#headLine1').innerHTML = `<span class="lang-ar">${d.h1Ar}</span><span class="lang-en">${d.h1En}</span>`;
+  h1.querySelector('#headLine2').innerHTML = `<span class="lang-ar">${d.h2Ar}</span><span class="lang-en">${d.h2En}</span>`;
+
+  // Desc
+  document.getElementById('descAr').textContent = d.descAr;
+  document.getElementById('descEn').textContent = d.descEn;
+
+  // Animate in
+  [h1, document.getElementById('slideDesc')].forEach((el,i)=>{
+    el.style.animation = 'none';
+    el.offsetWidth;
+    el.style.animation = `fadeUp .8s ${0.1 + i*.15}s ease both`;
+  });
+
+  // Re-apply language visibility
+  updateLangVisibility();
+}
+
+function updateLangVisibility(){
+  const lang = document.documentElement.lang;
+  document.querySelectorAll('.lang-ar').forEach(el => el.style.display = lang === 'ar' ? '' : 'none');
+  document.querySelectorAll('.lang-en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+}
+
+// Start autoplay
+sliderTimer = setInterval(()=> sliderMove(1), 7000);
+
+// Touch / swipe support
+(function(){
+  let touchX = 0;
+  const slider = document.getElementById('heroSlider');
+  slider.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, {passive:true});
+  slider.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(dx) > 50) sliderMove(dx < 0 ? 1 : -1);
+  }, {passive:true});
+})();
+
+// Keyboard arrow navigation
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowLeft')  sliderMove(document.documentElement.lang === 'ar' ? 1 : -1);
+  if(e.key === 'ArrowRight') sliderMove(document.documentElement.lang === 'ar' ? -1 : 1);
+});
+
+// Init first dot fill
+document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').style.animation = 'dotProgress 7s linear forwards';
+</script>
+
+<!-- STATS -->
 <div class="stats">
-${statDivs}
+  <div class="stat reveal">
+    <span class="stat-num" data-target="30" data-suffix="+">0</span>
+    <span class="stat-label"><span class="lang-ar">مشروع منجز</span><span class="lang-en">Completed Projects</span></span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num" data-target="98" data-suffix="%">0</span>
+    <span class="stat-label"><span class="lang-ar">رضا العملاء</span><span class="lang-en">Client Satisfaction</span></span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num" data-target="7" data-suffix="+">0</span>
+    <span class="stat-label"><span class="lang-ar">سنوات خبرة</span><span class="lang-en">Years of Experience</span></span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num" data-target="50" data-suffix="+">0</span>
+    <span class="stat-label"><span class="lang-ar">عميل نشط</span><span class="lang-en">Active Clients</span></span>
+  </div>
 </div>
 
+<!-- SERVICES -->
 <section id="services">
   <div class="services-head reveal">
     <div class="section-tag"><span class="lang-ar">خدماتنا</span><span class="lang-en">Our Services</span></div>
@@ -1177,11 +1633,110 @@ ${statDivs}
       <span class="lang-en">A complete suite of software solutions tailored to fit your business needs</span>
     </p>
   </div>
-  <div class="services-grid">
-${svcCards}
+ <div class="services-grid">
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">🏗️</div>
+    <div class="sc-title"><span class="lang-ar">أنظمة ERP للشركات</span><span class="lang-en">Enterprise ERP Systems</span></div>
+    <div class="sc-desc"><span class="lang-ar">نظام تخطيط موارد المؤسسة يشمل المحاسبة والموارد البشرية والمشتريات والمبيعات في منصة واحدة متكاملة.</span><span class="lang-en">Full ERP covering accounting, HR, procurement, and sales — all on one unified platform.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag"><span class="lang-ar">محاسبة</span><span class="lang-en">Accounting</span></span>
+      <span class="sc-tag">HR</span>
+      <span class="sc-tag"><span class="lang-ar">مشتريات</span><span class="lang-en">Procurement</span></span>
+      <span class="sc-tag"><span class="lang-ar">تحليلات</span><span class="lang-en">Analytics</span></span>
+    </div>
   </div>
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">🏛️</div>
+    <div class="sc-title"><span class="lang-ar">إدارة المشروعات الهندسية</span><span class="lang-en">Engineering Project Management</span></div>
+    <div class="sc-desc"><span class="lang-ar">نظام متكامل لإدارة المشروعات ومراقبة نسب التنفيذ وتقارير الأداء والإنتاج ومراقبة العمالة.</span><span class="lang-en">Integrated system for managing projects, tracking execution rates, performance reports, production monitoring, and workforce management.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag">PMP</span>
+      <span class="sc-tag"><span class="lang-ar">متابعة تنفيذ</span><span class="lang-en">Execution Tracking</span></span>
+      <span class="sc-tag"><span class="lang-ar">تقارير</span><span class="lang-en">Reports</span></span>
+      <span class="sc-tag">KPIs</span>
+    </div>
+  </div>
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">🎓</div>
+    <div class="sc-title"><span class="lang-ar">المؤسسات التعليمية (LMS)</span><span class="lang-en">Educational Institutions (LMS)</span></div>
+    <div class="sc-desc"><span class="lang-ar">نظام متكامل لإدارة شؤون الطلاب والمعلمين، الجداول والامتحانات، الحسابات والمصروفات المدرسية، مع تقارير الأداء.</span><span class="lang-en">Complete system for managing students and teachers, schedules and exams, school accounts and expenses, with full performance reports.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag"><span class="lang-ar">شؤون طلاب</span><span class="lang-en">Student Affairs</span></span>
+      <span class="sc-tag"><span class="lang-ar">جداول</span><span class="lang-en">Schedules</span></span>
+      <span class="sc-tag"><span class="lang-ar">حسابات</span><span class="lang-en">Accounting</span></span>
+      <span class="sc-tag"><span class="lang-ar">عاملين</span><span class="lang-en">Staff</span></span>
+    </div>
+  </div>
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">🛒</div>
+    <div class="sc-title"><span class="lang-ar">أنظمة المتاجر والسوبر ماركت</span><span class="lang-en">Retail &amp; Supermarket Systems</span></div>
+    <div class="sc-desc"><span class="lang-ar">نظام متكامل للمبيعات والمخزون والكاشير وإدارة العملاء مع تقارير تفصيلية وربط بالموقع الإلكتروني.</span><span class="lang-en">Integrated POS, inventory, cashier, and CRM with detailed reports and online store integration.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag">POS</span>
+      <span class="sc-tag"><span class="lang-ar">مخزون</span><span class="lang-en">Inventory</span></span>
+      <span class="sc-tag"><span class="lang-ar">تقارير</span><span class="lang-en">Reports</span></span>
+      <span class="sc-tag">WhatsApp</span>
+    </div>
+  </div>
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">☕</div>
+    <div class="sc-title"><span class="lang-ar">أنظمة الكافيهات والمطاعم</span><span class="lang-en">Café &amp; Restaurant Systems</span></div>
+    <div class="sc-desc"><span class="lang-ar">إدارة الطلبات والطاولات والقائمة الرقمية وحسابات الطهاة مع نظام توصيل متكامل وتطبيق موبايل.</span><span class="lang-en">Manage orders, tables, digital menus, and kitchen accounts with full delivery system and mobile app integration.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag"><span class="lang-ar">طلبات</span><span class="lang-en">Orders</span></span>
+      <span class="sc-tag"><span class="lang-ar">قائمة رقمية</span><span class="lang-en">Digital Menu</span></span>
+      <span class="sc-tag"><span class="lang-ar">توصيل</span><span class="lang-en">Delivery</span></span>
+      <span class="sc-tag">App</span>
+    </div>
+  </div>
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">🏥</div>
+    <div class="sc-title"><span class="lang-ar">المستشفيات والصيدليات</span><span class="lang-en">Hospitals &amp; Pharmacies</span></div>
+    <div class="sc-desc"><span class="lang-ar">نظام متكامل لإدارة العيادات والمرضى، الحجوزات والملفات الطبية، وإدارة الصيدليات وبيع الأدوية وتتبع تواريخ الصلاحية ومراقبة المخزون.</span><span class="lang-en">Complete system for clinic and patient management, appointments and medical records, pharmacy operations, medicine sales, expiry tracking, and inventory monitoring.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag"><span class="lang-ar">مرضى</span><span class="lang-en">Patients</span></span>
+      <span class="sc-tag"><span class="lang-ar">حجوزات</span><span class="lang-en">Appointments</span></span>
+      <span class="sc-tag"><span class="lang-ar">صيدلية</span><span class="lang-en">Pharmacy</span></span>
+      <span class="sc-tag"><span class="lang-ar">مخزون</span><span class="lang-en">Inventory</span></span>
+    </div>
+  </div>
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">📱</div>
+    <div class="sc-title"><span class="lang-ar">تطبيقات الموبايل</span><span class="lang-en">Mobile Applications</span></div>
+    <div class="sc-desc"><span class="lang-ar">تطبيقات Android وiOS للعملاء والموظفين مع ربط كامل بأنظمتك الحالية ودعم فني مستمر.</span><span class="lang-en">Android &amp; iOS apps for customers and staff with full back-end integration and ongoing technical support.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag">Android</span>
+      <span class="sc-tag">iOS</span>
+      <span class="sc-tag">PWA</span>
+      <span class="sc-tag">API</span>
+    </div>
+  </div>
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">🌐</div>
+    <div class="sc-title"><span class="lang-ar">المواقع الإلكترونية</span><span class="lang-en">Websites &amp; E-Commerce</span></div>
+    <div class="sc-desc"><span class="lang-ar">مواقع احترافية بتصميم عصري وسرعة عالية وربط بأنظمة الدفع والمتاجر الإلكترونية.</span><span class="lang-en">Modern, high-performance websites with payment-gateway and e-commerce integrations.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag">.NET</span>
+      <span class="sc-tag">React</span>
+      <span class="sc-tag">SEO</span>
+      <span class="sc-tag"><span class="lang-ar">دفع إلكتروني</span><span class="lang-en">Payments</span></span>
+    </div>
+  </div>
+
+</div>
+   
+ </div>
 </section>
 
+<!-- PORTFOLIO -->
 <section id="portfolio">
   <div class="portfolio-head reveal">
     <div class="section-tag"><span class="lang-ar">أعمالنا</span><span class="lang-en">Portfolio</span></div>
@@ -1190,8 +1745,8 @@ ${svcCards}
       <span class="lang-en">Projects <span class="accent">We're Proud Of</span></span>
     </h2>
     <p class="section-sub">
-      <span class="lang-ar">أكثر من ${stats[0]?.num||150} مشروع منجز في مختلف القطاعات</span>
-      <span class="lang-en">Over ${stats[0]?.num||150} successful projects across diverse industries</span>
+      <span class="lang-ar">أكثر من 30 مشروع منجز في مختلف القطاعات</span>
+      <span class="lang-en">Over 30 successful projects across diverse industries</span>
     </p>
     <div class="portfolio-filter">
       <button class="pf-btn active" onclick="filterPortfolio('all',this)"><span><span class="lang-ar">الكل</span><span class="lang-en">All</span></span></button>
@@ -1202,10 +1757,70 @@ ${svcCards}
     </div>
   </div>
   <div class="portfolio-grid" id="portfolioGrid">
-${pfCards}
+    <div class="portfolio-card reveal" data-cat="market">
+      <div class="pc-thumb pc-thumb-supermarket"><span class="pc-thumb-icon">🛒</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">سوبر ماركت</span><span class="lang-en">Supermarket</span></div>
+        <div class="pc-title"><span class="lang-ar">نظام سوبر ماركت متكامل</span><span class="lang-en">Full Supermarket System</span></div>
+        <div class="pc-desc"><span class="lang-ar">كاشير، مخزون، عملاء، تقارير، موقع أونلاين، وإرسال فواتير واتساب تلقائي.</span><span class="lang-en">POS, inventory, CRM, reports, online store, and automatic WhatsApp invoices.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="cafe">
+      <div class="pc-thumb pc-thumb-cafe"><span class="pc-thumb-icon">☕</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">كافيه</span><span class="lang-en">Café</span></div>
+        <div class="pc-title"><span class="lang-ar">نظام إدارة كافيه ذكي</span><span class="lang-en">Smart Café Management</span></div>
+        <div class="pc-desc"><span class="lang-ar">قائمة رقمية، طلبات الطاولات، حسابات الطهاة، وتطبيق توصيل للعملاء.</span><span class="lang-en">Digital menu, table ordering, kitchen accounts, and a customer delivery app.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="erp">
+      <div class="pc-thumb pc-thumb-erp"><span class="pc-thumb-icon">🏢</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat">ERP</div>
+        <div class="pc-title"><span class="lang-ar">نظام ERP لشركة تجارية</span><span class="lang-en">ERP for a Trading Company</span></div>
+        <div class="pc-desc"><span class="lang-ar">محاسبة، مشتريات، مبيعات، مخازن، موارد بشرية في منصة واحدة متكاملة.</span><span class="lang-en">Accounting, procurement, sales, warehousing, and HR — all on one integrated platform.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="app">
+      <div class="pc-thumb pc-thumb-app"><span class="pc-thumb-icon">📱</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">تطبيق موبايل</span><span class="lang-en">Mobile App</span></div>
+        <div class="pc-title"><span class="lang-ar">تطبيق توصيل طلبات</span><span class="lang-en">Order Delivery App</span></div>
+        <div class="pc-desc"><span class="lang-ar">تطبيق Android وiOS لتتبع الطلبات والدفع الإلكتروني وإشعارات فورية.</span><span class="lang-en">Android &amp; iOS app for order tracking, online payments, and instant notifications.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="market">
+      <div class="pc-thumb pc-thumb-supermarket"><span class="pc-thumb-icon">🏪</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">متجر إلكتروني</span><span class="lang-en">E-Commerce</span></div>
+        <div class="pc-title"><span class="lang-ar">متجر أونلاين متكامل</span><span class="lang-en">Full Online Store</span></div>
+        <div class="pc-desc"><span class="lang-ar">موقع تسوق إلكتروني مع بوابة دفع، إدارة مخزون، وربط بنظام الكاشير.</span><span class="lang-en">An e-commerce site with payment gateway, inventory management, and POS integration.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="erp">
+      <div class="pc-thumb pc-thumb-erp"><span class="pc-thumb-icon">📊</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">تقارير وتحليلات</span><span class="lang-en">Reports &amp; Analytics</span></div>
+        <div class="pc-title"><span class="lang-ar">لوحة تحكم تحليلية</span><span class="lang-en">Analytics Dashboard</span></div>
+        <div class="pc-desc"><span class="lang-ar">داشبورد تفاعلي بتقارير مبيعات وأرباح وأداء الفروع بلحظة واحدة.</span><span class="lang-en">Interactive dashboard with real-time sales, profit, and branch-performance reports.</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
     <div class="about-visual reveal-left">
@@ -1236,20 +1851,41 @@ ${pfCards}
     <div class="about-content reveal-right">
       <div class="section-tag"><span class="lang-ar">من نحن</span><span class="lang-en">About Us</span></div>
       <h2 class="section-title">
-        <span class="lang-ar">${d.about_h_ar.replace('بعقلية مختلفة','<span class="accent">بعقلية مختلفة</span>')}</span>
-        <span class="lang-en">${d.about_h_en.replace('With a Different Mindset','<span class="accent">With a Different Mindset</span>')}</span>
+        <span class="lang-ar">شركة تقنية <span class="accent">بعقلية مختلفة</span></span>
+        <span class="lang-en">A Tech Company <span class="accent">With a Different Mindset</span></span>
       </h2>
       <p class="section-sub">
-        <span class="lang-ar">${d.about_desc_ar}</span>
-        <span class="lang-en">${d.about_desc_en}</span>
+        <span class="lang-ar">Smart Solution Technology شركة متخصصة في تطوير البرمجيات وأنظمة الكمبيوتر للشركات والمنشآت التجارية. نؤمن إن التقنية الصح تحوّل أي بيزنس لمستوى تاني.</span>
+        <span class="lang-en">Smart Solution Technology specializes in custom software and computer systems for businesses and enterprises. We believe the right technology can transform any business to the next level.</span>
       </p>
       <div class="about-features">
-${featItems}
+        <div class="af-item">
+          <div class="af-icon">🎯</div>
+          <div>
+            <div class="af-title"><span class="lang-ar">حلول مخصصة 100%</span><span class="lang-en">100% Custom Solutions</span></div>
+            <div class="af-desc"><span class="lang-ar">كل مشروع بنبنيه من الصفر حسب احتياجات عميلنا — مش قوالب جاهزة.</span><span class="lang-en">Every project is built from scratch around our client's needs — never off-the-shelf templates.</span></div>
+          </div>
+        </div>
+        <div class="af-item">
+          <div class="af-icon">⚡</div>
+          <div>
+            <div class="af-title"><span class="lang-ar">تسليم سريع وموثوق</span><span class="lang-en">Fast &amp; Reliable Delivery</span></div>
+            <div class="af-desc"><span class="lang-ar">نلتزم بالمواعيد ونسلم المشاريع في الوقت المحدد مع ضمان الجودة.</span><span class="lang-en">We keep our deadlines and deliver projects on time without compromising on quality.</span></div>
+          </div>
+        </div>
+        <div class="af-item">
+          <div class="af-icon">🛡️</div>
+          <div>
+            <div class="af-title"><span class="lang-ar">دعم ما بعد التسليم</span><span class="lang-en">Post-Launch Support</span></div>
+            <div class="af-desc"><span class="lang-ar">دعم فني مستمر وتحديثات مجانية لمدة سنة كاملة بعد تسليم المشروع.</span><span class="lang-en">Continuous technical support and free updates for a full year after launch.</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- CLIENTS -->
 <section id="clients">
   <div class="clients-head reveal">
     <div class="section-tag"><span class="lang-ar">عملاؤنا</span><span class="lang-en">Our Clients</span></div>
@@ -1263,16 +1899,19 @@ ${featItems}
     </p>
   </div>
   <div class="clients-grid">
-${clientCards}
+    <div class="client-card reveal"><span class="cc-icon">🛒</span><div class="cc-name"><span class="lang-ar">سوبر ماركت النيل</span><span class="lang-en">Nile Supermarket</span></div><div class="cc-type"><span class="lang-ar">متجر تجزئة</span><span class="lang-en">Retail Store</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">☕</span><div class="cc-name"><span class="lang-ar">كافيه الأصدقاء</span><span class="lang-en">Friends Café</span></div><div class="cc-type"><span class="lang-ar">مطعم وكافيه</span><span class="lang-en">Restaurant &amp; Café</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">🏭</span><div class="cc-name"><span class="lang-ar">مصنع الأمل</span><span class="lang-en">Al-Amal Factory</span></div><div class="cc-type"><span class="lang-ar">صناعة وتصنيع</span><span class="lang-en">Manufacturing</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">🏥</span><div class="cc-name"><span class="lang-ar">عيادة الرعاية</span><span class="lang-en">Care Clinic</span></div><div class="cc-type"><span class="lang-ar">قطاع صحي</span><span class="lang-en">Healthcare</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">🏗️</span><div class="cc-name"><span class="lang-ar">شركة البناء</span><span class="lang-en">Build Co.</span></div><div class="cc-type"><span class="lang-ar">مقاولات</span><span class="lang-en">Construction</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">📚</span><div class="cc-name"><span class="lang-ar">مدرسة المستقبل</span><span class="lang-en">Future School</span></div><div class="cc-type"><span class="lang-ar">تعليم</span><span class="lang-en">Education</span></div></div>
   </div>
-  <div class="testimonials" style="padding:80px 0 0;">
-    <div class="section-tag reveal" style="justify-content:center;"><span class="lang-ar">آراء العملاء</span><span class="lang-en">Testimonials</span></div>
-    <div class="test-grid">
-${testCards}
-    </div>
-  </div>
+
+  <!-- Testimonials -->
+
 </section>
 
+<!-- CONTACT -->
 <section id="contact">
   <div class="contact-grid">
     <div class="reveal-left">
@@ -1286,20 +1925,42 @@ ${testCards}
         <span class="lang-en">Get in touch — we'll give you a free consultation and quote within 24 hours.</span>
       </p>
       <div class="contact-info">
-        <div class="ci-item"><div class="ci-icon">📱</div><div><div class="ci-label"><span class="lang-ar">واتساب وتليفون</span><span class="lang-en">WhatsApp &amp; Phone</span></div><div class="ci-val" dir="ltr">${d.contact_phone}</div></div></div>
-        <div class="ci-item"><div class="ci-icon">📧</div><div><div class="ci-label"><span class="lang-ar">البريد الإلكتروني</span><span class="lang-en">Email</span></div><div class="ci-val">${d.contact_email}</div></div></div>
-        <div class="ci-item"><div class="ci-icon">📍</div><div><div class="ci-label"><span class="lang-ar">الموقع</span><span class="lang-en">Location</span></div><div class="ci-val"><span class="lang-ar">${d.contact_loc_ar}</span><span class="lang-en">${d.contact_loc_en}</span></div></div></div>
-        <div class="ci-item"><div class="ci-icon">⏰</div><div><div class="ci-label"><span class="lang-ar">ساعات العمل</span><span class="lang-en">Working Hours</span></div><div class="ci-val"><span class="lang-ar">${d.contact_hours_ar}</span><span class="lang-en">${d.contact_hours_en}</span></div></div></div>
+        <div class="ci-item">
+          <div class="ci-icon">📱</div>
+          <div><div class="ci-label"><span class="lang-ar">واتساب وتليفون</span><span class="lang-en">WhatsApp &amp; Phone</span></div><div class="ci-val" dir="ltr">+201505731623</div></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">📧</div>
+          <div><div class="ci-label"><span class="lang-ar">البريد الإلكتروني</span><span class="lang-en">Email</span></div><div class="ci-val">info@smartsolution.com</div></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">📍</div>
+          <div><div class="ci-label"><span class="lang-ar">الموقع</span><span class="lang-en">Location</span></div><div class="ci-val"><span class="lang-ar">القاهرة، مصر</span><span class="lang-en">Cairo, Egypt</span></div></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">⏰</div>
+          <div><div class="ci-label"><span class="lang-ar">ساعات العمل</span><span class="lang-en">Working Hours</span></div><div class="ci-val"><span class="lang-ar">الاحد – الخميس، 9ص – 5م</span><span class="lang-en">Sat – Thu, 9 AM – 6 PM</span></div></div>
+        </div>
       </div>
     </div>
     <div class="contact-form reveal-right">
       <div class="form-title">📨 <span class="lang-ar">أرسل لنا رسالة</span><span class="lang-en">Send Us a Message</span></div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label"><span class="lang-ar">الاسم</span><span class="lang-en">Name</span></label><input class="form-input" data-ph-ar="اسمك الكامل" data-ph-en="Your full name"></div>
-        <div class="form-group"><label class="form-label"><span class="lang-ar">التليفون</span><span class="lang-en">Phone</span></label><input class="form-input" data-ph-ar="01xxxxxxxxx" data-ph-en="+20 1xx xxx xxxx" type="tel"></div>
+        <div class="form-group">
+          <label class="form-label"><span class="lang-ar">الاسم</span><span class="lang-en">Name</span></label>
+          <input class="form-input" data-ph-ar="اسمك الكامل" data-ph-en="Your full name">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="lang-ar">التليفون</span><span class="lang-en">Phone</span></label>
+          <input class="form-input" data-ph-ar="01xxxxxxxxx" data-ph-en="+20 1xx xxx xxxx" type="tel">
+        </div>
       </div>
-      <div class="form-group"><label class="form-label"><span class="lang-ar">البريد الإلكتروني</span><span class="lang-en">Email</span></label><input class="form-input" data-ph-ar="email@example.com" data-ph-en="email@example.com" type="email"></div>
-      <div class="form-group"><label class="form-label"><span class="lang-ar">نوع المشروع</span><span class="lang-en">Project Type</span></label>
+      <div class="form-group">
+        <label class="form-label"><span class="lang-ar">البريد الإلكتروني</span><span class="lang-en">Email</span></label>
+        <input class="form-input" data-ph-ar="email@example.com" data-ph-en="email@example.com" type="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="lang-ar">نوع المشروع</span><span class="lang-en">Project Type</span></label>
         <select class="form-input" style="cursor:none;">
           <option value=""><span class="lang-ar">اختر نوع المشروع</span><span class="lang-en">Select project type</span></option>
           <option data-ar="نظام سوبر ماركت / متجر" data-en="Retail / Supermarket System">Retail / Supermarket System</option>
@@ -1310,22 +1971,30 @@ ${testCards}
           <option data-ar="أخرى" data-en="Other">Other</option>
         </select>
       </div>
-      <div class="form-group"><label class="form-label"><span class="lang-ar">تفاصيل المشروع</span><span class="lang-en">Project Details</span></label><textarea class="form-textarea" data-ph-ar="اشرح لنا فكرة مشروعك وما تحتاجه..." data-ph-en="Tell us about your project idea and what you need..."></textarea></div>
-      <button class="form-submit" onclick="submitForm(this)" data-magnetic=""><span>🚀 <span class="lang-ar">إرسال الطلب</span><span class="lang-en">Send Request</span></span></button>
+      <div class="form-group">
+        <label class="form-label"><span class="lang-ar">تفاصيل المشروع</span><span class="lang-en">Project Details</span></label>
+        <textarea class="form-textarea" data-ph-ar="اشرح لنا فكرة مشروعك وما تحتاجه..." data-ph-en="Tell us about your project idea and what you need..."></textarea>
+      </div>
+      <button class="form-submit" onclick="submitForm(this)" data-magnetic="">
+        <span>🚀 <span class="lang-ar">إرسال الطلب</span><span class="lang-en">Send Request</span></span>
+      </button>
     </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="logo" style="margin-bottom:16px;">
-        <div class="logo-icon" aria-label="Smart Solution"><span class="ss-mono"><span class="ss-1">S</span></span></div>
+        <div class="logo-icon" aria-label="Smart Solution">
+          <span class="ss-mono"><span class="ss-1">S</span></span>
+        </div>
         <div>Smart Solution<span>TECHNOLOGY</span></div>
       </div>
       <p>
-        <span class="lang-ar">${d.footer_desc_ar}</span>
-        <span class="lang-en">${d.footer_desc_en}</span>
+        <span class="lang-ar">شركة متخصصة في تطوير البرمجيات وأنظمة الكمبيوتر للشركات والمنشآت التجارية في مصر والوطن العربي.</span>
+        <span class="lang-en">A software house specializing in custom systems for businesses and enterprises across Egypt and the Arab world.</span>
       </p>
     </div>
     <div class="footer-col">
@@ -1350,63 +2019,279 @@ ${testCards}
     <div class="footer-col">
       <h4><span class="lang-ar">تابعنا</span><span class="lang-en">Follow Us</span></h4>
       <div class="social-links" style="margin-bottom:16px;">
-        <a class="social-link" href="${d.social_fb}" aria-label="Facebook">📘</a>
-        <a class="social-link" href="${d.social_ig}" aria-label="Instagram">📸</a>
-        <a class="social-link" href="${d.social_li}" aria-label="LinkedIn">💼</a>
-        <a class="social-link" href="${d.social_tw}" aria-label="Twitter">🐦</a>
+        <a class="social-link" href="#" aria-label="Facebook">📘</a>
+        <a class="social-link" href="#" aria-label="Instagram">📸</a>
+        <a class="social-link" href="#" aria-label="LinkedIn">💼</a>
+        <a class="social-link" href="#" aria-label="Twitter">🐦</a>
       </div>
       <ul>
-        <li><a href="${d.social_fb}">Facebook</a></li>
-        <li><a href="${d.social_ig}">Instagram</a></li>
-        <li><a href="${d.social_li}">LinkedIn</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span><span class="lang-ar">${d.footer_copy_ar}</span><span class="lang-en">${d.footer_copy_en}</span></span>
+    <span><span class="lang-ar">© 2026 Smart Solution Technology. جميع الحقوق محفوظة.</span><span class="lang-en">© 2026 Smart Solution Technology. All rights reserved.</span></span>
     <span style="color:var(--gold);"><span class="lang-ar">صُنع بـ ❤️ في مصر</span><span class="lang-en">Made with ❤️ in Egypt</span></span>
   </div>
 </footer>
 
 <script>
+/* ===== LANGUAGE SWITCHER ===== */
 function setLang(lang){
-  const html=document.documentElement;
-  html.lang=lang;html.dir=lang==='ar'?'rtl':'ltr';
-  document.querySelectorAll('.lang-switch button').forEach(b=>{b.classList.toggle('active',b.dataset.lang===lang);});
-  document.querySelectorAll('[data-ph-ar]').forEach(el=>{el.placeholder=lang==='ar'?el.dataset.phAr:el.dataset.phEn;});
-  document.querySelectorAll('option[data-ar]').forEach(o=>{o.textContent=lang==='ar'?o.dataset.ar:o.dataset.en;});
-  const sel=document.querySelector('select.form-input');
-  if(sel&&sel.options[0]){sel.options[0].textContent=lang==='ar'?'اختر نوع المشروع':'Select project type';}
-  try{localStorage.setItem('maro_lang',lang);}catch(e){}
+  const html = document.documentElement;
+  html.lang = lang;
+  html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('.lang-switch button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  // Update placeholders for inputs and select option text
+  document.querySelectorAll('[data-ph-ar]').forEach(el=>{
+    el.placeholder = lang === 'ar' ? el.dataset.phAr : el.dataset.phEn;
+  });
+  document.querySelectorAll('option[data-ar]').forEach(o=>{
+    o.textContent = lang === 'ar' ? o.dataset.ar : o.dataset.en;
+  });
+  // Update first empty option
+  const sel = document.querySelector('select.form-input');
+  if(sel && sel.options[0]){
+    sel.options[0].textContent = lang === 'ar' ? 'اختر نوع المشروع' : 'Select project type';
+  }
+  try{ localStorage.setItem('maro_lang', lang); }catch(e){}
 }
-try{const saved=localStorage.getItem('maro_lang');if(saved){setLang(saved);}else{setLang('ar');}}catch(e){setLang('ar');}
-const cursor=document.getElementById('cursor');
-const ring=document.getElementById('cursorRing');
+// Init lang from storage
+try{
+  const saved = localStorage.getItem('maro_lang');
+  if(saved){ setLang(saved); } else { setLang('ar'); }
+}catch(e){ setLang('ar'); }
+
+/* ===== CUSTOM CURSOR ===== */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
 let mx=0,my=0,rx=0,ry=0,cx=0,cy=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-function animCursor(){cx+=(mx-cx)*.35;cy+=(my-cy)*.35;rx+=(mx-rx)*.14;ry+=(my-ry)*.14;cursor.style.left=cx+'px';cursor.style.top=cy+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animCursor);}
-animCursor();
-document.querySelectorAll('a,button,select,.tech-item,.float-card,.client-card').forEach(el=>{el.addEventListener('mouseenter',()=>{cursor.classList.add('hover');ring.classList.add('hover');});el.addEventListener('mouseleave',()=>{cursor.classList.remove('hover');ring.classList.remove('hover');});});
-document.querySelectorAll('[data-magnetic]').forEach(el=>{el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=e.clientX-r.left-r.width/2;const y=e.clientY-r.top-r.height/2;el.style.transform='translate('+(x*0.15)+'px, '+(y*0.2)+'px)';});el.addEventListener('mouseleave',()=>{el.style.transform='';});});
-document.querySelectorAll('[data-tilt]').forEach(card=>{card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width;const y=(e.clientY-r.top)/r.height;const rx=(y-0.5)*-8;const ry=(x-0.5)*8;card.style.transform='perspective(900px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateY(-10px)';card.style.setProperty('--mx',(x*100)+'%');card.style.setProperty('--my',(y*100)+'%');});card.addEventListener('mouseleave',()=>{card.style.transform='';});});
-const heroSection=document.querySelector('.hero');
-const parallaxEls=document.querySelectorAll('[data-parallax]');
-heroSection.addEventListener('mousemove',e=>{const r=heroSection.getBoundingClientRect();const cx=(e.clientX-r.left-r.width/2);const cy=(e.clientY-r.top-r.height/2);parallaxEls.forEach(el=>{const f=parseFloat(el.dataset.parallax);el.style.transform='translate('+(cx*f)+'px, '+(cy*f)+'px)';});});
-window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',scrollY>50);const h=document.documentElement.scrollHeight-window.innerHeight;const pct=h>0?(scrollY/h)*100:0;document.getElementById('scrollProgress').style.width=pct+'%';});
-function toggleNav(){document.getElementById('navLinks').classList.toggle('open');document.getElementById('hamburger').classList.toggle('open');}
-document.querySelectorAll('.nav-links a').forEach(a=>{a.addEventListener('click',()=>{document.getElementById('navLinks').classList.remove('open');document.getElementById('hamburger').classList.remove('open');});});
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'});}});});
-const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.12});
-document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>observer.observe(el));
-function animateCounter(el){const target=+el.dataset.target;const suffix=el.dataset.suffix||'';let current=0;const duration=1600;const start=performance.now();function tick(now){const t=Math.min((now-start)/duration,1);const eased=1-Math.pow(1-t,3);current=target*eased;el.textContent=Math.floor(current)+suffix;if(t<1)requestAnimationFrame(tick);else el.textContent=target+suffix;}requestAnimationFrame(tick);}
-const counterObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateCounter(e.target);counterObs.unobserve(e.target);}});},{threshold:.5});
-document.querySelectorAll('.stat-num').forEach(el=>counterObs.observe(el));
-function filterPortfolio(cat,btn){document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.portfolio-card').forEach((card,i)=>{const show=cat==='all'||card.dataset.cat===cat;if(show){card.style.display='';card.style.opacity='0';card.style.transform='translateY(20px) scale(.95)';setTimeout(()=>{card.style.transition='all .5s cubic-bezier(.2,.8,.2,1)';card.style.opacity='1';card.style.transform='';},i*60);}else{card.style.transition='all .3s';card.style.opacity='0';card.style.transform='translateY(10px) scale(.95)';setTimeout(()=>card.style.display='none',300);}});}
-function submitForm(btn){const isAr=document.documentElement.lang==='ar';btn.innerHTML=isAr?'<span>⏳ جاري الإرسال...</span>':'<span>⏳ Sending...</span>';btn.disabled=true;setTimeout(()=>{btn.innerHTML=isAr?'<span>✅ تم الإرسال! سنتواصل معك قريباً</span>':'<span>✅ Sent! We\'ll be in touch soon</span>';btn.style.background='linear-gradient(135deg,#2a9d5c,#1a6e3c)';btn.style.color='#fff';},1500);}
-(function(){const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');let particles=[];function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}resize();window.addEventListener('resize',resize);const COUNT=Math.min(60,Math.floor(window.innerWidth/24));for(let i=0;i<COUNT;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.5+.4,a:Math.random()*.5+.15});}function tick(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y<0||p.y>canvas.height)p.vy*=-1;ctx.fillStyle='rgba(201,168,76,'+p.a+')';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();});for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x;const dy=particles[i].y-particles[j].y;const d=dx*dx+dy*dy;if(d<14000){const alpha=(1-d/14000)*.12;ctx.strokeStyle='rgba(201,168,76,'+alpha+')';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();}}}requestAnimationFrame(tick);}tick();})();
-<\/script>
-</body></html>`;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+});
+function animCursor(){
+  cx+=(mx-cx)*.35;cy+=(my-cy)*.35;
+  rx+=(mx-rx)*.14;ry+=(my-ry)*.14;
+  cursor.style.left=cx+'px';cursor.style.top=cy+'px';
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animCursor);
 }
+animCursor();
+
+document.querySelectorAll('a,button,select,.tech-item,.float-card,.client-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cursor.classList.add('hover');
+    ring.classList.add('hover');
+  });
+  el.addEventListener('mouseleave',()=>{
+    cursor.classList.remove('hover');
+    ring.classList.remove('hover');
+  });
+});
+
+/* ===== MAGNETIC BUTTONS ===== */
+document.querySelectorAll('[data-magnetic]').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width/2;
+    const y = e.clientY - r.top - r.height/2;
+    el.style.transform = `translate(${x*0.15}px, ${y*0.2}px)`;
+  });
+  el.addEventListener('mouseleave',()=>{
+    el.style.transform = '';
+  });
+});
+
+/* ===== 3D TILT CARDS ===== */
+document.querySelectorAll('[data-tilt]').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    const rx = (y - 0.5) * -8;
+    const ry = (x - 0.5) * 8;
+    card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-10px)`;
+    card.style.setProperty('--mx', (x*100)+'%');
+    card.style.setProperty('--my', (y*100)+'%');
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform = '';
+  });
+});
+
+/* ===== HERO PARALLAX ===== */
+const heroSection = document.querySelector('.hero');
+if(heroSection){
+  const parallaxEls = document.querySelectorAll('[data-parallax]');
+  heroSection.addEventListener('mousemove',e=>{
+    const r = heroSection.getBoundingClientRect();
+    const cx = (e.clientX - r.left - r.width/2);
+    const cy = (e.clientY - r.top - r.height/2);
+    parallaxEls.forEach(el=>{
+      const f = parseFloat(el.dataset.parallax);
+      el.style.transform = `translate(${cx*f}px, ${cy*f}px)`;
+    });
+  });
+}
+
+/* ===== NAV SCROLL ===== */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',scrollY>50);
+  // Scroll progress
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h>0 ? (scrollY / h) * 100 : 0;
+  document.getElementById('scrollProgress').style.width = pct + '%';
+});
+
+/* ===== MOBILE NAV ===== */
+function toggleNav(){
+  document.getElementById('navLinks').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  });
+});
+
+/* ===== SMOOTH SCROLL ===== */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth'});
+    }
+  });
+});
+
+/* ===== REVEAL ON SCROLL ===== */
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible');});
+},{threshold:.12});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>observer.observe(el));
+
+/* ===== COUNTER ANIMATION ===== */
+function animateCounter(el){
+  const target = +el.dataset.target;
+  const suffix = el.dataset.suffix || '';
+  let current = 0;
+  const duration = 1600;
+  const start = performance.now();
+  function tick(now){
+    const t = Math.min((now-start)/duration, 1);
+    // easeOutCubic
+    const eased = 1 - Math.pow(1-t, 3);
+    current = target * eased;
+    el.textContent = Math.floor(current) + suffix;
+    if(t<1) requestAnimationFrame(tick);
+    else el.textContent = target + suffix;
+  }
+  requestAnimationFrame(tick);
+}
+const counterObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){animateCounter(e.target);counterObs.unobserve(e.target);}
+  });
+},{threshold:.5});
+document.querySelectorAll('.stat-num').forEach(el=>counterObs.observe(el));
+
+/* ===== PORTFOLIO FILTER ===== */
+function filterPortfolio(cat,btn){
+  document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.portfolio-card').forEach((card,i)=>{
+    const show = cat==='all' || card.dataset.cat===cat;
+    if(show){
+      card.style.display = '';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px) scale(.95)';
+      setTimeout(()=>{
+        card.style.transition = 'all .5s cubic-bezier(.2,.8,.2,1)';
+        card.style.opacity = '1';
+        card.style.transform = '';
+      }, i*60);
+    } else {
+      card.style.transition = 'all .3s';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(10px) scale(.95)';
+      setTimeout(()=>card.style.display = 'none', 300);
+    }
+  });
+}
+
+/* ===== FORM SUBMIT ===== */
+function submitForm(btn){
+  const isAr = document.documentElement.lang === 'ar';
+  btn.innerHTML = isAr ? '<span>⏳ جاري الإرسال...</span>' : '<span>⏳ Sending...</span>';
+  btn.disabled = true;
+  setTimeout(()=>{
+    btn.innerHTML = isAr ? '<span>✅ تم الإرسال! سنتواصل معك قريباً</span>' : '<span>✅ Sent! We\'ll be in touch soon</span>';
+    btn.style.background = 'linear-gradient(135deg,#2a9d5c,#1a6e3c)';
+    btn.style.color = '#fff';
+  },1500);
+}
+
+/* ===== PARTICLES BACKGROUND ===== */
+(function(){
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize',resize);
+  const COUNT = Math.min(60, Math.floor(window.innerWidth/24));
+  for(let i=0;i<COUNT;i++){
+    particles.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      vx: (Math.random()-.5)*.25,
+      vy: (Math.random()-.5)*.25,
+      r: Math.random()*1.5+.4,
+      a: Math.random()*.5+.15
+    });
+  }
+  function tick(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<0||p.x>canvas.width) p.vx*=-1;
+      if(p.y<0||p.y>canvas.height) p.vy*=-1;
+      ctx.fillStyle = `rgba(201,168,76,${p.a})`;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+    });
+    // Connections
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = dx*dx+dy*dy;
+        if(d < 14000){
+          const alpha = (1 - d/14000)*.12;
+          ctx.strokeStyle = `rgba(201,168,76,${alpha})`;
+          ctx.lineWidth = .6;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
 </script>
-</body>
-</html>
+
+
+</body></html>

@@ -287,6 +287,12 @@ html[lang="en"] .lang-switch button[data-lang="ar"]{color:var(--gray);}
 .orb2{width:320px;height:320px;background:rgba(201,168,76,.08);bottom:10%;left:5%;animation-delay:3s;}
 .orb3{width:220px;height:220px;background:rgba(26,58,110,.35);top:40%;right:20%;animation-delay:6s;}
 
+@media(max-width:768px){
+  .orb1{width:250px;height:250px;right:-60px;top:-60px;}
+  .orb2{width:180px;height:180px;}
+  .orb3{width:130px;height:130px;}
+}
+
 @keyframes float{
   0%,100%{transform:translate(0,0) scale(1);}
   33%{transform:translate(20px,-30px) scale(1.05);}
@@ -953,12 +959,15 @@ html[lang="ar"] .footer-col a:hover{transform:translateX(-4px);}
 /* SCROLL ANIMATIONS */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
 .reveal.visible{opacity:1;transform:translateY(0);}
-.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
-.reveal-left.visible{opacity:1;transform:translateX(0);}
-.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
-.reveal-right.visible{opacity:1;transform:translateX(0);}
+.reveal-left{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
+.reveal-left.visible{opacity:1;transform:translateY(0);}
+.reveal-right{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
+.reveal-right.visible{opacity:1;transform:translateY(0);}
 .reveal-scale{opacity:0;transform:scale(.9);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
 .reveal-scale.visible{opacity:1;transform:scale(1);}
+
+/* Prevent any section from causing horizontal scroll */
+section{overflow-x:clip;}
 
 /* Stagger delays */
 .services-grid .service-card:nth-child(1){transition-delay:.05s;}
@@ -2295,6 +2304,18 @@ function submitForm(btn){
     requestAnimationFrame(tick);
   }
   tick();
+})();
+
+// ===== PREVENT HORIZONTAL SCROLL (Android fix) =====
+(function(){
+  // Force scroll position back if ever drifts horizontally
+  window.addEventListener('scroll', function(){
+    if(window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+  }, {passive:true});
+  // Also clamp on touch end
+  document.addEventListener('touchend', function(){
+    if(window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+  }, {passive:true});
 })();
 </script>
 

@@ -1162,6 +1162,17 @@ html[lang="en"] .slider-dots{left:5%;}
 }
 @keyframes dotProgress{from{width:0%;}to{width:100%;}}
 
+/* Hero highlight word — gold accent like Redcon's colored word */
+.hero-highlight{
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  background-size:200% auto;
+  animation:gradientShift 3s linear infinite;
+  font-style:italic;
+}
+
 /* slide counter */
 .slide-counter{
   position:absolute;bottom:48px;
@@ -1324,7 +1335,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
     <!-- SLIDE 1 — ERP & Custom Software -->
     <div class="hero-slide active" data-index="0">
       <img
-        src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=90&auto=format&fit=crop&crop=center"
+        src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=1920&q=90&auto=format&fit=crop&crop=center"
         alt="Software Development"
         loading="eager"
       >
@@ -1338,7 +1349,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
     <!-- SLIDE 2 — Business Intelligence -->
     <div class="hero-slide" data-index="1">
       <img
-        src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1920&q=90&auto=format&fit=crop&crop=center"
+        src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=90&auto=format&fit=crop&crop=center"
         alt="Business Intelligence"
         loading="lazy"
       >
@@ -1352,7 +1363,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
     <!-- SLIDE 3 — Business Automation -->
     <div class="hero-slide" data-index="2">
       <img
-        src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=1920&q=90&auto=format&fit=crop&crop=center"
+        src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1920&q=90&auto=format&fit=crop&crop=center"
         alt="Business Automation"
         loading="lazy"
       >
@@ -1366,7 +1377,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
     <!-- SLIDE 4 — Digital Transformation -->
     <div class="hero-slide" data-index="3">
       <img
-        src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=90&auto=format&fit=crop&crop=center"
+        src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1920&q=90&auto=format&fit=crop&crop=center"
         alt="Digital Transformation"
         loading="lazy"
       >
@@ -1495,8 +1506,8 @@ const SLIDES = [
   {
     badgeAr: '🌐 استشارات التحول الرقمي',
     badgeEn: '🌐 Digital Transformation Consultancy',
-    h1Ar: 'قُد مؤسستك نحو المستقبل',
-    h1En: 'Lead Your Enterprise Into The Future',
+    h1Ar: 'قُد مؤسستك نحو <span class="hero-highlight">المستقبل</span>',
+    h1En: 'Lead Your Enterprise Into The <span class="hero-highlight">Future</span>',
     h2Ar: 'بخارطة تحول رقمي احترافية',
     h2En: 'With A Professional Digital Roadmap',
     descAr: 'استراتيجيات تحول رقمي شاملة مصممة خصيصاً لنموذج عملك — نُرافقك في كل خطوة من التخطيط حتى التطبيق لنضمن ريادتك في سوق الغد.',

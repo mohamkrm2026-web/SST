@@ -24,13 +24,14 @@
 
 *{margin:0;padding:0;box-sizing:border-box;}
 
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%;}
 
 body{
   font-family:var(--font-ar);
   background:var(--navy);
   color:var(--white);
   overflow-x:hidden;
+  max-width:100%;
   cursor:none;
 }
 html[lang="en"] body{font-family:var(--font-en);}
@@ -285,6 +286,12 @@ html[lang="en"] .lang-switch button[data-lang="ar"]{color:var(--gray);}
 .orb1{width:450px;height:450px;background:rgba(26,58,110,.5);top:-100px;right:-100px;animation-delay:0s;}
 .orb2{width:320px;height:320px;background:rgba(201,168,76,.08);bottom:10%;left:5%;animation-delay:3s;}
 .orb3{width:220px;height:220px;background:rgba(26,58,110,.35);top:40%;right:20%;animation-delay:6s;}
+
+@media(max-width:768px){
+  .orb1{width:250px;height:250px;right:-60px;top:-60px;}
+  .orb2{width:180px;height:180px;}
+  .orb3{width:130px;height:130px;}
+}
 
 @keyframes float{
   0%,100%{transform:translate(0,0) scale(1);}
@@ -952,12 +959,15 @@ html[lang="ar"] .footer-col a:hover{transform:translateX(-4px);}
 /* SCROLL ANIMATIONS */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
 .reveal.visible{opacity:1;transform:translateY(0);}
-.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
-.reveal-left.visible{opacity:1;transform:translateX(0);}
-.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
-.reveal-right.visible{opacity:1;transform:translateX(0);}
+.reveal-left{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
+.reveal-left.visible{opacity:1;transform:translateY(0);}
+.reveal-right{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
+.reveal-right.visible{opacity:1;transform:translateY(0);}
 .reveal-scale{opacity:0;transform:scale(.9);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);}
 .reveal-scale.visible{opacity:1;transform:scale(1);}
+
+/* Prevent any section from causing horizontal scroll */
+section{overflow-x:clip;}
 
 /* Stagger delays */
 .services-grid .service-card:nth-child(1){transition-delay:.05s;}
@@ -1163,6 +1173,90 @@ html[lang="ar"] .slide-counter{right:calc(5% + 90px);}
 html[lang="en"] .slide-counter{left:calc(5% + 90px);}
 .slide-counter span{color:var(--gold);font-weight:700;}
 
+/* ===== HERO SLIDER MOBILE ===== */
+@media(max-width:768px){
+  /* Content wrap — full width, top aligned */
+  #heroContentWrap{
+    max-width:100% !important;
+    padding: 100px 5% 90px !important;
+    flex-direction:column !important;
+    justify-content:flex-start !important;
+    align-items:flex-start !important;
+    gap:20px !important;
+    min-height:100svh !important;
+  }
+
+  /* Text block — full width */
+  .hero-content,
+  #heroTextContent{
+    max-width:100% !important;
+    width:100% !important;
+  }
+
+  /* Shrink h1 drastically on mobile */
+  .hero h1,
+  #slideHeading{
+    font-size:clamp(22px, 6.5vw, 36px) !important;
+    line-height:1.25 !important;
+    margin-bottom:14px !important;
+    word-break:break-word !important;
+    overflow-wrap:break-word !important;
+    width:100% !important;
+    overflow:hidden !important;
+  }
+
+  /* Description font */
+  .hero p,
+  #slideDesc{
+    font-size:14px !important;
+    line-height:1.7 !important;
+    margin-bottom:28px !important;
+  }
+
+  /* Badge */
+  .hero-badge{
+    font-size:10px !important;
+    padding:5px 14px !important;
+    margin-bottom:18px !important;
+  }
+
+  /* CTA buttons stacked */
+  .hero-btns{
+    flex-direction:column !important;
+    gap:12px !important;
+    width:100% !important;
+  }
+  .btn-primary,.btn-secondary{
+    width:100% !important;
+    text-align:center !important;
+    justify-content:center !important;
+    padding:14px 20px !important;
+    font-size:14px !important;
+  }
+
+  /* Service label */
+  .slide-service-label{
+    font-size:8px !important;
+    letter-spacing:2px !important;
+    padding:4px 10px !important;
+  }
+
+  /* Dots & arrows bottom controls */
+  .slider-arrows{bottom:18px;}
+  .slider-dots{bottom:22px;}
+  .slide-counter{
+    bottom:26px;
+    font-size:10px;
+  }
+  html[lang="ar"] .slide-counter{right:calc(5% + 70px);}
+  html[lang="en"] .slide-counter{left:calc(5% + 70px);}
+
+  /* Arrow size */
+  .slider-arrow{
+    width:38px;height:38px;font-size:14px;border-radius:8px;
+  }
+}
+
 /* slide-in text animation */
 @keyframes slideInRight{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
 @keyframes slideInLeft{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
@@ -1222,7 +1316,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
 </nav>
 
 <!-- HERO SLIDER -->
-<section class="hero" id="home" style="padding:0;min-height:100vh;display:flex;align-items:flex-end;position:relative;overflow:hidden;">
+<section class="hero" id="home" style="padding:0;min-height:100vh;display:flex;align-items:flex-end;position:relative;overflow:hidden;max-width:100vw;">
 
   <!-- ===== CINEMATIC SLIDES ===== -->
   <div class="hero-slider" id="heroSlider">
@@ -1292,16 +1386,17 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
   <!-- ===== SLIDE CONTENT PANEL ===== -->
   <div id="heroContentWrap" style="
     position:relative;z-index:3;
-    width:100%;padding:0 5% 110px;
+    width:100%;max-width:100%;
+    padding:120px 5% 110px;
     display:flex;align-items:flex-end;justify-content:space-between;
     flex-wrap:wrap;gap:32px;
     min-height:100vh;
     box-sizing:border-box;
-    padding-top:120px;
+    overflow:hidden;
   ">
 
     <!-- Left / right text content -->
-    <div class="hero-content" id="heroTextContent" style="max-width:55%;padding-bottom:0;">
+    <div class="hero-content" id="heroTextContent" style="padding-bottom:0;max-width:min(55%,100%)">
 
       <!-- badge -->
       <div class="hero-badge" id="slideBadge">
@@ -1382,7 +1477,7 @@ const SLIDES = [
     badgeEn: '📊 Business Intelligence & Analytics',
     h1Ar: 'قرارات مدعومة بالبيانات',
     h1En: 'Data-Driven Decisions',
-    h2Ar: 'تصنع الفارق في سوقك',
+    h2Ar: 'تصنع الفارق في سوق العمل',
     h2En: 'That Dominate Your Market',
     descAr: 'حوّل بياناتك الخام إلى ذكاء استراتيجي حقيقي — لوحات قيادة تفاعلية وتقارير فورية تمنحك رؤية كاملة لكل جانب من جوانب عملك.',
     descEn: 'Transform raw data into real strategic intelligence — interactive dashboards and real-time reports that give you complete visibility over every aspect of your business.',
@@ -2209,6 +2304,18 @@ function submitForm(btn){
     requestAnimationFrame(tick);
   }
   tick();
+})();
+
+// ===== PREVENT HORIZONTAL SCROLL (Android fix) =====
+(function(){
+  // Force scroll position back if ever drifts horizontally
+  window.addEventListener('scroll', function(){
+    if(window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+  }, {passive:true});
+  // Also clamp on touch end
+  document.addEventListener('touchend', function(){
+    if(window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+  }, {passive:true});
 })();
 </script>
 

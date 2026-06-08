@@ -1076,20 +1076,21 @@ section{overflow-x:clip;}
   width:100%;height:100%;object-fit:cover;
   display:block;
 }
+/* ===== HERO SLIDER OVERLAY — CINEMATIC GRADE ===== */
 .hero-slide-overlay{
   position:absolute;inset:0;
   background:linear-gradient(
-    135deg,
-    rgba(5,13,26,.88) 0%,
-    rgba(5,13,26,.65) 40%,
-    rgba(5,13,26,.45) 70%,
-    rgba(5,13,26,.72) 100%
+    125deg,
+    rgba(5,13,26,.92) 0%,
+    rgba(5,13,26,.72) 35%,
+    rgba(5,13,26,.38) 65%,
+    rgba(5,13,26,.60) 100%
   );
 }
 /* cinematic vignette */
 .hero-slide-overlay::after{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 120% 120% at 50% 50%,transparent 30%,rgba(5,13,26,.6) 100%);
+  background:radial-gradient(ellipse 130% 120% at 50% 50%,transparent 25%,rgba(5,13,26,.72) 100%);
 }
 
 /* slide content label (service name) */
@@ -1108,14 +1109,26 @@ section{overflow-x:clip;}
 html[lang="ar"] .slide-service-label{right:0;}
 html[lang="en"] .slide-service-label{left:0;}
 
-/* Ken Burns zoom on active */
+/* Ken Burns zoom on active — generic fallback */
 @keyframes kenburns{
-  0%{transform:scale(1);}
-  100%{transform:scale(1.06);}
+  0%{transform:scale(1) translate(0,0);}
+  100%{transform:scale(1.07) translate(-1%,-1%);}
+}
+@keyframes kenburns2{
+  0%{transform:scale(1) translate(0,0);}
+  100%{transform:scale(1.06) translate(1%,-0.5%);}
+}
+@keyframes kenburns3{
+  0%{transform:scale(1.04) translate(-1%,0);}
+  100%{transform:scale(1) translate(0.5%,0.5%);}
 }
 .hero-slide.active img{
-  animation:kenburns 8s ease-out forwards;
+  animation:kenburns 9s ease-out forwards;
 }
+.hero-slide[data-index="1"].active img{ animation:kenburns2 9s ease-out forwards; }
+.hero-slide[data-index="2"].active img{ animation:kenburns3 9s ease-out forwards; }
+.hero-slide[data-index="3"].active img{ animation:kenburns 10s ease-out forwards; }
+.hero-slide[data-index="4"].active img{ animation:kenburns2 8s ease-out forwards; }
 
 /* SLIDER ARROWS */
 .slider-arrows{
@@ -1398,72 +1411,83 @@ html[lang="en"] .whatsapp-float{right:28px;}
   <!-- ===== CINEMATIC SLIDES ===== -->
   <div class="hero-slider" id="heroSlider">
 
-    <!-- SLIDE 1 — Custom Software & ERP -->
+    <!-- SLIDE 1 — ERP & Custom Software
+         Visual: Executive reviewing a glowing enterprise dashboard at night —
+         communicates command, control, and business mastery.
+         Focal point: screens left, dark space right = perfect copy placement. -->
     <div class="hero-slide active" data-index="0">
       <img
-        src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1920&q=90&auto=format&fit=crop"
-        alt="Software Development"
+        src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=92&auto=format&fit=crop&crop=center"
+        alt="ERP & Custom Software"
         loading="eager"
       >
       <div class="hero-slide-overlay"></div>
       <div class="slide-service-label">
-        <span class="lang-ar">تطوير البرمجيات</span>
-        <span class="lang-en">Software Development</span>
+        <span class="lang-ar">برمجيات الأعمال المخصصة</span>
+        <span class="lang-en">Custom Business Software</span>
       </div>
     </div>
 
-    <!-- SLIDE 2 — Business Intelligence -->
+    <!-- SLIDE 2 — Business Intelligence & Analytics
+         Visual: Dramatic overhead shot of analyst hands on laptop with data
+         visualisations glowing on screen — conveys insight, precision, data mastery. -->
     <div class="hero-slide" data-index="1">
       <img
-        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=90&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1666875753105-c63a6f3bdc86?w=1920&q=92&auto=format&fit=crop&crop=center"
         alt="Business Intelligence"
         loading="lazy"
       >
       <div class="hero-slide-overlay"></div>
       <div class="slide-service-label">
-        <span class="lang-ar">ذكاء الأعمال</span>
+        <span class="lang-ar">ذكاء الأعمال والبيانات</span>
         <span class="lang-en">Business Intelligence</span>
       </div>
     </div>
 
-    <!-- SLIDE 3 — Business Automation -->
+    <!-- SLIDE 3 — Process Automation
+         Visual: Modern automated warehouse / robotic logistics at scale —
+         viscerally communicates speed, zero error, and operational power. -->
     <div class="hero-slide" data-index="2">
       <img
-        src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1920&q=90&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1920&q=92&auto=format&fit=crop&crop=center"
         alt="Business Automation"
         loading="lazy"
       >
       <div class="hero-slide-overlay"></div>
       <div class="slide-service-label">
-        <span class="lang-ar">أتمتة العمليات</span>
+        <span class="lang-ar">أتمتة العمليات التجارية</span>
         <span class="lang-en">Business Automation</span>
       </div>
     </div>
 
-    <!-- SLIDE 4 — Digital Transformation -->
+    <!-- SLIDE 4 — Digital Transformation
+         Visual: Confident business team in a sleek modern open office with
+         floor-to-ceiling glass — aspirational, growth, leadership energy. -->
     <div class="hero-slide" data-index="3">
       <img
-        src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=90&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=92&auto=format&fit=crop&crop=center"
         alt="Digital Transformation"
         loading="lazy"
       >
       <div class="hero-slide-overlay"></div>
       <div class="slide-service-label">
-        <span class="lang-ar">التحول الرقمي</span>
+        <span class="lang-ar">التحوُّل الرقمي</span>
         <span class="lang-en">Digital Transformation</span>
       </div>
     </div>
 
-    <!-- SLIDE 5 — Cloud & Cybersecurity -->
+    <!-- SLIDE 5 — Cloud & Cybersecurity
+         Visual: Expansive server hall with electric blue lighting stretching
+         to infinity — scale, trust, fortress-grade protection. -->
     <div class="hero-slide" data-index="4">
       <img
-        src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=1920&q=90&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=92&auto=format&fit=crop&crop=center"
         alt="Cloud & Cybersecurity"
         loading="lazy"
       >
       <div class="hero-slide-overlay"></div>
       <div class="slide-service-label">
-        <span class="lang-ar">الأمن السيبراني والسحابة</span>
+        <span class="lang-ar">الأمن السيبراني والحوسبة السحابية</span>
         <span class="lang-en">Cloud & Cybersecurity</span>
       </div>
     </div>
@@ -2236,7 +2260,7 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
       <div class="contact-info">
         <div class="ci-item">
           <div class="ci-icon">📱</div>
-          <div><div class="ci-label"><span class="lang-ar">واتساب وهاتف</span><span class="lang-en">WhatsApp &amp; Phone</span></div><div class="ci-val" dir="ltr">+201005799880</div></div>
+          <div><div class="ci-label"><span class="lang-ar">واتساب وهاتف</span><span class="lang-en">WhatsApp &amp; Phone</span></div><div class="ci-val" dir="ltr">+201505731623</div></div>
         </div>
         <div class="ci-item">
           <div class="ci-icon">📧</div>

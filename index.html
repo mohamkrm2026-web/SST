@@ -2,7 +2,14 @@
 <html lang="ar" dir="rtl"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Solution Technology</title>
+<title>Smart Solution Technology | برمجيات وأنظمة إدارة أعمال متكاملة</title>
+<meta name="description" content="Smart Solution Technology – شركة متخصصة في تطوير برامج إدارة الأعمال المخصصة: ERP، كافيهات، مطاعم، مدارس، مصانع، جيمانزيوم، مستشفيات، متاجر، تطبيقات موبايل. Custom business software solutions in Egypt.">
+<meta name="keywords" content="برنامج ادارة, ERP مصر, نظام كافيه, برنامج مطعم, نظام مدرسة, برنامج مصنع, نظام جيم, برنامج سوبر ماركت, تطبيق موبايل, موقع الكتروني, Smart Solution Technology, business software Egypt">
+<meta property="og:title" content="Smart Solution Technology | حلول برمجية لكل بيزنس">
+<meta property="og:description" content="نطور برامج وأنظمة إدارة أعمال مخصصة 100% للشركات والمؤسسات في مصر والعالم العربي">
+<meta property="og:type" content="website">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Smart Solution Technology">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&amp;family=Inter:wght@300;400;500;600;700;800;900&amp;family=Orbitron:wght@400;700;900&amp;family=Playfair+Display:ital,wght@1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
 <style>
@@ -1162,17 +1169,6 @@ html[lang="en"] .slider-dots{left:5%;}
 }
 @keyframes dotProgress{from{width:0%;}to{width:100%;}}
 
-/* Hero highlight word — gold accent like Redcon's colored word */
-.hero-highlight{
-  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold3));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  background-size:200% auto;
-  animation:gradientShift 3s linear infinite;
-  font-style:italic;
-}
-
 /* slide counter */
 .slide-counter{
   position:absolute;bottom:48px;
@@ -1281,6 +1277,75 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
 /* SELECTION */
 ::selection{background:var(--gold);color:var(--navy);}
 
+/* WHATSAPP FLOAT */
+.whatsapp-float{
+  position:fixed;bottom:32px;z-index:500;
+  width:60px;height:60px;
+  background:linear-gradient(135deg,#25d366,#128c7e);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;text-decoration:none;
+  box-shadow:0 8px 28px rgba(37,211,102,.45);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;
+  animation:waPulse 2.5s ease-in-out infinite;
+}
+html[lang="ar"] .whatsapp-float{left:28px;}
+html[lang="en"] .whatsapp-float{right:28px;}
+.whatsapp-float:hover{transform:scale(1.12) translateY(-4px);box-shadow:0 16px 40px rgba(37,211,102,.6);}
+@keyframes waPulse{
+  0%,100%{box-shadow:0 8px 28px rgba(37,211,102,.45),0 0 0 0 rgba(37,211,102,.4);}
+  50%{box-shadow:0 8px 28px rgba(37,211,102,.45),0 0 0 14px rgba(37,211,102,0);}
+}
+
+/* WHY US SECTION */
+#why-us{background:linear-gradient(180deg,var(--navy2) 0%,var(--navy) 100%);}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+@media(max-width:900px){.why-grid{grid-template-columns:1fr;}}
+.why-process{display:flex;flex-direction:column;gap:0;}
+.wp-step{
+  display:flex;gap:20px;align-items:flex-start;
+  padding:24px 0;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.wp-step:last-child{border-bottom:none;}
+.wp-num{
+  font-family:'Orbitron',sans-serif;
+  font-size:32px;font-weight:900;
+  color:rgba(201,168,76,.18);
+  min-width:52px;
+  line-height:1;
+  transition:color .3s;
+}
+.wp-step:hover .wp-num{color:var(--gold);}
+.wp-title{font-size:16px;font-weight:700;margin-bottom:6px;}
+.wp-desc{font-size:13px;color:var(--gray);line-height:1.7;}
+.why-values{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.wv-card{
+  background:rgba(10,22,40,.6);
+  border:1px solid var(--border);
+  border-radius:18px;padding:26px 22px;
+  text-align:center;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(10px);
+}
+.wv-card:hover{
+  border-color:rgba(201,168,76,.4);
+  transform:translateY(-6px);
+  box-shadow:0 16px 40px rgba(0,0,0,.35);
+}
+.wv-icon{font-size:34px;margin-bottom:12px;display:block;transition:transform .4s;}
+.wv-card:hover .wv-icon{transform:scale(1.2) rotate(-8deg);}
+.wv-title{font-size:15px;font-weight:700;margin-bottom:6px;}
+.wv-desc{font-size:12px;color:var(--gray);line-height:1.65;}
+
+/* NEW PORTFOLIO THUMBS */
+.pc-thumb-school{background:linear-gradient(135deg,#0c1f1a,#0d3326);}
+.pc-thumb-gym{background:linear-gradient(135deg,#1a0c0c,#3d1a10);}
+.pc-thumb-factory{background:linear-gradient(135deg,#0d0d1a,#1a1a3d);}
+.pc-thumb-hospital{background:linear-gradient(135deg,#0a1c1c,#0d3434);}
+
+
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:10px;}
 ::-webkit-scrollbar-track{background:var(--navy);}
@@ -1313,6 +1378,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
     <li><a href="#portfolio"><span class="lang-ar">أعمالنا</span><span class="lang-en">Portfolio</span></a></li>
     <li><a href="#about"><span class="lang-ar">من نحن</span><span class="lang-en">About</span></a></li>
     <li><a href="#clients"><span class="lang-ar">العملاء</span><span class="lang-en">Clients</span></a></li>
+    <li><a href="#why-us"><span class="lang-ar">لماذا نحن</span><span class="lang-en">Why Us</span></a></li>
     <li><a href="#contact" class="nav-cta"><span class="lang-ar">تواصل معنا</span><span class="lang-en">Contact Us</span></a></li>
   </ul>
   <div class="nav-right">
@@ -1332,10 +1398,10 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
   <!-- ===== CINEMATIC SLIDES ===== -->
   <div class="hero-slider" id="heroSlider">
 
-    <!-- SLIDE 1 — ERP & Custom Software -->
+    <!-- SLIDE 1 — Custom Software & ERP -->
     <div class="hero-slide active" data-index="0">
       <img
-        src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1920&q=90&auto=format&fit=crop&crop=center"
+        src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1920&q=90&auto=format&fit=crop"
         alt="Software Development"
         loading="eager"
       >
@@ -1349,7 +1415,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
     <!-- SLIDE 2 — Business Intelligence -->
     <div class="hero-slide" data-index="1">
       <img
-        src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=1920&q=90&auto=format&fit=crop&crop=center"
+        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=90&auto=format&fit=crop"
         alt="Business Intelligence"
         loading="lazy"
       >
@@ -1363,7 +1429,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
     <!-- SLIDE 3 — Business Automation -->
     <div class="hero-slide" data-index="2">
       <img
-        src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=90&auto=format&fit=crop&crop=center"
+        src="https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=1920&q=90&auto=format&fit=crop"
         alt="Business Automation"
         loading="lazy"
       >
@@ -1377,7 +1443,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
     <!-- SLIDE 4 — Digital Transformation -->
     <div class="hero-slide" data-index="3">
       <img
-        src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&q=90&auto=format&fit=crop&crop=center"
+        src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=90&auto=format&fit=crop"
         alt="Digital Transformation"
         loading="lazy"
       >
@@ -1387,6 +1453,21 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
         <span class="lang-en">Digital Transformation</span>
       </div>
     </div>
+
+    <!-- SLIDE 5 — Cloud & Cybersecurity -->
+    <div class="hero-slide" data-index="4">
+      <img
+        src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=1920&q=90&auto=format&fit=crop"
+        alt="Cloud & Cybersecurity"
+        loading="lazy"
+      >
+      <div class="hero-slide-overlay"></div>
+      <div class="slide-service-label">
+        <span class="lang-ar">الأمن السيبراني والسحابة</span>
+        <span class="lang-en">Cloud & Cybersecurity</span>
+      </div>
+    </div>
+
   </div><!-- /hero-slider -->
 
   <!-- ===== FLOATING ORBS (above slider) ===== -->
@@ -1413,7 +1494,7 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
       <div class="hero-badge" id="slideBadge">
         <span class="badge-dot"></span>
         <span id="badgeText">
-          <span class="lang-ar">حلول تقنية متكاملة</span>
+          <span class="lang-ar">حلولٌ تقنية متكاملة</span>
           <span class="lang-en">Integrated Tech Solutions</span>
         </span>
       </div>
@@ -1421,28 +1502,28 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
       <!-- heading -->
       <h1 id="slideHeading" style="animation:fadeUp .8s .15s ease both;">
         <span id="headLine1">
-          <span class="lang-ar">حلول برمجية مخصصة</span>
+          <span class="lang-ar">حلولٌ برمجية متخصصة</span>
           <span class="lang-en">Custom Software Solutions</span>
         </span>
         <span class="line2" id="headLine2">
-          <span class="lang-ar">تُعيد تعريف كفاءة مؤسستك</span>
+          <span class="lang-ar">تُعيد تعريف كفاءة مؤسستكم</span>
           <span class="lang-en">That Redefine Your Enterprise</span>
         </span>
       </h1>
 
       <!-- sub-text -->
       <p id="slideDesc" style="animation:fadeUp .8s .3s ease both;">
-        <span class="lang-ar" id="descAr">من أنظمة ERP الشاملة إلى البرمجيات المخصصة — نبني الأدوات التي تُحرّك أعمالك إلى الأمام بدقة هندسية وابتكار استراتيجي.</span>
+        <span class="lang-ar" id="descAr">من أنظمة ERP الشاملة إلى البرمجيات المخصصة — نبني الأدوات التي تُحرِّك مؤسستكم إلى الأمام بدقةٍ هندسية وابتكارٍ استراتيجي.</span>
         <span class="lang-en" id="descEn">From comprehensive ERP systems to bespoke software — we build the tools that move your business forward with engineering precision and strategic innovation.</span>
       </p>
 
       <!-- CTA buttons -->
       <div class="hero-btns" style="animation:fadeUp .8s .45s ease both;">
         <a href="#portfolio" class="btn-primary" data-magnetic="">
-          <span>🚀 <span class="lang-ar">شوف أعمالنا</span><span class="lang-en">See Our Work</span></span>
+          <span>🚀 <span class="lang-ar">استعرض أعمالنا</span><span class="lang-en">See Our Work</span></span>
         </a>
         <a href="#contact" class="btn-secondary" data-magnetic="">
-          <span>💬 <span class="lang-ar">تواصل معنا</span><span class="lang-en">Get in Touch</span></span>
+          <span>🎯 <span class="lang-ar">استشارةٌ مجانية</span><span class="lang-en">Free Consultation</span></span>
         </a>
       </div>
     </div>
@@ -1462,10 +1543,11 @@ html[lang="en"] .slide-counter{left:calc(5% + 90px);}
     <div class="slider-dot" onclick="goToSlide(1)"><div class="slider-dot-fill"></div></div>
     <div class="slider-dot" onclick="goToSlide(2)"><div class="slider-dot-fill"></div></div>
     <div class="slider-dot" onclick="goToSlide(3)"><div class="slider-dot-fill"></div></div>
+    <div class="slider-dot" onclick="goToSlide(4)"><div class="slider-dot-fill"></div></div>
   </div>
 
   <!-- ===== COUNTER ===== -->
-  <div class="slide-counter" id="slideCounter"><span id="curSlideNum">01</span> / 04</div>
+  <div class="slide-counter" id="slideCounter"><span id="curSlideNum">01</span> / 05</div>
 
 </section>
 
@@ -1476,11 +1558,11 @@ const SLIDES = [
   {
     badgeAr: '⚙️ تطوير البرمجيات المخصصة',
     badgeEn: '⚙️ Custom Software & ERP',
-    h1Ar: 'أنظمة برمجية مخصصة',
+    h1Ar: 'أنظمة برمجية متخصصة',
     h1En: 'Enterprise-Grade Custom Software',
-    h2Ar: 'تُعيد تعريف كفاءة مؤسستك',
+    h2Ar: 'تُعيد تعريف كفاءة مؤسستكم',
     h2En: 'That Redefines Your Operations',
-    descAr: 'من أنظمة ERP الشاملة إلى البرمجيات المخصصة — نبني الأدوات التي تُحرّك أعمالك إلى الأمام بدقة هندسية واحترافية استراتيجية لا تُضاهى.',
+    descAr: 'من أنظمة ERP الشاملة إلى البرمجيات المخصصة — نبني الأدوات التي تُحرِّك مؤسستكم إلى الأمام بدقةٍ هندسية واحترافيةٍ استراتيجية لا تُضاهى.',
     descEn: 'From comprehensive ERP to bespoke software — we build the tools that move your business forward with engineering precision and strategic vision.',
   },
   {
@@ -1488,30 +1570,40 @@ const SLIDES = [
     badgeEn: '📊 Business Intelligence & Analytics',
     h1Ar: 'قرارات مدعومة بالبيانات',
     h1En: 'Data-Driven Decisions',
-    h2Ar: 'تصنع الفارق في سوق العمل',
+    h2Ar: 'تَصنع الفارق في سوق الأعمال',
     h2En: 'That Dominate Your Market',
-    descAr: 'حوّل بياناتك الخام إلى ذكاء استراتيجي حقيقي — لوحات قيادة تفاعلية وتقارير فورية تمنحك رؤية كاملة لكل جانب من جوانب عملك.',
+    descAr: 'حوِّلوا بياناتكم الخام إلى ذكاءٍ استراتيجي حقيقي — لوحات قيادة تفاعلية وتقارير آنية تمنحكم رؤيةً شاملة لكل جانبٍ من جوانب نشاطكم التجاري.',
     descEn: 'Transform raw data into real strategic intelligence — interactive dashboards and real-time reports that give you complete visibility over every aspect of your business.',
   },
   {
     badgeAr: '🤖 أتمتة العمليات التجارية',
     badgeEn: '🤖 Business Process Automation',
-    h1Ar: 'أتمتة ذكية تُحرّر طاقة فريقك',
+    h1Ar: 'أتمتةٌ ذكية تُحرِّر طاقات فريقكم',
     h1En: 'Intelligent Automation',
-    h2Ar: 'وتُضاعف إنتاجيتك بلا حدود',
+    h2Ar: 'وتُضاعف إنتاجيتكم بلا حدود',
     h2En: 'That Multiplies Your Productivity',
-    descAr: 'دع التكنولوجيا تتولى المهام المتكررة — أتمتة عمليات تجارية متكاملة تُقلّص الوقت والتكاليف وتُضاعف كفاءة فريقك بشكل يُدهش المنافسين.',
+    descAr: 'أوكِلوا إلى التقنية المهامَّ المتكررة — أتمتةٌ متكاملة للعمليات التجارية تُقلِّص الوقت والتكاليف وتُضاعف كفاءة فريقكم بصورةٍ تُبهر المنافسين.',
     descEn: 'Let technology handle repetitive tasks — complete business process automation that shrinks time and costs while multiplying your team\'s efficiency dramatically.',
   },
   {
     badgeAr: '🌐 استشارات التحول الرقمي',
     badgeEn: '🌐 Digital Transformation Consultancy',
-    h1Ar: 'قُد مؤسستك نحو <span class="hero-highlight">المستقبل</span>',
-    h1En: 'Lead Your Enterprise Into The <span class="hero-highlight">Future</span>',
-    h2Ar: 'بخارطة تحول رقمي احترافية',
+    h1Ar: 'قُد مؤسستك نحو المستقبل',
+    h1En: 'Lead Your Enterprise Into The Future',
+    h2Ar: 'بخارطة تحوُّل رقمي احترافية',
     h2En: 'With A Professional Digital Roadmap',
-    descAr: 'استراتيجيات تحول رقمي شاملة مصممة خصيصاً لنموذج عملك — نُرافقك في كل خطوة من التخطيط حتى التطبيق لنضمن ريادتك في سوق الغد.',
+    descAr: 'استراتيجيات تحوُّل رقمي شاملة مُصمَّمة خصيصاً لنموذج عملكم — نُرافقكم في كل خطوة من التخطيط حتى التنفيذ لنضمن ريادتكم في سوق الغد.',
     descEn: 'Comprehensive digital transformation strategies tailored to your business model — we guide you from planning to execution to guarantee your leadership in tomorrow\'s market.',
+  },
+  {
+    badgeAr: '☁️ الحوسبة السحابية والأمن السيبراني',
+    badgeEn: '☁️ Cloud Solutions & Cybersecurity',
+    h1Ar: 'بياناتك محمية على أعلى مستوى',
+    h1En: 'Your Data Protected At The Highest Level',
+    h2Ar: 'بنية سحابية آمنة وموثوقة',
+    h2En: 'Secure & Reliable Cloud Infrastructure',
+    descAr: 'حلول سحابية متكاملة وأمنٌ سيبراني من الدرجة الأولى — نضمن حماية بياناتكم وتوافر أنظمتكم على مدار الساعة بأداءٍ لا يتوقف.',
+    descEn: 'Comprehensive cloud solutions and top-tier cybersecurity — ensuring your data protection and system availability around the clock with uninterrupted performance.',
   },
 ];
 
@@ -1628,7 +1720,7 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
 <!-- STATS -->
 <div class="stats">
   <div class="stat reveal">
-    <span class="stat-num" data-target="30" data-suffix="+">0</span>
+    <span class="stat-num" data-target="50" data-suffix="+">0</span>
     <span class="stat-label"><span class="lang-ar">مشروع منجز</span><span class="lang-en">Completed Projects</span></span>
   </div>
   <div class="stat reveal">
@@ -1640,7 +1732,7 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
     <span class="stat-label"><span class="lang-ar">سنوات خبرة</span><span class="lang-en">Years of Experience</span></span>
   </div>
   <div class="stat reveal">
-    <span class="stat-num" data-target="50" data-suffix="+">0</span>
+    <span class="stat-num" data-target="60" data-suffix="+">0</span>
     <span class="stat-label"><span class="lang-ar">عميل نشط</span><span class="lang-en">Active Clients</span></span>
   </div>
 </div>
@@ -1650,11 +1742,11 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
   <div class="services-head reveal">
     <div class="section-tag"><span class="lang-ar">خدماتنا</span><span class="lang-en">Our Services</span></div>
     <h2 class="section-title">
-      <span class="lang-ar">حلول تقنية <span class="accent">لكل بيزنس</span></span>
+      <span class="lang-ar">حلولٌ تقنية <span class="accent">لكلِّ قطاع</span></span>
       <span class="lang-en">Tech Solutions <span class="accent">For Every Business</span></span>
     </h2>
     <p class="section-sub">
-      <span class="lang-ar">نقدم مجموعة متكاملة من الحلول البرمجية المصممة خصيصاً لاحتياجات عملك</span>
+      <span class="lang-ar">نُقدِّم مجموعةً متكاملة من الحلول البرمجية المُصمَّمة خصيصاً لاحتياجات نشاطكم التجاري</span>
       <span class="lang-en">A complete suite of software solutions tailored to fit your business needs</span>
     </p>
   </div>
@@ -1747,12 +1839,36 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
   <div class="service-card reveal" data-tilt="">
     <div class="sc-icon">🌐</div>
     <div class="sc-title"><span class="lang-ar">المواقع الإلكترونية</span><span class="lang-en">Websites &amp; E-Commerce</span></div>
-    <div class="sc-desc"><span class="lang-ar">مواقع احترافية بتصميم عصري وسرعة عالية وربط بأنظمة الدفع والمتاجر الإلكترونية.</span><span class="lang-en">Modern, high-performance websites with payment-gateway and e-commerce integrations.</span></div>
+    <div class="sc-desc"><span class="lang-ar">مواقع احترافية بتصميم عصري وسرعة عالية وتحسين محركات البحث SEO مع ربط بأنظمة الدفع والمتاجر الإلكترونية.</span><span class="lang-en">Modern, high-performance websites with full SEO optimization, payment-gateway and e-commerce integrations.</span></div>
     <div class="sc-tags">
       <span class="sc-tag">.NET</span>
       <span class="sc-tag">React</span>
       <span class="sc-tag">SEO</span>
       <span class="sc-tag"><span class="lang-ar">دفع إلكتروني</span><span class="lang-en">Payments</span></span>
+    </div>
+  </div>
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">💪</div>
+    <div class="sc-title"><span class="lang-ar">أنظمة الجيم واللياقة</span><span class="lang-en">Gym &amp; Fitness Systems</span></div>
+    <div class="sc-desc"><span class="lang-ar">نظام متكامل لإدارة الاشتراكات والأعضاء، جدولة الحصص، تتبع الحضور وإدارة المدربين مع تطبيق موبايل للمشتركين.</span><span class="lang-en">Full membership management, class scheduling, attendance tracking, and trainer management with a members mobile app.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag"><span class="lang-ar">اشتراكات</span><span class="lang-en">Memberships</span></span>
+      <span class="sc-tag"><span class="lang-ar">حضور</span><span class="lang-en">Attendance</span></span>
+      <span class="sc-tag"><span class="lang-ar">مدربين</span><span class="lang-en">Trainers</span></span>
+      <span class="sc-tag">App</span>
+    </div>
+  </div>
+
+  <div class="service-card reveal" data-tilt="">
+    <div class="sc-icon">🏭</div>
+    <div class="sc-title"><span class="lang-ar">أنظمة المصانع والإنتاج</span><span class="lang-en">Factory &amp; Production Systems</span></div>
+    <div class="sc-desc"><span class="lang-ar">إدارة خطوط الإنتاج والمواد الخام والتكاليف والعمالة وأوامر التصنيع مع تقارير الكفاءة ومراقبة الجودة.</span><span class="lang-en">Production line management, raw materials, costs, labor, manufacturing orders, efficiency reports, and quality control.</span></div>
+    <div class="sc-tags">
+      <span class="sc-tag"><span class="lang-ar">إنتاج</span><span class="lang-en">Production</span></span>
+      <span class="sc-tag"><span class="lang-ar">مواد خام</span><span class="lang-en">Raw Materials</span></span>
+      <span class="sc-tag"><span class="lang-ar">تكاليف</span><span class="lang-en">Costs</span></span>
+      <span class="sc-tag">QC</span>
     </div>
   </div>
 
@@ -1766,12 +1882,12 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
   <div class="portfolio-head reveal">
     <div class="section-tag"><span class="lang-ar">أعمالنا</span><span class="lang-en">Portfolio</span></div>
     <h2 class="section-title">
-      <span class="lang-ar">مشاريع <span class="accent">ناجحة</span> نفخر بها</span>
+      <span class="lang-ar">مشاريع <span class="accent">ناجحة</span> نفخر بإنجازها</span>
       <span class="lang-en">Projects <span class="accent">We're Proud Of</span></span>
     </h2>
     <p class="section-sub">
-      <span class="lang-ar">أكثر من 30 مشروع منجز في مختلف القطاعات</span>
-      <span class="lang-en">Over 30 successful projects across diverse industries</span>
+      <span class="lang-ar">أكثر من ٥٠ مشروعاً مُنجَزاً في مختلف القطاعات</span>
+      <span class="lang-en">Over 50 successful projects across diverse industries</span>
     </p>
     <div class="portfolio-filter">
       <button class="pf-btn active" onclick="filterPortfolio('all',this)"><span><span class="lang-ar">الكل</span><span class="lang-en">All</span></span></button>
@@ -1779,12 +1895,15 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
       <button class="pf-btn" onclick="filterPortfolio('cafe',this)"><span><span class="lang-ar">كافيهات</span><span class="lang-en">Cafés</span></span></button>
       <button class="pf-btn" onclick="filterPortfolio('erp',this)"><span>ERP</span></button>
       <button class="pf-btn" onclick="filterPortfolio('app',this)"><span><span class="lang-ar">تطبيقات</span><span class="lang-en">Apps</span></span></button>
+      <button class="pf-btn" onclick="filterPortfolio('edu',this)"><span><span class="lang-ar">تعليم</span><span class="lang-en">Education</span></span></button>
+      <button class="pf-btn" onclick="filterPortfolio('gym',this)"><span><span class="lang-ar">جيم</span><span class="lang-en">Gym</span></span></button>
+      <button class="pf-btn" onclick="filterPortfolio('factory',this)"><span><span class="lang-ar">مصانع</span><span class="lang-en">Factory</span></span></button>
     </div>
   </div>
   <div class="portfolio-grid" id="portfolioGrid">
     <div class="portfolio-card reveal" data-cat="market">
       <div class="pc-thumb pc-thumb-supermarket"><span class="pc-thumb-icon">🛒</span>
-        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مشروعاً مماثلاً</span><span class="lang-en">Request Similar</span></a></div>
       </div>
       <div class="pc-body">
         <div class="pc-cat"><span class="lang-ar">سوبر ماركت</span><span class="lang-en">Supermarket</span></div>
@@ -1839,7 +1958,37 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
       <div class="pc-body">
         <div class="pc-cat"><span class="lang-ar">تقارير وتحليلات</span><span class="lang-en">Reports &amp; Analytics</span></div>
         <div class="pc-title"><span class="lang-ar">لوحة تحكم تحليلية</span><span class="lang-en">Analytics Dashboard</span></div>
-        <div class="pc-desc"><span class="lang-ar">داشبورد تفاعلي بتقارير مبيعات وأرباح وأداء الفروع بلحظة واحدة.</span><span class="lang-en">Interactive dashboard with real-time sales, profit, and branch-performance reports.</span></div>
+        <div class="pc-desc"><span class="lang-ar">لوحة تحكم تفاعلية بتقارير المبيعات والأرباح وأداء الفروع في الوقت الفعلي.</span><span class="lang-en">Interactive dashboard with real-time sales, profit, and branch-performance reports.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="edu">
+      <div class="pc-thumb pc-thumb-school"><span class="pc-thumb-icon">🎓</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">مؤسسة تعليمية</span><span class="lang-en">Education</span></div>
+        <div class="pc-title"><span class="lang-ar">نظام إدارة مدرسة متكامل</span><span class="lang-en">Complete School Management</span></div>
+        <div class="pc-desc"><span class="lang-ar">شؤون الطلاب، جداول الحصص، نتائج الامتحانات، المصروفات المدرسية، وتواصل مع أولياء الأمور.</span><span class="lang-en">Student affairs, class schedules, exam results, school fees, and parent communication portal.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="gym">
+      <div class="pc-thumb pc-thumb-gym"><span class="pc-thumb-icon">💪</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">جيم ولياقة</span><span class="lang-en">Gym &amp; Fitness</span></div>
+        <div class="pc-title"><span class="lang-ar">نظام إدارة جيم Elite</span><span class="lang-en">Elite Gym Management System</span></div>
+        <div class="pc-desc"><span class="lang-ar">إدارة الاشتراكات، تتبع الحضور بتقنية التعرف على الوجه، جدولة الحصص، تقارير أداء الأعضاء وتطبيق جوّال متكامل.</span><span class="lang-en">Memberships, face-recognition attendance, class scheduling, member performance reports, and mobile app.</span></div>
+      </div>
+    </div>
+    <div class="portfolio-card reveal" data-cat="factory">
+      <div class="pc-thumb pc-thumb-factory"><span class="pc-thumb-icon">🏭</span>
+        <div class="pc-overlay"><a href="#contact" class="pc-link"><span class="lang-ar">اطلب مثله</span><span class="lang-en">Request Similar</span></a></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat"><span class="lang-ar">مصنع وإنتاج</span><span class="lang-en">Factory &amp; Production</span></div>
+        <div class="pc-title"><span class="lang-ar">نظام إدارة مصنع متكامل</span><span class="lang-en">Full Factory Management System</span></div>
+        <div class="pc-desc"><span class="lang-ar">أوامر الإنتاج، تكاليف المواد الخام، مراقبة العمالة، تقارير الكفاءة، ومراقبة الجودة.</span><span class="lang-en">Production orders, raw material costs, labor monitoring, efficiency reports, and quality control.</span></div>
       </div>
     </div>
   </div>
@@ -1850,7 +1999,7 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
   <div class="about-grid">
     <div class="about-visual reveal-left">
       <div class="about-main-card">
-        <div class="about-badge-float abf1">🏆 Top Rated</div>
+        <div class="about-badge-float abf1">🏆 <span class="lang-ar">الأعلى تقييماً</span><span class="lang-en">Top Rated</span></div>
         <div class="section-tag"><span class="lang-ar">تقنياتنا</span><span class="lang-en">Our Tech Stack</span></div>
         <h3 style="font-size:20px;font-weight:700;margin-bottom:20px;">
           <span class="lang-ar">نستخدم أحدث التقنيات</span>
@@ -1876,34 +2025,123 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
     <div class="about-content reveal-right">
       <div class="section-tag"><span class="lang-ar">من نحن</span><span class="lang-en">About Us</span></div>
       <h2 class="section-title">
-        <span class="lang-ar">شركة تقنية <span class="accent">بعقلية مختلفة</span></span>
+        <span class="lang-ar">شركةٌ تقنية <span class="accent">بمنهجية مختلفة</span></span>
         <span class="lang-en">A Tech Company <span class="accent">With a Different Mindset</span></span>
       </h2>
       <p class="section-sub">
-        <span class="lang-ar">Smart Solution Technology شركة متخصصة في تطوير البرمجيات وأنظمة الكمبيوتر للشركات والمنشآت التجارية. نؤمن إن التقنية الصح تحوّل أي بيزنس لمستوى تاني.</span>
-        <span class="lang-en">Smart Solution Technology specializes in custom software and computer systems for businesses and enterprises. We believe the right technology can transform any business to the next level.</span>
+        <span class="lang-ar">Smart Solution Technology شركةٌ مصرية متخصصة في تطوير البرمجيات وأنظمة إدارة الأعمال للشركات والمنشآت التجارية في مصر والعالم العربي. نؤمن بأن التقنية الصحيحة تُحوِّل أيَّ مؤسسة إلى مستوىً أعلى — وهذا ما نُحقِّقه يومياً.</span>
+        <span class="lang-en">Smart Solution Technology is an Egyptian software house specializing in custom business management systems for companies and enterprises across Egypt and the Arab world. We believe the right technology transforms any business to the next level — and that's what we do every day.</span>
       </p>
       <div class="about-features">
         <div class="af-item">
           <div class="af-icon">🎯</div>
           <div>
             <div class="af-title"><span class="lang-ar">حلول مخصصة 100%</span><span class="lang-en">100% Custom Solutions</span></div>
-            <div class="af-desc"><span class="lang-ar">كل مشروع بنبنيه من الصفر حسب احتياجات عميلنا — مش قوالب جاهزة.</span><span class="lang-en">Every project is built from scratch around our client's needs — never off-the-shelf templates.</span></div>
+            <div class="af-desc"><span class="lang-ar">كل مشروع يُبنى من الصفر وفق احتياجات عميلنا — لا قوالب جاهزة ولا حلول معيارية.</span><span class="lang-en">Every project is built from scratch around our client's needs — never off-the-shelf templates.</span></div>
           </div>
         </div>
         <div class="af-item">
           <div class="af-icon">⚡</div>
           <div>
             <div class="af-title"><span class="lang-ar">تسليم سريع وموثوق</span><span class="lang-en">Fast &amp; Reliable Delivery</span></div>
-            <div class="af-desc"><span class="lang-ar">نلتزم بالمواعيد ونسلم المشاريع في الوقت المحدد مع ضمان الجودة.</span><span class="lang-en">We keep our deadlines and deliver projects on time without compromising on quality.</span></div>
+            <div class="af-desc"><span class="lang-ar">نلتزم بالمواعيد ونُسلِّم المشاريع في وقتها المحدد مع ضمانٍ تام للجودة.</span><span class="lang-en">We keep our deadlines and deliver projects on time without compromising on quality.</span></div>
           </div>
         </div>
         <div class="af-item">
           <div class="af-icon">🛡️</div>
           <div>
             <div class="af-title"><span class="lang-ar">دعم ما بعد التسليم</span><span class="lang-en">Post-Launch Support</span></div>
-            <div class="af-desc"><span class="lang-ar">دعم فني مستمر وتحديثات مجانية لمدة سنة كاملة بعد تسليم المشروع.</span><span class="lang-en">Continuous technical support and free updates for a full year after launch.</span></div>
+            <div class="af-desc"><span class="lang-ar">دعمٌ فني مستمر وتحديثات مجانية لمدة عامٍ كامل عقب تسليم المشروع.</span><span class="lang-en">Continuous technical support and free updates for a full year after launch.</span></div>
           </div>
+        </div>
+        <div class="af-item">
+          <div class="af-icon">💰</div>
+          <div>
+            <div class="af-title"><span class="lang-ar">أسعار عادلة وشفافة</span><span class="lang-en">Fair &amp; Transparent Pricing</span></div>
+            <div class="af-desc"><span class="lang-ar">نُقدِّم أفضل قيمة مقابل التكلفة بأسعار شفافة وعروض مُخصَّصة لكل ميزانية.</span><span class="lang-en">We deliver the best value for money with transparent pricing and custom quotes for every budget.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why-us">
+  <div class="why-grid">
+    <div class="reveal-left">
+      <div class="section-tag"><span class="lang-ar">لماذا نحن</span><span class="lang-en">Why Choose Us</span></div>
+      <h2 class="section-title">
+        <span class="lang-ar">كيف نعمل <span class="accent">معكم</span></span>
+        <span class="lang-en">How We Work <span class="accent">With You</span></span>
+      </h2>
+      <p class="section-sub" style="margin-bottom:36px;">
+        <span class="lang-ar">منهجيةٌ واضحة ونتائج مضمونة — من أولى المكالمات حتى التسليم النهائي</span>
+        <span class="lang-en">A clear process, guaranteed results — from the first call to final delivery</span>
+      </p>
+      <div class="why-process">
+        <div class="wp-step">
+          <div class="wp-num">01</div>
+          <div>
+            <div class="wp-title"><span class="lang-ar">استشارة مجانية وتحليل احتياجاتك</span><span class="lang-en">Free Consultation &amp; Needs Analysis</span></div>
+            <div class="wp-desc"><span class="lang-ar">نُصغي إليكم ونفهم نشاطكم التجاري بعمق، ثم نقترح الحل التقني الأمثل الملائم لحجم مؤسستكم وميزانيتكم.</span><span class="lang-en">We listen and understand your business in detail, then propose the best tech solution that fits your scale and budget.</span></div>
+          </div>
+        </div>
+        <div class="wp-step">
+          <div class="wp-num">02</div>
+          <div>
+            <div class="wp-title"><span class="lang-ar">تصميم النظام وعرض السعر</span><span class="lang-en">System Design &amp; Quotation</span></div>
+            <div class="wp-desc"><span class="lang-ar">نُصمِّم النظام وفق احتياجاتكم ونُقدِّم عرضاً مفصَّلاً وشفافاً للأسعار خلال أربعٍ وعشرين ساعة.</span><span class="lang-en">We design the system to your needs and deliver a detailed, transparent quote within 24 hours.</span></div>
+          </div>
+        </div>
+        <div class="wp-step">
+          <div class="wp-num">03</div>
+          <div>
+            <div class="wp-title"><span class="lang-ar">التطوير والاختبار</span><span class="lang-en">Development &amp; Testing</span></div>
+            <div class="wp-desc"><span class="lang-ar">نبني النظام بأحدث التقنيات ونختبره بدقةٍ متناهية — وأنتم تتابعون التقدم خطوةً بخطوة.</span><span class="lang-en">We build with modern tech and test rigorously — while you follow progress step by step.</span></div>
+          </div>
+        </div>
+        <div class="wp-step">
+          <div class="wp-num">04</div>
+          <div>
+            <div class="wp-title"><span class="lang-ar">التسليم والتدريب والدعم</span><span class="lang-en">Delivery, Training &amp; Support</span></div>
+            <div class="wp-desc"><span class="lang-ar">نُسلِّم المشروع في موعده، نُدرِّب فريقكم، ونُقدِّم دعماً فنياً متواصلاً لضمان نجاحكم.</span><span class="lang-en">We deliver on schedule, train your team, and provide continuous support to guarantee your success.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <div class="section-tag" style="margin-bottom:24px;"><span class="lang-ar">مزايانا</span><span class="lang-en">Our Advantages</span></div>
+      <div class="why-values">
+        <div class="wv-card">
+          <span class="wv-icon">🎯</span>
+          <div class="wv-title"><span class="lang-ar">مخصص 100%</span><span class="lang-en">100% Custom</span></div>
+          <div class="wv-desc"><span class="lang-ar">كل نظام يُبنى من الصفر — لا حلول جاهزة</span><span class="lang-en">Every system built from scratch — no generic templates</span></div>
+        </div>
+        <div class="wv-card">
+          <span class="wv-icon">⚡</span>
+          <div class="wv-title"><span class="lang-ar">تسليم سريع</span><span class="lang-en">Fast Delivery</span></div>
+          <div class="wv-desc"><span class="lang-ar">التزامٌ تام بالمواعيد وسرعة تنفيذ مضمونة</span><span class="lang-en">Total commitment to deadlines and guaranteed speed</span></div>
+        </div>
+        <div class="wv-card">
+          <span class="wv-icon">🛡️</span>
+          <div class="wv-title"><span class="lang-ar">دعم سنة كاملة</span><span class="lang-en">1 Year Support</span></div>
+          <div class="wv-desc"><span class="lang-ar">دعمٌ فني مجاني وتحديثات مستمرة عقب التسليم</span><span class="lang-en">Free support and updates after launch</span></div>
+        </div>
+        <div class="wv-card">
+          <span class="wv-icon">💰</span>
+          <div class="wv-title"><span class="lang-ar">أسعار عادلة</span><span class="lang-en">Fair Pricing</span></div>
+          <div class="wv-desc"><span class="lang-ar">أفضل قيمة مقابل التكلفة بأسعار شفافة ومرنة</span><span class="lang-en">Best value for money with transparent, flexible pricing</span></div>
+        </div>
+        <div class="wv-card">
+          <span class="wv-icon">🌍</span>
+          <div class="wv-title"><span class="lang-ar">خبرة متعددة القطاعات</span><span class="lang-en">Multi-Sector Expertise</span></div>
+          <div class="wv-desc"><span class="lang-ar">خبرةٌ في أكثر من ١٠ قطاعات من الرعاية الصحية إلى التصنيع</span><span class="lang-en">Expertise across 10+ sectors from healthcare to manufacturing</span></div>
+        </div>
+        <div class="wv-card">
+          <span class="wv-icon">📱</span>
+          <div class="wv-title"><span class="lang-ar">موبايل أول</span><span class="lang-en">Mobile First</span></div>
+          <div class="wv-desc"><span class="lang-ar">جميع أنظمتنا مُتاحة على الأجهزة الجوّالة بتجربة استخدام متميزة</span><span class="lang-en">All our systems available on mobile with a premium experience</span></div>
         </div>
       </div>
     </div>
@@ -1915,24 +2153,70 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
   <div class="clients-head reveal">
     <div class="section-tag"><span class="lang-ar">عملاؤنا</span><span class="lang-en">Our Clients</span></div>
     <h2 class="section-title">
-      <span class="lang-ar">عملاء <span class="accent">يثقون</span> فينا</span>
+      <span class="lang-ar">عملاء <span class="accent">يثقون</span> بنا</span>
       <span class="lang-en">Clients Who <span class="accent">Trust</span> Us</span>
     </h2>
     <p class="section-sub">
-      <span class="lang-ar">شركاء نجاح في مختلف القطاعات</span>
+      <span class="lang-ar">شركاء نجاحٍ في مختلف القطاعات</span>
       <span class="lang-en">Success partners across many industries</span>
     </p>
   </div>
   <div class="clients-grid">
     <div class="client-card reveal"><span class="cc-icon">🛒</span><div class="cc-name"><span class="lang-ar">سوبر ماركت النيل</span><span class="lang-en">Nile Supermarket</span></div><div class="cc-type"><span class="lang-ar">متجر تجزئة</span><span class="lang-en">Retail Store</span></div></div>
-    <div class="client-card reveal"><span class="cc-icon">☕</span><div class="cc-name"><span class="lang-ar">كافيه الأصدقاء</span><span class="lang-en">Friends Café</span></div><div class="cc-type"><span class="lang-ar">مطعم وكافيه</span><span class="lang-en">Restaurant &amp; Café</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">☕</span><div class="cc-name"><span class="lang-ar">مقهى الأصدقاء</span><span class="lang-en">Friends Café</span></div><div class="cc-type"><span class="lang-ar">مطعم وكافيه</span><span class="lang-en">Restaurant &amp; Café</span></div></div>
     <div class="client-card reveal"><span class="cc-icon">🏭</span><div class="cc-name"><span class="lang-ar">مصنع الأمل</span><span class="lang-en">Al-Amal Factory</span></div><div class="cc-type"><span class="lang-ar">صناعة وتصنيع</span><span class="lang-en">Manufacturing</span></div></div>
     <div class="client-card reveal"><span class="cc-icon">🏥</span><div class="cc-name"><span class="lang-ar">عيادة الرعاية</span><span class="lang-en">Care Clinic</span></div><div class="cc-type"><span class="lang-ar">قطاع صحي</span><span class="lang-en">Healthcare</span></div></div>
     <div class="client-card reveal"><span class="cc-icon">🏗️</span><div class="cc-name"><span class="lang-ar">شركة البناء</span><span class="lang-en">Build Co.</span></div><div class="cc-type"><span class="lang-ar">مقاولات</span><span class="lang-en">Construction</span></div></div>
     <div class="client-card reveal"><span class="cc-icon">📚</span><div class="cc-name"><span class="lang-ar">مدرسة المستقبل</span><span class="lang-en">Future School</span></div><div class="cc-type"><span class="lang-ar">تعليم</span><span class="lang-en">Education</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">💪</span><div class="cc-name"><span class="lang-ar">Elite Fitness</span><span class="lang-en">Elite Fitness</span></div><div class="cc-type"><span class="lang-ar">جيم ولياقة</span><span class="lang-en">Gym &amp; Fitness</span></div></div>
+    <div class="client-card reveal"><span class="cc-icon">🏪</span><div class="cc-name"><span class="lang-ar">متاجر الجمال</span><span class="lang-en">Beauty Stores</span></div><div class="cc-type"><span class="lang-ar">تجزئة متخصصة</span><span class="lang-en">Specialty Retail</span></div></div>
   </div>
 
   <!-- Testimonials -->
+  <div style="margin-top:80px;">
+    <div class="clients-head reveal" style="margin-bottom:40px;">
+      <div class="section-tag" style="justify-content:center;"><span class="lang-ar">آراء عملاؤنا</span><span class="lang-en">Client Testimonials</span></div>
+      <h2 class="section-title" style="text-align:center;">
+        <span class="lang-ar">ماذا قالوا <span class="accent">عنّا</span></span>
+        <span class="lang-en">What They <span class="accent">Say About Us</span></span>
+      </h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <div class="test-text"><span class="lang-ar">"لقد غيَّر هذا النظام أسلوب إدارتي للسوبرماركت كلياً. بسَّط علينا كل شيءٍ من المخزون إلى نقاط البيع والتقارير. الدعم الفني متميز والفريق يستجيب بسرعة في أي وقت."</span><span class="lang-en">"This company completely changed how I manage my supermarket. The system simplified everything from inventory to cashier to reports. Excellent technical support, always responsive."</span></div>
+        <div class="test-author">
+          <div class="ta-avatar">أ</div>
+          <div>
+            <div class="ta-name"><span class="lang-ar">أحمد محمد</span><span class="lang-en">Ahmed Mohamed</span></div>
+            <div class="ta-role"><span class="lang-ar">مالك سوبر ماركت النيل</span><span class="lang-en">Owner, Nile Supermarket</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <div class="test-text"><span class="lang-ar">"كان نظام إدارة المقهى أفضل استثمارٍ أجريته. القائمة الرقمية وإدارة الطلبات جعلا سير العمل سلساً بلا عقبات، فيما رفع تطبيق التوصيل مبيعاتنا ٤٠٪ في الشهر الأول."</span><span class="lang-en">"The café system was the best investment I made. The digital menu and order management made everything run smoothly. The delivery app increased our sales 40% in the first month."</span></div>
+        <div class="test-author">
+          <div class="ta-avatar">س</div>
+          <div>
+            <div class="ta-name"><span class="lang-ar">سارة خالد</span><span class="lang-en">Sara Khaled</span></div>
+            <div class="ta-role"><span class="lang-ar">مالكة مقهى الأصدقاء</span><span class="lang-en">Owner, Friends Café</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card reveal">
+        <div class="stars">★★★★★</div>
+        <div class="test-text"><span class="lang-ar">"ربطنا نظام الجيم بالتطبيق الجوّال فأصبح بإمكاننا إدارة كل شيء من الاشتراكات والحضور والحصص في مكانٍ واحد. فريقهم محترف واحترافيتهم لافتة منذ اليوم الأول."</span><span class="lang-en">"We connected the gym system to the app and control everything from our phone. Memberships, attendance, classes — all in one place. Their team is professional with excellent communication from day one."</span></div>
+        <div class="test-author">
+          <div class="ta-avatar">م</div>
+          <div>
+            <div class="ta-name"><span class="lang-ar">محمد عادل</span><span class="lang-en">Mohamed Adel</span></div>
+            <div class="ta-role"><span class="lang-ar">مدير Elite Fitness</span><span class="lang-en">Manager, Elite Fitness</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </section>
 
@@ -1946,13 +2230,13 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
         <span class="lang-en">Start Your Project <span class="accent">With Us Today</span></span>
       </h2>
       <p class="section-sub">
-        <span class="lang-ar">تواصل معنا وهنقدملك استشارة مجانية وعرض سعر خلال 24 ساعة.</span>
-        <span class="lang-en">Get in touch — we'll give you a free consultation and quote within 24 hours.</span>
+        <span class="lang-ar">تواصلوا معنا وسنُقدِّم لكم استشارةً مجانية وعرض سعرٍ مفصَّل خلال أربعٍ وعشرين ساعة — دون أي التزامات.</span>
+        <span class="lang-en">Get in touch — we'll give you a free consultation and quote within 24 hours. No strings attached.</span>
       </p>
       <div class="contact-info">
         <div class="ci-item">
           <div class="ci-icon">📱</div>
-          <div><div class="ci-label"><span class="lang-ar">واتساب وتليفون</span><span class="lang-en">WhatsApp &amp; Phone</span></div><div class="ci-val" dir="ltr">+201505731623</div></div>
+          <div><div class="ci-label"><span class="lang-ar">واتساب وهاتف</span><span class="lang-en">WhatsApp &amp; Phone</span></div><div class="ci-val" dir="ltr">+201005799880</div></div>
         </div>
         <div class="ci-item">
           <div class="ci-icon">📧</div>
@@ -1964,7 +2248,7 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
         </div>
         <div class="ci-item">
           <div class="ci-icon">⏰</div>
-          <div><div class="ci-label"><span class="lang-ar">ساعات العمل</span><span class="lang-en">Working Hours</span></div><div class="ci-val"><span class="lang-ar">الاحد – الخميس، 9ص – 5م</span><span class="lang-en">Sat – Thu, 9 AM – 6 PM</span></div></div>
+          <div><div class="ci-label"><span class="lang-ar">ساعات العمل</span><span class="lang-en">Working Hours</span></div><div class="ci-val"><span class="lang-ar">السبت – الخميس، 9ص – 6م</span><span class="lang-en">Sat – Thu, 9 AM – 6 PM</span></div></div>
         </div>
       </div>
     </div>
@@ -1976,7 +2260,7 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
           <input class="form-input" data-ph-ar="اسمك الكامل" data-ph-en="Your full name">
         </div>
         <div class="form-group">
-          <label class="form-label"><span class="lang-ar">التليفون</span><span class="lang-en">Phone</span></label>
+          <label class="form-label"><span class="lang-ar">الهاتف</span><span class="lang-en">Phone</span></label>
           <input class="form-input" data-ph-ar="01xxxxxxxxx" data-ph-en="+20 1xx xxx xxxx" type="tel">
         </div>
       </div>
@@ -1991,6 +2275,11 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
           <option data-ar="نظام سوبر ماركت / متجر" data-en="Retail / Supermarket System">Retail / Supermarket System</option>
           <option data-ar="نظام كافيه / مطعم" data-en="Café / Restaurant System">Café / Restaurant System</option>
           <option data-ar="نظام ERP" data-en="ERP System">ERP System</option>
+          <option data-ar="نظام جيم / لياقة" data-en="Gym / Fitness System">Gym / Fitness System</option>
+          <option data-ar="نظام مدرسة / تعليمي" data-en="School / Education System">School / Education System</option>
+          <option data-ar="نظام مصنع / إنتاج" data-en="Factory / Production System">Factory / Production System</option>
+          <option data-ar="نظام مستشفى / عيادة" data-en="Hospital / Clinic System">Hospital / Clinic System</option>
+          <option data-ar="متجر إلكتروني" data-en="Online Store">Online Store</option>
           <option data-ar="تطبيق موبايل" data-en="Mobile App">Mobile App</option>
           <option data-ar="موقع إلكتروني" data-en="Website">Website</option>
           <option data-ar="أخرى" data-en="Other">Other</option>
@@ -2018,16 +2307,18 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
         <div>Smart Solution<span>TECHNOLOGY</span></div>
       </div>
       <p>
-        <span class="lang-ar">شركة متخصصة في تطوير البرمجيات وأنظمة الكمبيوتر للشركات والمنشآت التجارية في مصر والوطن العربي.</span>
-        <span class="lang-en">A software house specializing in custom systems for businesses and enterprises across Egypt and the Arab world.</span>
+        <span class="lang-ar">شركة مصرية متخصصة في تطوير البرمجيات وأنظمة إدارة الأعمال المخصصة للشركات والمؤسسات في مصر والعالم العربي. نرتقي بمؤسستكم إلى مستوىً أعلى بتقنيةٍ ذكية ودعمٍ لا ينتهي.</span>
+        <span class="lang-en">An Egyptian software house specializing in custom business management systems for companies and enterprises across Egypt and the Arab world. We take your business to the next level with smart technology and endless support.</span>
       </p>
     </div>
     <div class="footer-col">
       <h4><span class="lang-ar">خدماتنا</span><span class="lang-en">Services</span></h4>
       <ul>
-        <li><a href="#services"><span class="lang-ar">أنظمة المتاجر</span><span class="lang-en">Retail Systems</span></a></li>
-        <li><a href="#services"><span class="lang-ar">أنظمة الكافيهات</span><span class="lang-en">Café Systems</span></a></li>
-        <li><a href="#services"><span class="lang-ar">أنظمة ERP</span><span class="lang-en">ERP Systems</span></a></li>
+        <li><a href="#services"><span class="lang-ar">أنظمة المتاجر والسوبر ماركت</span><span class="lang-en">Retail Systems</span></a></li>
+        <li><a href="#services"><span class="lang-ar">أنظمة الكافيهات والمطاعم</span><span class="lang-en">Café &amp; Restaurant Systems</span></a></li>
+        <li><a href="#services"><span class="lang-ar">أنظمة ERP الشاملة</span><span class="lang-en">ERP Systems</span></a></li>
+        <li><a href="#services"><span class="lang-ar">أنظمة الجيم واللياقة</span><span class="lang-en">Gym &amp; Fitness Systems</span></a></li>
+        <li><a href="#services"><span class="lang-ar">أنظمة المصانع والإنتاج</span><span class="lang-en">Factory Systems</span></a></li>
         <li><a href="#services"><span class="lang-ar">تطبيقات موبايل</span><span class="lang-en">Mobile Apps</span></a></li>
         <li><a href="#services"><span class="lang-ar">المواقع الإلكترونية</span><span class="lang-en">Websites</span></a></li>
       </ul>
@@ -2037,6 +2328,7 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
       <ul>
         <li><a href="#about"><span class="lang-ar">من نحن</span><span class="lang-en">About</span></a></li>
         <li><a href="#portfolio"><span class="lang-ar">أعمالنا</span><span class="lang-en">Portfolio</span></a></li>
+        <li><a href="#why-us"><span class="lang-ar">لماذا نحن</span><span class="lang-en">Why Us</span></a></li>
         <li><a href="#clients"><span class="lang-ar">عملاؤنا</span><span class="lang-en">Clients</span></a></li>
         <li><a href="#contact"><span class="lang-ar">تواصل معنا</span><span class="lang-en">Contact</span></a></li>
       </ul>
@@ -2047,12 +2339,13 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
         <a class="social-link" href="#" aria-label="Facebook">📘</a>
         <a class="social-link" href="#" aria-label="Instagram">📸</a>
         <a class="social-link" href="#" aria-label="LinkedIn">💼</a>
-        <a class="social-link" href="#" aria-label="Twitter">🐦</a>
+        <a class="social-link" href="https://wa.me/201505731623" aria-label="WhatsApp">💬</a>
       </div>
       <ul>
         <li><a href="#">Facebook</a></li>
         <li><a href="#">Instagram</a></li>
         <li><a href="#">LinkedIn</a></li>
+        <li><a href="https://wa.me/201505731623">WhatsApp</a></li>
       </ul>
     </div>
   </div>
@@ -2062,8 +2355,10 @@ document.querySelectorAll('.slider-dot')[0].querySelector('.slider-dot-fill').st
   </div>
 </footer>
 
+<!-- WHATSAPP FLOAT -->
+<a class="whatsapp-float" href="https://wa.me/201505731623?text=مرحبا، أريد استشارة مجانية" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
 <script>
-/* ===== LANGUAGE SWITCHER ===== */
 function setLang(lang){
   const html = document.documentElement;
   html.lang = lang;
